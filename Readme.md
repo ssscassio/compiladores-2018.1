@@ -2,7 +2,7 @@
 
 ## Sobre
 
-Trabalhos desenvolvidos durante a disciplina [MI Processadores de Linguagem de Programação](http://aulas.artificial.eng.br/Home/exa868) no semestre de 2018.1 da Universidade Estadual de Feira de Santana comm o propósito de cobrir os conceitos a cerca do projeto de um compilador.
+Trabalhos desenvolvidos durante a disciplina MI Processadores de Linguagem de Programação no semestre de 2018.1 da Universidade Estadual de Feira de Santana comm o propósito de cobrir os conceitos a cerca do projeto de um compilador.
 
 - Docente: Matheus Giovanni Pires
 - Discentes:
