@@ -1,8 +1,12 @@
 package lexical.util;
 
+import java.util.Arrays;
+
 public class LexemeType {
 
-	// Regex usadas para cada tipo 
+	/**
+	 * Regex usadas para cada 'tipo' da linguagem
+	 * */
 	private static final String LETTER_REGEX = "[a-zA-Z]";
 	private static final String DIGIT_REGEX = "[\\d]";
 	private static final String ARITHMETIC_REGEX = "\\+|-|\\*|/|\\+\\+|--";
@@ -16,6 +20,16 @@ public class LexemeType {
 	private static final String IDENTIFIER_REGEX = LETTER_REGEX + LETTER_DIGIT_UNDERSCORE_REGEX;
 	private static final String NUMBER_REGEX = "(-)?" + "[" + SPACE_REGEX + "]*" + DIGIT_REGEX + DIGIT_REGEX + "*" + "(\\." + DIGIT_REGEX + DIGIT_REGEX + "*)?";
 	
+	/**
+     * Array que armazena todas as palavras reservadas da linguagem de forma ordenada
+     */
+	private static final String KEYWORDS[] = {
+		"bool", "const", "else", "extends", "false", "float",
+		"function", "if", "int", "print", "procedure", "return",
+		"scan", "start", "string", "struct", "then", "true",
+		"typedef", "var", "while"
+	};
+
 	public LexemeType() {
 
     }
@@ -23,7 +37,7 @@ public class LexemeType {
     /**
 	 * Verifica se uma string é do tipo letra
 	 * 
-	 * @param string String para ser validada
+	 * @param s String para ser validada
 	 * @return verdadeiro se a String s for uma letra, falso caso contrário
 	 */
     public static boolean isLetter(String s) {
@@ -33,7 +47,7 @@ public class LexemeType {
     /**
 	 * Verifica se uma string é do tipo digito
 	 * 
-	 * @param string String para ser validada
+	 * @param s String para ser validada
 	 * @return verdadeiro se a String s for um digito, falso caso contrário
 	 */
     public static boolean isDigit(String s) {
@@ -43,7 +57,7 @@ public class LexemeType {
     /**
 	 * Verifica se uma string é do tipo número
 	 * 
-	 * @param string String para ser validada
+	 * @param s String para ser validada
 	 * @return verdadeiro se a String s for um número, falso caso contrário
 	 */
     public static boolean isNumber(String s) {
@@ -53,7 +67,7 @@ public class LexemeType {
     /**
 	 * Verifica se uma string é do tipo identificador
 	 * 
-	 * @param string String para ser validada
+	 * @param s String para ser validada
 	 * @return verdadeiro se a String s for um identificador, falso caso contrário
 	 */
     public static boolean isIdentifier(String s) {
@@ -63,7 +77,7 @@ public class LexemeType {
     /**
 	 * Verifica se uma string é do tipo Espaco
 	 * 
-	 * @param string String para ser validada
+	 * @param s String para ser validada
 	 * @return verdadeiro se a String s for um Espaco, falso caso contrário
 	 */
     public static boolean isSpace(String s) {
@@ -74,7 +88,7 @@ public class LexemeType {
     /**
 	 * Verifica se uma string é do tipo Simbolo
 	 * 
-	 * @param string String para ser validada
+	 * @param s String para ser validada
 	 * @return verdadeiro se a String s for um Simbolo, falso caso contrário
 	 */
     public static boolean isSymbol(String s) {
@@ -84,7 +98,7 @@ public class LexemeType {
     /**
 	 * Verifica se uma string é do tipo Cadeia de caracteres
 	 * 
-	 * @param string String para ser validada
+	 * @param s String para ser validada
 	 * @return verdadeiro se a String s for uma Cadeia de caracteres, falso caso contrário
 	 */
     public static boolean isString(String s) {
@@ -94,7 +108,7 @@ public class LexemeType {
     /**
 	 * Verifica se uma string é do tipo Delimitador
 	 * 
-	 * @param string String para ser validada
+	 * @param s String para ser validada
 	 * @return verdadeiro se a String s for um Delimitador, falso caso contrário
 	 */
     public static boolean isDelimiter(String s) {
@@ -104,7 +118,7 @@ public class LexemeType {
     /**
 	 * Verifica se uma string é do tipo operador lógico
 	 * 
-	 * @param string String para ser validada
+	 * @param s String para ser validada
 	 * @return verdadeiro se a String s for um operador lógico, falso caso contrário
 	 */
     public static boolean isLogic(String s) {
@@ -114,7 +128,7 @@ public class LexemeType {
     /**
 	 * Verifica se uma string é do tipo operador relacional
 	 * 
-	 * @param string String para ser validada
+	 * @param s String para ser validada
 	 * @return verdadeiro se a String s for um operador relacional, falso caso contrário
 	 */
     public static boolean isRelational(String s) {
@@ -124,10 +138,21 @@ public class LexemeType {
     /**
 	 * Verifica se uma string é do tipo operador aritmético
 	 * 
-	 * @param string String para ser validada
+	 * @param s String para ser validada
 	 * @return verdadeiro se a String s for um operador aritmético, falso caso contrário
 	 */
     public static boolean isArithmetic(String s) {
         return s.matches(ARITHMETIC_REGEX);
-    }
+	}
+	
+	/**
+	 * Verifica se uma string é palavra reservada fazendo busca binária
+	 * na lista de palavras reservadas
+	 * 
+	 * @param s String para ser validada
+	 * @return verdadeiro se a String s for uma palavra reservada da linguagem, falso caso contrário
+	 */
+    public static boolean iskeyword(String s) {
+        return (Arrays.binarySearch(KEYWORDS, s) >= 0);
+	}
 } 
