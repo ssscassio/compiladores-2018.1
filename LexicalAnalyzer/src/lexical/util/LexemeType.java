@@ -2,7 +2,21 @@ package lexical.util;
 
 public class LexemeType {
 
-    public LexemeType() {
+	// Regex usadas para cada tipo 
+	private static final String LETTER_REGEX = "[a-zA-Z]";
+	private static final String DIGIT_REGEX = "[\\d]";
+	private static final String ARITHMETIC_REGEX = "\\+|-|\\*|/|\\+\\+|--";
+	private static final String RELATIONAL_REGEX = "!=|==|<|<=|>|>=|=";
+	private static final String LOGIC_REGEX = "!|&&|\\|\\|";
+	private static final String SPACE_REGEX = "\\u0020|\\u0009|\\n|\\u000D";
+	private static final String DELIMITER_REGEX = "\\;|\\,|\\(|\\)|\\[|\\]|\\{|\\}|\\.";
+	private static final String LETTER_DIGIT_UNDERSCORE_REGEX = "\\w*";
+	private static final String SYMBOL_REGEX = "[\\u0020-\\u007E&&[^\\u0022]]";
+	private static final String STRING_REGEX = "\\u0022["+ LETTER_REGEX + DIGIT_REGEX + SYMBOL_REGEX + "(\\u005C\\u0022)" +"]*\\u0022";
+	private static final String IDENTIFIER_REGEX = LETTER_REGEX + LETTER_DIGIT_UNDERSCORE_REGEX;
+	private static final String NUMBER_REGEX = "(-)?" + "[" + SPACE_REGEX + "]*" + DIGIT_REGEX + DIGIT_REGEX + "*" + "(\\." + DIGIT_REGEX + DIGIT_REGEX + "*)?";
+	
+	public LexemeType() {
 
     }
 
@@ -13,7 +27,7 @@ public class LexemeType {
 	 * @return verdadeiro se a String s for uma letra, falso caso contrário
 	 */
     public static boolean isLetter(String s) {
-        return s.matches("[a-zA-Z]");
+        return s.matches(LETTER_REGEX);
     }
     
     /**
@@ -23,7 +37,7 @@ public class LexemeType {
 	 * @return verdadeiro se a String s for um digito, falso caso contrário
 	 */
     public static boolean isDigit(String s) {
-        return s.matches("\\d");
+        return s.matches(DIGIT_REGEX);
     }
     
     /**
@@ -33,7 +47,7 @@ public class LexemeType {
 	 * @return verdadeiro se a String s for um número, falso caso contrário
 	 */
     public static boolean isNumber(String s) {
-        return s.matches("(-)?[\\u0020\\u0009\\u000A\\u000D]*[0-9][0-9]*(\\.[0-9][0-9]*)?");
+        return s.matches(NUMBER_REGEX);
     }
 
     /**
@@ -43,7 +57,7 @@ public class LexemeType {
 	 * @return verdadeiro se a String s for um identificador, falso caso contrário
 	 */
     public static boolean isIdentifier(String s) {
-        return s.matches("[a-zA-Z]\\w*");
+        return s.matches(IDENTIFIER_REGEX);
     }
     
     /**
@@ -53,7 +67,7 @@ public class LexemeType {
 	 * @return verdadeiro se a String s for um Espaco, falso caso contrário
 	 */
     public static boolean isSpace(String s) {
-        return s.matches("[\\u0020\\u0009\\u000A\\u000D]");
+        return s.matches(SPACE_REGEX);
     }
     
          
@@ -64,7 +78,7 @@ public class LexemeType {
 	 * @return verdadeiro se a String s for um Simbolo, falso caso contrário
 	 */
     public static boolean isSymbol(String s) {
-        return s.matches("[\\u0020-\\u007E&&[^\\u0022]]");
+        return s.matches(SYMBOL_REGEX);
     }
 
     /**
@@ -74,7 +88,7 @@ public class LexemeType {
 	 * @return verdadeiro se a String s for uma Cadeia de caracteres, falso caso contrário
 	 */
     public static boolean isString(String s) {
-        return s.matches("\\u0022[a-zA-Z0-9\\u0020-\\u007E&&[^\\u0022](\\u005C\\u0022)]*\\u0022");
+        return s.matches(STRING_REGEX);
     }
 
     /**
@@ -84,17 +98,7 @@ public class LexemeType {
 	 * @return verdadeiro se a String s for um Delimitador, falso caso contrário
 	 */
     public static boolean isDelimiter(String s) {
-        return s.matches("[\\;\\,\\(\\)\\[\\]\\{\\}\\.]");
-    }
-
-    /**
-	 * Verifica se uma string é do tipo operador lógico
-	 * 
-	 * @param string String para ser validada
-	 * @return verdadeiro se a String s for um operador lógico, falso caso contrário
-	 */
-    public static boolean isLogic(String s) {
-        return s.matches("!|&&|\\|\\|");
+        return s.matches(DELIMITER_REGEX);
     }
     
     /**
@@ -104,7 +108,7 @@ public class LexemeType {
 	 * @return verdadeiro se a String s for um operador lógico, falso caso contrário
 	 */
     public static boolean isLogic(String s) {
-        return s.matches("!|&&|\\|\\|");
+        return s.matches(LOGIC_REGEX);
     }
     
     /**
@@ -114,7 +118,7 @@ public class LexemeType {
 	 * @return verdadeiro se a String s for um operador relacional, falso caso contrário
 	 */
     public static boolean isRelational(String s) {
-        return s.matches("!=|==|<|<=|>|>=|=");
+        return s.matches(RELATIONAL_REGEX);
     }
 
     /**
@@ -124,6 +128,6 @@ public class LexemeType {
 	 * @return verdadeiro se a String s for um operador aritmético, falso caso contrário
 	 */
     public static boolean isArithmetic(String s) {
-        return s.matches("\\+|-|\\*|/|\\+\\+|--");
+        return s.matches(ARITHMETIC_REGEX);
     }
 } 
