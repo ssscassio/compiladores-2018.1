@@ -2,6 +2,12 @@ package lexical.util;
 
 import java.util.Arrays;
 
+/**
+ * Utilitario para verificar Strings e informar se faz parte 
+ * de determinado 'tipo/token' da linguagem
+ * 
+ * @author Cássio Santos
+ */
 public class LexemeType {
 
     /**
