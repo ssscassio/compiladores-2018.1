@@ -3,6 +3,10 @@ package lexical.controller;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class FileController {
 
@@ -15,14 +19,15 @@ public class FileController {
 
     // TODO: Esse método deve retornar um Map onde a chave é o nome do arquivo
     // e o valor é um Array de Strings onde cada 'row' do Array é uma linha do arquivo.
-    public static void readFiles() {
-
-        try {
-            Files.list(Paths.get(INPUT_FOLDER)).filter(path -> path.toString().endsWith(".txt"))
-                    .forEach(System.out::println);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public static Map<String, List<String>> readFiles() throws IOException {
+        return Files.list(Paths.get(INPUT_FOLDER)).filter(path -> path.toString().endsWith(".txt"))
+                .collect(Collectors.toMap(path -> path.toString(), path -> {
+                    try {
+                        return Files.readAllLines(path);
+                    } catch (IOException err) {
+                        return new ArrayList<String>();
+                    }
+                }));
     }
 
 }
