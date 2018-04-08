@@ -35,8 +35,11 @@ public class LexemeType {
             "int", "print", "procedure", "return", "scan", "start", "string", "struct", "then", "true", "typedef",
             "var", "while" };
 
-    public LexemeType() {
-
+    /**
+     * Construtor privado para previnir que a classe seja instanciada
+     */
+    private LexemeType() {
+        throw new AssertionError();
     }
 
     /**
