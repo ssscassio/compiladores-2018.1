@@ -3,11 +3,11 @@
 ## Descrição
 - A entrada e a saída para o analisador devem ser feitas por meio de arquivos texto.
 - O analisador deverá ler **um conjunto** de arquivos-texto do diretório *entrada*.
-- Para cada arquivo analisado será gerado um arquivo de saida no diretório *saida*.
-- No arquivo de sáida deve ser impressa a lista de tokens e exibidos os erros léxicos de forma padronizada.
-- Se não houver erros, uma mensagem de sucesso deve ser gravada no arquivo de sáida.
+- Para cada arquivo analisado será gerado um arquivo de saída no diretório *saida*.
+- No arquivo de saída deve ser impressa a lista de tokens e exibidos os erros léxicos de forma padronizada.
+- Se não houver erros, uma mensagem de sucesso deve ser gravada no arquivo de saída.
 
-### Espeficicações
+### Especificações
 
 | Tipo | Expressão regular |
 | :------ | :---------------- |
@@ -16,7 +16,7 @@
 |número| **(-)? Espaco\* digito digito\* ( . digito (digito)\* )?** |
 |digito|**[0-9]**|
 |letra|**[a-z]** \| **[A-Z]**|
-|operadores aritiméticos| **+** \| **-** \| **\*** \| **/** \| **++** \| **--** |
+|operadores aritméticos| **+** \| **-** \| **\*** \| **/** \| **++** \| **--** |
 | operadores relacionais | **!=** \| **==** \| **<** \| **<=** \| **>** \| **>=** \| **=** |
 |operadores lógicos| **!** \| **&&** \| **\|\|**|
 |Delimitadores de comentários| **//isso é um comentário de linha <br> /\* Isso <br> é um comentário <br>de bloco\*/** |
