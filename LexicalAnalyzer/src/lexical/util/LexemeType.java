@@ -52,6 +52,10 @@ public class LexemeType {
         return s.matches(LETTER_REGEX);
     }
 
+    public static boolean isLetter(char c) {
+        return isLetter(Character.toString(c));
+    }
+
     /**
      * Verifica se uma string é do tipo digito
      * 
@@ -60,6 +64,10 @@ public class LexemeType {
      */
     public static boolean isDigit(String s) {
         return s.matches(DIGIT_REGEX);
+    }
+
+    public static boolean isDigit(char c) {
+        return isDigit(Character.toString(c));
     }
 
     /**
@@ -92,6 +100,10 @@ public class LexemeType {
         return s.matches(SPACE_REGEX);
     }
 
+    public static boolean isSpace(char c) {
+        return isSpace(Character.toString(c));
+    }
+
     /**
      * Verifica se uma string é do tipo Simbolo
      * 
@@ -100,6 +112,10 @@ public class LexemeType {
      */
     public static boolean isSymbol(String s) {
         return s.matches(SYMBOL_REGEX);
+    }
+
+    public static boolean isSymbol(char c) {
+        return isSymbol(Character.toString(c));
     }
 
     /**
@@ -120,6 +136,10 @@ public class LexemeType {
      */
     public static boolean isDelimiter(String s) {
         return s.matches(DELIMITER_REGEX);
+    }
+
+    public static boolean isDelimiter(char c) {
+        return isDelimiter(Character.toString(c));
     }
 
     /**
@@ -162,4 +182,20 @@ public class LexemeType {
     public static boolean iskeyword(String s) {
         return (Arrays.binarySearch(KEYWORDS, s) >= 0);
     }
+
+    /**
+     * Verifica se uma string pertence a linguagem
+     * 
+     * @param s String para ser verificada
+     * @return verdadeiro se a String s pertencer a linguagem, falso caso contrário
+     */
+    public static boolean belongsToLanguage(String s) {
+        return isArithmetic(s) || isDelimiter(s) || isDigit(s) || isIdentifier(s) || isLetter(s) || isLogic(s)
+                || isNumber(s) || isRelational(s) || isSpace(s) || isString(s) || isSymbol(s);
+    }
+
+    public static boolean belongsToLanguage(char c) {
+        return belongsToLanguage(Character.toString(c));
+    }
+
 }
