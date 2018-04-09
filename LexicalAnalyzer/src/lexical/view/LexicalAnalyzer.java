@@ -8,6 +8,8 @@ public class LexicalAnalyzer {
     public static void main(String[] args) throws Exception {
         System.out.println("Analisador Léxico");
         System.out.println(LexemeType.iskeyword("const"));
-        System.out.println(FileController.readFiles());
+        FileController.readFiles().forEach((key, value) -> {
+            System.out.println(value);
+        });
     }
 }
