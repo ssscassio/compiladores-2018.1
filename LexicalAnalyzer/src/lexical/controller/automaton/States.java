@@ -17,10 +17,8 @@ enum States implements State {
         public State next(char character) {
             if (LexemeType.isSpace(character)) {
                 return STATE_1;
-            } else if (LexemeType.belongsToLanguage(character)) {
-                return FinalStates.WHITE_SPACE;
             }
-            return FinalStates.INVALID_CHARACTER;
+            return FinalStates.WHITE_SPACE;
         }
     };
 
