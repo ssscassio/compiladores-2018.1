@@ -11,8 +11,8 @@ public class Automaton {
         this.input = input;
     }
 
-    public void next() {
-        this.actualState = actualState.next();
+    public void next(char character) {
+        this.actualState = actualState.next(character);
     }
 
     /**
