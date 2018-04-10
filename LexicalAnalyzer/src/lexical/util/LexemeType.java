@@ -198,4 +198,18 @@ public class LexemeType {
         return belongsToLanguage(Character.toString(c));
     }
 
+    /**
+     * Verifica se uma string é uma letra, digito ou _
+     * 
+     * @param s String para ser verificada
+     * @return verdadeiro se a String s é um dos casos especificados, falso caso contrário
+     */
+    public static boolean isLetterDigitOrUnderscore(String s) {
+        return s.matches(LETTER_DIGIT_UNDERSCORE_REGEX);
+    }
+
+    public static boolean isLetterDigitOrUnderscore(char c) {
+        return isLetterDigitOrUnderscore(Character.toString(c));
+    }
+
 }

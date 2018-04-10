@@ -2,12 +2,14 @@ package lexical.controller.automaton;
 
 import lexical.util.LexemeType;
 
-enum States implements State {
+public enum States implements State {
     STATE_INITIAL {
         @Override
         public State next(char character) {
-            if (LexemeType.isSpace(Character.toString(character))) {
+            if (LexemeType.isSpace(character)) {
                 return STATE_1;
+            } else if (LexemeType.isLetter(character)) {
+                return STATE_43;
             }
             return FinalStates.INVALID_CHARACTER;
         }
@@ -19,6 +21,15 @@ enum States implements State {
                 return STATE_1;
             }
             return FinalStates.WHITE_SPACE;
+        }
+    },
+    STATE_43 {
+        @Override
+        public State next(char character) {
+            if (LexemeType.isLetterDigitOrUnderscore(character)) {
+                return STATE_43;
+            }
+            return FinalStates.INDENTIFIER;
         }
     };
 

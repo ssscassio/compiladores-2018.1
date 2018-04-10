@@ -1,6 +1,6 @@
 package lexical.controller.automaton;
 
-enum FinalStates implements FinalState {
+public enum FinalStates implements FinalState {
     WHITE_SPACE {
         @Override
         public State next(char character) {
@@ -11,6 +11,11 @@ enum FinalStates implements FinalState {
         @Override
         public State next(char character) {
             return INVALID_CHARACTER;
+        }
+    },
+    INDENTIFIER {
+        public State next(char character) {
+            return INDENTIFIER;
         }
     }
 }

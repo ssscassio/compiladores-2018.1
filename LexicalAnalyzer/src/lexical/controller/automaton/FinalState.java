@@ -1,4 +1,4 @@
 package lexical.controller.automaton;
 
-interface FinalState extends State {
+public interface FinalState extends State {
 }

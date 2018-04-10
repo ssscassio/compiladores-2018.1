@@ -1,5 +1,5 @@
 package lexical.controller.automaton;
 
-interface State {
+public interface State {
     public State next(char character);
 }
