@@ -19,12 +19,6 @@ public enum FinalStates implements FinalState {
             return INDENTIFIER;
         }
     },
-    ARI_SLASH {
-        @Override
-        public State next(char character) {
-            return ARI_SLASH;
-        }
-    },
     LINE_COMMENT {
         @Override
         public State next(char character) {
@@ -49,16 +43,46 @@ public enum FinalStates implements FinalState {
             return INVALID_CHARACTER_ON_STRING;
         }
     },
-    ARI_MINUS_MINUS {
+    ARI_1_SYMBOL {
         @Override
         public State next(char character) {
-            return ARI_MINUS_MINUS;
+            return ARI_1_SYMBOL;
         }
     },
-    ARI_MINUS {
+    ARI_2_SYMBOLS {
         @Override
         public State next(char character) {
-            return ARI_MINUS;
+            return ARI_2_SYMBOLS;
+        }
+    },
+    ARI_1_SYMBOL_WITHOUT_TRACEBACK {
+        @Override
+        public State next(char character) {
+            return ARI_1_SYMBOL_WITHOUT_TRACEBACK;
+        }
+    },
+    REL_1_SYMBOL {
+        @Override
+        public State next(char character) {
+            return REL_1_SYMBOL;
+        }
+    },
+    REL_2_SYMBOLS {
+        @Override
+        public State next(char character) {
+            return REL_2_SYMBOLS;
+        }
+    },
+    LOG_1_SYMBOL {
+        @Override
+        public State next(char character) {
+            return LOG_1_SYMBOL;
+        }
+    },
+    LOG_2_SYMBOLS {
+        @Override
+        public State next(char character) {
+            return LOG_2_SYMBOLS;
         }
     },
     NUMBER {
@@ -67,10 +91,22 @@ public enum FinalStates implements FinalState {
             return NUMBER;
         }
     },
-    NUMBER_WITH_DOT {
+    NUMBER_THAT_NEED_TO_REMOVE_DOT {
         @Override
         public State next(char character) {
-            return NUMBER_WITH_DOT;
+            return NUMBER_THAT_NEED_TO_REMOVE_DOT;
+        }
+    },
+    DELIMITER {
+        @Override
+        public State next(char character) {
+            return DELIMITER;
+        }
+    },
+    ERROR {
+        @Override
+        public State next(char character) {
+            return ERROR;
         }
     }
 }
