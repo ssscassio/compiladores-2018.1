@@ -24,29 +24,63 @@ public class LexicalAnalyzer {
                         automaton.next('\n');
                         System.err.println("( Fim de linha ) " + column + ":" + charArray.length + " "
                                 + automaton.getActualState());
+                        column++;
                     }
 
                     if (automaton.inFinalState()) {
                         // Estado final identificado
-                        System.out.println(string.substring(firstIndex, column) + " " + automaton.getActualState());
+                        if (firstIndex == column && column != charArray.length) {
+                            System.out.println("<<" + automaton.getActualState() + "," + charArray[column] + ">>");
+                        } else if (column < charArray.length) {
+                            System.out.println("<<" + automaton.getActualState() + ","
+                                    + string.substring(firstIndex, column) + ">>");
+
+                        }
+
+                        // // Tomando decisão quanto a Estado Final
+                        // switch ((FinalStates) automaton.getActualState()) {
+                        // case INDENTIFIER: // Encontrou um identificador
+                        //     // TODO: Trabalhar com o identificador encontrado
+                        //     break;
+                        // case INVALID_CHARACTER:
+                        //     // TODO: Disparar erro
+                        //     break;
+                        // case WHITE_SPACE:
+                        // case BLOCK_COMMENT:
+                        // case LINE_COMMENT:
+                        //     break;
+                        // }
+
+                        // Manipulando ponteiro da Lista
                         switch ((FinalStates) automaton.getActualState()) {
-                        case INDENTIFIER: // Encontrou um identificador
-                            // TODO: Trabalhar com o identificador encontrado
-                            firstIndex = column;
-                            column = column - 1;
-                            automaton.reset();
+                        case INDENTIFIER:
+                        case WHITE_SPACE:
+                        case ARI_1_SYMBOL:
+                        case REL_1_SYMBOL:
+                        case LOG_1_SYMBOL:
+                        case NUMBER:
+                            column--;
                             break;
-                        case WHITE_SPACE: // Encontrou caracteres de espaço
-                            firstIndex = column;
-                            column = column - 1;
-                            automaton.reset();
+                        case NUMBER_THAT_NEED_TO_REMOVE_DOT:
+                            column -= 2;
                             break;
+                        case STRING:
                         case INVALID_CHARACTER:
-                            // TODO: Disparar erro
-                            firstIndex = column;
-                            automaton.reset();
+                        case LINE_COMMENT:
+                        case BLOCK_COMMENT:
+                        case ARI_1_SYMBOL_WITHOUT_TRACEBACK:
+                        case ARI_2_SYMBOLS:
+                        case REL_2_SYMBOLS:
+                        case LOG_2_SYMBOLS:
+                        case DELIMITER:
+                        case INVALID_CHARACTER_ON_STRING:
+                        case ERROR:
                             break;
                         }
+
+                        automaton.reset();
+                        firstIndex = column + 1;
+
                     }
                     column += 1;
                 }
