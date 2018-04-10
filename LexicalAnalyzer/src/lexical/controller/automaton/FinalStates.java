@@ -49,4 +49,28 @@ public enum FinalStates implements FinalState {
             return INVALID_CHARACTER_ON_STRING;
         }
     },
+    ARI_MINUS_MINUS {
+        @Override
+        public State next(char character) {
+            return ARI_MINUS_MINUS;
+        }
+    },
+    ARI_MINUS {
+        @Override
+        public State next(char character) {
+            return ARI_MINUS;
+        }
+    },
+    NUMBER {
+        @Override
+        public State next(char character) {
+            return NUMBER;
+        }
+    },
+    NUMBER_WITH_DOT {
+        @Override
+        public State next(char character) {
+            return NUMBER_WITH_DOT;
+        }
+    }
 }

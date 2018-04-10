@@ -12,6 +12,10 @@ public enum States implements State {
                 return STATE_3;
             } else if (character == '\"') {
                 return STATE_10;
+            } else if (character == '-') {
+                return STATE_13;
+            } else if (LexemeType.isDigit(character)) {
+                return STATE_15;
             } else if (LexemeType.isLetter(character)) {
                 return STATE_43;
             }
@@ -39,6 +43,7 @@ public enum States implements State {
         }
     },
     STATE_4 {
+        // TODO: Não mudar ponteiro no estado Final
         @Override
         public State next(char character) {
             if (character == '\n') {
@@ -59,6 +64,7 @@ public enum States implements State {
     },
     STATE_7 {
         // TODO: Verificar caso de chegar no fim do arquivo estando no estado 6 ou 7
+        // TODO: Não mudar ponteiro no estado Final
         @Override
         public State next(char character) {
             if (character == '/') {
@@ -71,6 +77,7 @@ public enum States implements State {
     },
     STATE_10 {
         // TODO: Verificar caso de chegar no fim da linha estando no estado 10 ou 12
+        // TODO: Não mudar ponteiro no estado Final
         @Override
         public State next(char character) {
             if (character == '\\') {
@@ -97,7 +104,63 @@ public enum States implements State {
             return FinalState.INVALID_CHARACTER_ON_STRING;
         }
     },
-
+    STATE_13 {
+        @Override
+        public State next(char character) {
+            if (LexemeType.isSpace(character)) {
+                return STATE_14;
+            } else if (LexemeType.isDigit(character)) {
+                return STATE_15;
+            } else if (character == '-') {
+                return FinalState.ARI_MINUS_MINUS;
+            }
+            return FinalState.ARI_MINUS;
+        }
+    },
+    STATE_14 {
+        // TODO: Tomar cuidado na main quando encontrar um caractere MINUS
+        // Deve fazer o ponteiro resetar para o indice imediatamente próximo ao do '-'
+        @Override
+        public State next(char character) {
+            if (LexemeType.isSpace(character)) {
+                return STATE_14;
+            } else if (LexemeType.isDigit(character)) {
+                return STATE_15;
+            }
+            return FinalState.ARI_MINUS;
+        }
+    },
+    STATE_15 {
+        @Override
+        public State next(char character) {
+            if (LexemeType.isDigit(character)) {
+                return STATE_15;
+            } else if (character == '.') {
+                return STATE_17;
+            }
+            return FinalState.NUMBER;
+        }
+    },
+    STATE_17 {
+        // TODO: No estado final NUMBER_WITH_DOT lembrar de retornar 2 caracteres
+        // ao invés de apenas 1 como nos outros estados finais
+        @Override
+        public State next(char character) {
+            if (LexemeType.isDigit(character)) {
+                return STATE_18;
+            }
+            return FinalState.NUMBER_WITH_DOT;
+        }
+    },
+    STATE_18 {
+        @Override
+        public State next(char character) {
+            if (LexemeType.isDigit(character)) {
+                return STATE_18;
+            }
+            return FinalState.NUMBER;
+        }
+    },
     STATE_43 {
         @Override
         public State next(char character) {
