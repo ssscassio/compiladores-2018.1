@@ -102,7 +102,7 @@ public enum States implements State {
                     || LexemeType.isSymbol(character)) {
                 return STATE_10;
             }
-            return FinalState.INVALID_CHARACTER_ON_STRING;
+            return FinalStates.INVALID_CHARACTER_ON_STRING;
         }
     },
     STATE_12 {
@@ -115,7 +115,7 @@ public enum States implements State {
                     || LexemeType.isSymbol(character)) {
                 return STATE_10;
             }
-            return FinalState.INVALID_CHARACTER_ON_STRING;
+            return FinalStates.INVALID_CHARACTER_ON_STRING;
         }
     },
     STATE_13 {
@@ -126,9 +126,9 @@ public enum States implements State {
             } else if (LexemeType.isDigit(character)) {
                 return STATE_15;
             } else if (character == '-') {
-                return FinalState.ARI_2_SYMBOLS;
+                return FinalStates.ARI_2_SYMBOLS;
             }
-            return FinalState.ARI_1_SYMBOL;
+            return FinalStates.ARI_1_SYMBOL;
         }
     },
     STATE_14 {
@@ -141,7 +141,7 @@ public enum States implements State {
             } else if (LexemeType.isDigit(character)) {
                 return STATE_15;
             }
-            return FinalState.ARI_1_SYMBOL;
+            return FinalStates.ARI_1_SYMBOL;
         }
     },
     STATE_15 {
@@ -152,7 +152,7 @@ public enum States implements State {
             } else if (character == '.') {
                 return STATE_17;
             }
-            return FinalState.NUMBER;
+            return FinalStates.NUMBER;
         }
     },
     STATE_17 {
@@ -163,7 +163,7 @@ public enum States implements State {
             if (LexemeType.isDigit(character)) {
                 return STATE_18;
             }
-            return FinalState.NUMBER_THAT_NEED_TO_REMOVE_DOT;
+            return FinalStates.NUMBER_THAT_NEED_TO_REMOVE_DOT;
         }
     },
     STATE_18 {
@@ -172,52 +172,52 @@ public enum States implements State {
             if (LexemeType.isDigit(character)) {
                 return STATE_18;
             }
-            return FinalState.NUMBER;
+            return FinalStates.NUMBER;
         }
     },
     STATE_23 {
         @Override
         public State next(char character) {
             if (character == '=') {
-                return FinalState.REL_2_SYMBOLS;
+                return FinalStates.REL_2_SYMBOLS;
             }
-            return FinalState.LOG_1_SYMBOL;
+            return FinalStates.LOG_1_SYMBOL;
         }
     },
     STATE_27 {
         @Override
         public State next(char character) {
             if (character == '=') {
-                return FinalState.REL_2_SYMBOLS;
+                return FinalStates.REL_2_SYMBOLS;
             }
-            return FinalState.REL_1_SYMBOL;
+            return FinalStates.REL_1_SYMBOL;
         }
     },
     STATE_36 {
         @Override
         public State next(char character) {
             if (character == '&') {
-                return FinalState.LOG_2_SYMBOLS;
+                return FinalStates.LOG_2_SYMBOLS;
             }
-            return FinalState.ERROR;
+            return FinalStates.ERROR;
         }
     },
     STATE_38 {
         @Override
         public State next(char character) {
             if (character == '|') {
-                return FinalState.LOG_2_SYMBOLS;
+                return FinalStates.LOG_2_SYMBOLS;
             }
-            return FinalState.ERROR;
+            return FinalStates.ERROR;
         }
     },
     STATE_40 {
         @Override
         public State next(char character) {
             if (character == '+') {
-                return FinalState.ARI_2_SYMBOLS;
+                return FinalStates.ARI_2_SYMBOLS;
             }
-            return FinalState.ARI_1_SYMBOLS;
+            return FinalStates.ARI_1_SYMBOL;
         }
     },
     STATE_43 {
