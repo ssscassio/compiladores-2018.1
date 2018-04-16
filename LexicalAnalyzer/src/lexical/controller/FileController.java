@@ -48,15 +48,8 @@ public class FileController {
                 .collect(Collectors.toMap(path -> path.toString(), path -> {
                     try {
                         Stream<String> stringList = Files.lines(path);
-                        List<String> list = new ArrayList<>();
-                        stringList.forEach((line) ->{
-                            list.add(line.toString()+"\n"); 
-                        });
-                        String lines = "";
-                        for(int i=0; i<list.size(); i++){
-                            lines = lines+list.get(i);
-                        }
-                         return lines;
+                        String s = Stream.of("a","simple","string").collect(joining(" "));
+                        return stringList.collect(joining("\n"));
                     } catch (IOException err) {
                         return new String();
                     }
