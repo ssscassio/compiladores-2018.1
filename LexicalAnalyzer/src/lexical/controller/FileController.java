@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class FileController {
 
@@ -47,9 +46,7 @@ public class FileController {
         return Files.list(Paths.get(INPUT_FOLDER)).filter(path -> path.toString().endsWith(".txt"))
                 .collect(Collectors.toMap(path -> path.toString(), path -> {
                     try {
-                        Stream<String> stringList = Files.lines(path);
-                        String s = Stream.of("a","simple","string").collect(joining(" "));
-                        return stringList.collect(joining("\n"));
+                        return Files.lines(path).collect(Collectors.joining("\n"));
                     } catch (IOException err) {
                         return new String();
                     }
