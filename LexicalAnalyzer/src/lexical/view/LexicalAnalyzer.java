@@ -79,7 +79,8 @@ public class LexicalAnalyzer {
                     case REL_2_SYMBOLS:
                     case LOG_2_SYMBOLS:
                     case DELIMITER:
-                        Token token = new Token(getTokenName(automaton.getActualState()), lexemeString, row, column);
+                        Token token = new Token(getTokenName(automaton.getActualState(), lexemeString), lexemeString,
+                                row, column);
                         tokens.add(token);
                         break;
                     case LINE_COMMENT:
@@ -108,9 +109,12 @@ public class LexicalAnalyzer {
         });
     }
 
-    private static String getTokenName(State state) {
+    private static String getTokenName(State state, String lexeme) {
         switch ((FinalStates) state) {
         case INDENTIFIER:
+            if (LexemeType.iskeyword(lexeme)) {
+                return Consts.KEY_WORD;
+            }
             return Consts.IDENTIFIER;
         default:
             return "OUTRO";

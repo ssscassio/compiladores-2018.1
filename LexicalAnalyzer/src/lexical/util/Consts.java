@@ -16,7 +16,7 @@ public final class Consts {
 
     /** Tokens */
     public static final String IDENTIFIER = "IDE";
-    public static final String RESERVED_WORD = "PRE";
+    public static final String KEY_WORD = "PRE";
     public static final String NUMBER = "NRO";
     public static final String RELATIONAL_OPERATOR = "REL";
     public static final String LOGICAL_OPERATOR = "LOG";
