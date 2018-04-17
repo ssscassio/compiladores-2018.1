@@ -7,10 +7,12 @@ import java.util.ArrayList;
 
 import lexical.controller.FileController;
 import lexical.controller.automaton.*;
+import lexical.model.LexicalError;
 import lexical.model.Token;
 
 public class LexicalAnalyzer {
     private static ArrayList<Token> tokens = new ArrayList<Token>();
+    private static ArrayList<LexicalError> errors = new ArrayList<LexicalError>();
 
     public static void main(String[] args) throws Exception {
 
@@ -19,7 +21,7 @@ public class LexicalAnalyzer {
             Automaton automaton = new Automaton();
 
             ArrayList<Character> lexeme = new ArrayList<Character>();
-            int row = 0;
+            int row = 1;
             for (int column = 0; column < charArray.length;) {
                 char charactere = charArray[column];
                 if (charactere == '\n') {
@@ -86,13 +88,16 @@ public class LexicalAnalyzer {
                     case LINE_COMMENT:
                     case BLOCK_COMMENT:
                     case END_OF_FILE:
-                        break;
                     case WHITE_SPACE:
+                        break;
                     case ERROR_INVALID_CHARACTER:
                     case ERROR_INVALID_CHARACTER_ON_STRING:
                     case ERROR_LOGICAL_OP:
                     case ERROR_BLOCK_COMMENT_NOT_CLOSED:
                     case ERROR_STRING_NOT_CLOSED:
+                        LexicalError error = new LexicalError(row, lexemeString,
+                                getErrorMessage(automaton.getActualState()));
+                        errors.add(error);
                         break;
                     }
 
@@ -106,7 +111,12 @@ public class LexicalAnalyzer {
             tokens.forEach((token) -> {
                 System.out.println(token.toString());
             });
+            System.out.println("\n");
+            errors.forEach((error) -> {
+                System.out.println(error.toString());
+            });
             tokens.clear();
+            errors.clear();
         });
     }
 
@@ -117,42 +127,42 @@ public class LexicalAnalyzer {
                 return Consts.KEY_WORD;
             }
             return Consts.IDENTIFIER;
-
         case ARI_1_SYMBOL:
-            return Consts.ARITHMETIC_OPERATOR;
-
-        case REL_1_SYMBOL:
-            return Consts.RELATIONAL_OPERATOR;
-
-        case LOG_1_SYMBOL:
-            return Consts.LOGICAL_OPERATOR;
-
-        case NUMBER:
-            return Consts.NUMBER;
-        
-        case NUMBER_THAT_NEED_TO_REMOVE_DOT:
-            return Consts.NUMBER;
-        
-        case STRING:
-            return Consts.STRING;
-
         case ARI_1_SYMBOL_WITHOUT_TRACEBACK:
-            return Consts.ARITHMETIC_OPERATOR;
-        
         case ARI_2_SYMBOLS:
             return Consts.ARITHMETIC_OPERATOR;
-
+        case REL_1_SYMBOL:
         case REL_2_SYMBOLS:
             return Consts.RELATIONAL_OPERATOR;
-
+        case LOG_1_SYMBOL:
         case LOG_2_SYMBOLS:
             return Consts.LOGICAL_OPERATOR;
-            
+        case NUMBER:
+        case NUMBER_THAT_NEED_TO_REMOVE_DOT:
+            return Consts.NUMBER;
+        case STRING:
+            return Consts.STRING;
         case DELIMITER:
             return Consts.DELIMITER;
-            
         default:
             return "OUTRO";
+        }
+    }
+
+    private static String getErrorMessage(State state) {
+        switch ((FinalStates) state) {
+        case ERROR_STRING_NOT_CLOSED:
+            return Consts.ERROR_STRING_NOT_CLOSED;
+        case ERROR_BLOCK_COMMENT_NOT_CLOSED:
+            return Consts.ERROR_BLOCK_COMMENT_NOT_CLOSED;
+        case ERROR_INVALID_CHARACTER:
+            return Consts.ERROR_INVALID_CHARACTER;
+        case ERROR_INVALID_CHARACTER_ON_STRING:
+            return Consts.ERROR_INVALID_CHARACTER_ON_STRING;
+        case ERROR_LOGICAL_OP:
+            return Consts.ERROR_LOGICAL_OP;
+        default:
+            return "OUTRO ERROR";
         }
     }
 }
