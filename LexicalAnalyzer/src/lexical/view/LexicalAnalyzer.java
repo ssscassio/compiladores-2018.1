@@ -116,6 +116,40 @@ public class LexicalAnalyzer {
                 return Consts.KEY_WORD;
             }
             return Consts.IDENTIFIER;
+
+        case ARI_1_SYMBOL:
+            return Consts.ARITHMETIC_OPERATOR;
+
+        case REL_1_SYMBOL:
+            return Consts.RELATIONAL_OPERATOR;
+
+        case LOG_1_SYMBOL:
+            return Consts.LOGICAL_OPERATOR;
+
+        case NUMBER:
+            return Consts.NUMBER;
+        
+        case NUMBER_THAT_NEED_TO_REMOVE_DOT:
+            return Consts.NUMBER;
+        
+        case STRING:
+            return Consts.STRING;
+
+        case ARI_1_SYMBOL_WITHOUT_TRACEBACK:
+            return Consts.ARITHMETIC_OPERATOR;
+        
+        case ARI_2_SYMBOLS:
+            return Consts.ARITHMETIC_OPERATOR;
+
+        case REL_2_SYMBOLS:
+            return Consts.RELATIONAL_OPERATOR;
+
+        case LOG_2_SYMBOLS:
+            return Consts.LOGICAL_OPERATOR;
+            
+        case DELIMITER:
+            return Consts.DELIMITER;
+            
         default:
             return "OUTRO";
         }
