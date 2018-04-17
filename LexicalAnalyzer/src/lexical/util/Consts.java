@@ -22,7 +22,7 @@ public final class Consts {
     public static final String LOGICAL_OPERATOR = "LOG";
     public static final String ARITHMETIC_OPERATOR = "ART";
     public static final String STRING = "CDC";
-    public static final String DELIMITER = "DLM";
+    public static final String DELIMITER = "DEL";
 
     /**
      * Construtor privado para previnir que a classe seja instanciada
