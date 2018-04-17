@@ -51,7 +51,7 @@ public class LexicalAnalyzer {
                     case LOG_2_SYMBOLS:
                     case DELIMITER:
                     case ERROR_INVALID_CHARACTER_ON_STRING:
-                    case ERROR:
+                    case ERROR_LOGICAL_OP:
                     case ERROR_BLOCK_COMMENT_NOT_CLOSED:
                     case ERROR_STRING_NOT_CLOSED:
                     case END_OF_FILE:
