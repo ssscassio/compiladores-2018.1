@@ -200,7 +200,7 @@ public enum States implements State {
             if (character == '&') {
                 return FinalStates.LOG_2_SYMBOLS;
             }
-            return FinalStates.ERROR;
+            return FinalStates.ERROR_LOGICAL_OP;
         }
     },
     STATE_38 {
@@ -209,7 +209,7 @@ public enum States implements State {
             if (character == '|') {
                 return FinalStates.LOG_2_SYMBOLS;
             }
-            return FinalStates.ERROR;
+            return FinalStates.ERROR_LOGICAL_OP;
         }
     },
     STATE_40 {

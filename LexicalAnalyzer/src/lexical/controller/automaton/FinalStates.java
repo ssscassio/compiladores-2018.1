@@ -103,10 +103,10 @@ public enum FinalStates implements FinalState {
             return DELIMITER;
         }
     },
-    ERROR {
+    ERROR_LOGICAL_OP {
         @Override
         public State next(char character) {
-            return ERROR;
+            return ERROR_LOGICAL_OP;
         }
     },
     ERROR_BLOCK_COMMENT_NOT_CLOSED {
