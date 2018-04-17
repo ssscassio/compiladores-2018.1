@@ -42,7 +42,7 @@ public class LexicalError {
      * 
      * @return lexema com erro
      */
-    public int getLexeme() {
+    public String getLexeme() {
         return this.lexeme;
     }
 
@@ -51,12 +51,12 @@ public class LexicalError {
      * 
      * @return mensagem de erro
      */
-    public int getMessage() {
+    public String getMessage() {
         return this.message;
     }
 
     @Override
     public String toString() {
-        return String.format("%s\t%s\t%s", getRow(), getLexeme(), getMessage());
+        return String.format("%02d %s %s", getRow(), getLexeme(), getMessage());
     }
 }

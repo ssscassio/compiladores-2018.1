@@ -72,6 +72,6 @@ public class Token {
 
     @Override
     public String toString() {
-        return String.format("%s\t%s\t%s", getRow(), getType(), getLexeme());
+        return String.format("%02d %s %s", getRow(), getType(), getLexeme());
     }
 }
