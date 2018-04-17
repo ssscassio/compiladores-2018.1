@@ -14,6 +14,14 @@ public final class Consts {
     public static final String ERROR_INVALID_CHARACTER_ON_STRING = "Caractere invalido na cadeia de caracteres.";
     public static final String ERROR_LOGICAL_OP = "Operador logico incompleto.";
 
+    /** Tokens */
+    public static final String IDENTIFIER = "IDE";
+    public static final String RESERVED_WORD = "PRE";
+    public static final String NUMBER = "NRO";
+    public static final String RELATIONAL_OPERATOR = "REL";
+    public static final String LOGICAL_OPERATOR = "LOG";
+    public static final String ARITHMETIC_OPERATOR = "ART";
+
     /**
      * Construtor privado para previnir que a classe seja instanciada
      */
