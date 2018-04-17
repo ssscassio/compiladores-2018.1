@@ -1,13 +1,16 @@
 package lexical.view;
 
+import lexical.util.Consts;
 import lexical.util.LexemeType;
 
 import java.util.ArrayList;
 
 import lexical.controller.FileController;
 import lexical.controller.automaton.*;
+import lexical.model.Token;
 
 public class LexicalAnalyzer {
+    private static ArrayList<Token> tokens = new ArrayList<Token>();
 
     public static void main(String[] args) throws Exception {
 
@@ -16,15 +19,17 @@ public class LexicalAnalyzer {
             Automaton automaton = new Automaton();
 
             ArrayList<Character> lexeme = new ArrayList<Character>();
+            int row = 0;
             for (int column = 0; column < charArray.length;) {
-
                 char charactere = charArray[column];
+                if (charactere == '\n') {
+                    row++;
+                }
+
                 lexeme.add(new Character(charactere));
                 automaton.next(charactere);
-                System.err.println(
-                        "(" + charactere + ") " + column + ":" + charArray.length + " " + automaton.getActualState());
-                if (automaton.inFinalState()) {
 
+                if (automaton.inFinalState()) {
                     // Manipulando ponteiro da Lista
                     switch ((FinalStates) automaton.getActualState()) {
                     case INDENTIFIER:
@@ -61,18 +66,33 @@ public class LexicalAnalyzer {
                     String lexemeString = lexeme.stream().map(e -> e.toString()).reduce((acc, e) -> acc + e).get();
 
                     // Tomando decisão quanto a Estado Final
-                    // switch ((FinalStates) automaton.getActualState()) {
-                    // case INDENTIFIER: // Encontrou um identificador
-                    //     // TODO: Trabalhar com o identificador encontrado
-                    //     break;
-                    // case INVALID_CHARACTER:
-                    //     // TODO: Disparar erro
-                    //     break;
-                    // case WHITE_SPACE:
-                    // case BLOCK_COMMENT:
-                    // case LINE_COMMENT:
-                    //     break;
-                    // }
+                    switch ((FinalStates) automaton.getActualState()) {
+                    case INDENTIFIER:
+                    case ARI_1_SYMBOL:
+                    case REL_1_SYMBOL:
+                    case LOG_1_SYMBOL:
+                    case NUMBER:
+                    case NUMBER_THAT_NEED_TO_REMOVE_DOT:
+                    case STRING:
+                    case ARI_1_SYMBOL_WITHOUT_TRACEBACK:
+                    case ARI_2_SYMBOLS:
+                    case REL_2_SYMBOLS:
+                    case LOG_2_SYMBOLS:
+                    case DELIMITER:
+                        Token token = new Token(getTokenName(automaton.getActualState()), lexemeString, row, column);
+                        tokens.add(token);
+                        break;
+                    case LINE_COMMENT:
+                    case BLOCK_COMMENT:
+                    case WHITE_SPACE:
+                    case ERROR_INVALID_CHARACTER:
+                    case ERROR_INVALID_CHARACTER_ON_STRING:
+                    case ERROR_LOGICAL_OP:
+                    case ERROR_BLOCK_COMMENT_NOT_CLOSED:
+                    case ERROR_STRING_NOT_CLOSED:
+                    case END_OF_FILE:
+                        break;
+                    }
 
                     lexeme.clear();
                     automaton.reset();
@@ -80,7 +100,20 @@ public class LexicalAnalyzer {
                 column += 1;
 
             }
-
+            System.out.println("ARQUIVO: " + inputFile.replaceFirst("entrada", "saida"));
+            tokens.forEach((token) -> {
+                System.out.println(token.toString());
+            });
+            tokens.clear();
         });
+    }
+
+    private static String getTokenName(State state) {
+        switch ((FinalStates) state) {
+        case INDENTIFIER:
+            return Consts.IDENTIFIER;
+        default:
+            return "OUTRO";
+        }
     }
 }
