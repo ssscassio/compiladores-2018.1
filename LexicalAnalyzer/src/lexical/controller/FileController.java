@@ -46,7 +46,7 @@ public class FileController {
         return Files.list(Paths.get(INPUT_FOLDER)).filter(path -> path.toString().endsWith(".txt"))
                 .collect(Collectors.toMap(path -> path.toString(), path -> {
                     try {
-                        return Files.lines(path).collect(Collectors.joining("\n"));
+                        return Files.lines(path).collect(Collectors.joining("\n", "", "\0"));
                     } catch (IOException err) {
                         return new String();
                     }

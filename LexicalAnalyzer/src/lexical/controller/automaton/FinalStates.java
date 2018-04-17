@@ -7,10 +7,10 @@ public enum FinalStates implements FinalState {
             return WHITE_SPACE;
         }
     },
-    INVALID_CHARACTER {
+    ERROR_INVALID_CHARACTER {
         @Override
         public State next(char character) {
-            return INVALID_CHARACTER;
+            return ERROR_INVALID_CHARACTER;
         }
     },
     INDENTIFIER {
@@ -37,10 +37,10 @@ public enum FinalStates implements FinalState {
             return STRING;
         }
     },
-    INVALID_CHARACTER_ON_STRING {
+    ERROR_INVALID_CHARACTER_ON_STRING {
         @Override
         public State next(char character) {
-            return INVALID_CHARACTER_ON_STRING;
+            return ERROR_INVALID_CHARACTER_ON_STRING;
         }
     },
     ARI_1_SYMBOL {
@@ -108,5 +108,24 @@ public enum FinalStates implements FinalState {
         public State next(char character) {
             return ERROR;
         }
-    }
+    },
+    ERROR_BLOCK_COMMENT_NOT_CLOSED {
+        @Override
+        public State next(char character) {
+            return ERROR_BLOCK_COMMENT_NOT_CLOSED;
+        }
+    },
+    ERROR_STRING_NOT_CLOSED {
+        @Override
+        public State next(char character) {
+            return ERROR_STRING_NOT_CLOSED;
+        }
+    },
+    END_OF_FILE {
+        @Override
+        public State next(char character) {
+            return END_OF_FILE;
+        }
+    },
+
 }

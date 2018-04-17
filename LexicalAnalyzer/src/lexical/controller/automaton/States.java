@@ -32,8 +32,10 @@ public enum States implements State {
                 return FinalStates.DELIMITER;
             } else if (LexemeType.isLetter(character)) {
                 return STATE_43;
+            } else if (character == '\0') {
+                return FinalStates.END_OF_FILE;
             }
-            return FinalStates.INVALID_CHARACTER;
+            return FinalStates.ERROR_INVALID_CHARACTER;
         }
     },
     STATE_1 {
@@ -57,7 +59,6 @@ public enum States implements State {
         }
     },
     STATE_4 {
-        // TODO: Não mudar ponteiro no estado Final
         @Override
         public State next(char character) {
             if (character == '\n') {
@@ -67,34 +68,35 @@ public enum States implements State {
         }
     },
     STATE_6 {
-        // TODO: Verificar caso de chegar no fim do arquivo estando no estado 6 ou 7
         @Override
         public State next(char character) {
             if (character == '*') {
                 return STATE_7;
+            } else if (character == '\0') {
+                return FinalStates.ERROR_BLOCK_COMMENT_NOT_CLOSED;
             }
             return STATE_6;
         }
     },
     STATE_7 {
-        // TODO: Verificar caso de chegar no fim do arquivo estando no estado 6 ou 7
-        // TODO: Não mudar ponteiro no estado Final
         @Override
         public State next(char character) {
             if (character == '/') {
                 return FinalStates.BLOCK_COMMENT;
             } else if (character == '*') {
                 return STATE_7;
+            } else if (character == '\0') {
+                return FinalStates.ERROR_BLOCK_COMMENT_NOT_CLOSED;
             }
             return STATE_6;
         }
     },
     STATE_10 {
-        // TODO: Verificar caso de chegar no fim da linha estando no estado 10 ou 12
-        // TODO: Não mudar ponteiro no estado Final
         @Override
         public State next(char character) {
-            if (character == '\\') {
+            if (character == '\n') {
+                return FinalStates.ERROR_STRING_NOT_CLOSED;
+            } else if (character == '\\') {
                 return STATE_12;
             } else if (character == '\"') {
                 return FinalStates.STRING;
@@ -102,20 +104,21 @@ public enum States implements State {
                     || LexemeType.isSymbol(character)) {
                 return STATE_10;
             }
-            return FinalStates.INVALID_CHARACTER_ON_STRING;
+            return FinalStates.ERROR_INVALID_CHARACTER_ON_STRING;
         }
     },
     STATE_12 {
-        // TODO: Verificar caso de chegar no fim da linha estando no estado 10 ou 12
         @Override
         public State next(char character) {
-            if (character == '\\') {
+            if (character == '\n') {
+                return FinalStates.ERROR_STRING_NOT_CLOSED;
+            } else if (character == '\\') {
                 return STATE_12;
             } else if (character == '\"' || LexemeType.isDigit(character) || LexemeType.isLetter(character)
                     || LexemeType.isSymbol(character)) {
                 return STATE_10;
             }
-            return FinalStates.INVALID_CHARACTER_ON_STRING;
+            return FinalStates.ERROR_INVALID_CHARACTER_ON_STRING;
         }
     },
     STATE_13 {
@@ -156,8 +159,6 @@ public enum States implements State {
         }
     },
     STATE_17 {
-        // TODO: No estado final NUMBER_WITH_DOT lembrar de retornar 2 caracteres
-        // ao invés de apenas 1 como nos outros estados finais
         @Override
         public State next(char character) {
             if (LexemeType.isDigit(character)) {

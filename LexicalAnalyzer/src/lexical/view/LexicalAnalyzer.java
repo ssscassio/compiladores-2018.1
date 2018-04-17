@@ -42,7 +42,7 @@ public class LexicalAnalyzer {
                         column -= 2;
                         break;
                     case STRING:
-                    case INVALID_CHARACTER:
+                    case ERROR_INVALID_CHARACTER:
                     case LINE_COMMENT:
                     case BLOCK_COMMENT:
                     case ARI_1_SYMBOL_WITHOUT_TRACEBACK:
@@ -50,8 +50,11 @@ public class LexicalAnalyzer {
                     case REL_2_SYMBOLS:
                     case LOG_2_SYMBOLS:
                     case DELIMITER:
-                    case INVALID_CHARACTER_ON_STRING:
+                    case ERROR_INVALID_CHARACTER_ON_STRING:
                     case ERROR:
+                    case ERROR_BLOCK_COMMENT_NOT_CLOSED:
+                    case ERROR_STRING_NOT_CLOSED:
+                    case END_OF_FILE:
                         break;
                     }
 
