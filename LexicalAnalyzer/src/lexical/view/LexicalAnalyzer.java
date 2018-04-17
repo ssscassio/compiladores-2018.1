@@ -85,13 +85,14 @@ public class LexicalAnalyzer {
                         break;
                     case LINE_COMMENT:
                     case BLOCK_COMMENT:
+                    case END_OF_FILE:
+                        break;
                     case WHITE_SPACE:
                     case ERROR_INVALID_CHARACTER:
                     case ERROR_INVALID_CHARACTER_ON_STRING:
                     case ERROR_LOGICAL_OP:
                     case ERROR_BLOCK_COMMENT_NOT_CLOSED:
                     case ERROR_STRING_NOT_CLOSED:
-                    case END_OF_FILE:
                         break;
                     }
 
