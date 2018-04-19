@@ -53,7 +53,7 @@ public class FileController {
                 }));
     }
 
-    public static String createOutput(ArrayList tokens, ArrayList errors){
+    public static String createOutputData(ArrayList tokens, ArrayList errors){
             String results = "";
             for (int i=0; i < tokens.size(); i++){
                 results = results+tokens.get(i).toString()+"\n";
