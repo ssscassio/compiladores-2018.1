@@ -108,13 +108,34 @@ public class LexicalAnalyzer {
 
             }
 
-            String fileName = inputFile.replaceFirst("entrada", "saida");
-            String results = FileController.createOutputData(tokens, errors);
+            String fileName = inputFile.replaceFirst(FileController.INPUT_FOLDER, "");
+            String results = createOutputData(tokens, errors);
             FileController.saveOnFile(fileName, results);
 
             tokens.clear();
             errors.clear();
         });
+    }
+
+    /**
+     * Junta os resultados obtidos do analisador léxico: tokens e erros.
+     *  
+     * @return String com o resultado completo.
+     */
+    public static String createOutputData(ArrayList<Token> tokens, ArrayList<LexicalError> errors) {
+        String results = "";
+        if (tokens.size() > 0) {
+            for (Token token : tokens) {
+                results = results + token.toString() + System.lineSeparator();
+            }
+        }
+        if (errors.size() > 0) {
+            results = results + System.lineSeparator();
+            for (LexicalError error : errors) {
+                results = results + error.toString() + System.lineSeparator();
+            }
+        }
+        return results;
     }
 
     private static String getTokenName(State state, String lexeme) {

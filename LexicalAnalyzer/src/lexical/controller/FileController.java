@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
 
 public class FileController {
 
-    private static final String INPUT_FOLDER = "entrada";
-    private static final String OUTPUT_FOLDER = "saida";
+    public static final String INPUT_FOLDER = "entrada/";
+    public static final String OUTPUT_FOLDER = "saida/";
 
     /**
      * Construtor privado para previnir que a classe seja instanciada
@@ -54,32 +54,16 @@ public class FileController {
     }
 
     /**
-     * Junta os resultados obtidos do analisador léxico: tokens e erros.
-     *  
-     * @return String com o resultado completo.
-     */
-    public static String createOutputData(ArrayList tokens, ArrayList errors){
-            String results = "";
-            for (int i=0; i < tokens.size(); i++){
-                results = results+tokens.get(i).toString()+System.lineSeparator();
-            }
-            results = results+System.lineSeparator();
-            for (int i=0; i < errors.size(); i++){
-                results = results+errors.get(i).toString()+System.lineSeparator();
-            }
-            return results;
-    }
-
-    
-    /**
      * Gera o arquivo de saida com os resultados obtidos.
-     *  
+     * 
+     * @param fileName Nome do arquivo que será salvo
+     * @param results Conteudo que será salvo no arquivo
      */
-    public static void saveOnFile(String fileName, String results){
-        try{
-            Files.createDirectories(Paths.get(OUTPUT_FOLDER));    
-            Files.write(Paths.get("./"+fileName), (results).getBytes());
-        }catch(IOException ie){
+    public static void saveOnFile(String fileName, String results) {
+        try {
+            Files.createDirectories(Paths.get(OUTPUT_FOLDER));
+            Files.write(Paths.get(OUTPUT_FOLDER + fileName), (results).getBytes());
+        } catch (IOException ie) {
             ie.printStackTrace();
         }
     }
