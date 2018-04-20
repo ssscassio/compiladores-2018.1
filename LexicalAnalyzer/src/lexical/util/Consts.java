@@ -8,8 +8,8 @@ package lexical.util;
 public final class Consts {
 
     /** Erros léxicos */
-    public static final String ERROR_STRING_NOT_CLOSED = "Fechamento de cadeia de caractere.";
-    public static final String ERROR_BLOCK_COMMENT_NOT_CLOSED = "Fechamento de comentario em bloco.";
+    public static final String ERROR_STRING_NOT_CLOSED = "Cadeia de caractere mal formada.";
+    public static final String ERROR_BLOCK_COMMENT_NOT_CLOSED = "Comentario em bloco mal formado.";
     public static final String ERROR_INVALID_CHARACTER = "Caractere invalido.";
     public static final String ERROR_INVALID_CHARACTER_ON_STRING = "Caractere invalido na cadeia de caracteres.";
     public static final String ERROR_LOGICAL_OP = "Operador logico incompleto.";
