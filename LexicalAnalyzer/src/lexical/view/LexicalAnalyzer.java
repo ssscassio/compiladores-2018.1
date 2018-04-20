@@ -107,14 +107,11 @@ public class LexicalAnalyzer {
                 column += 1;
 
             }
-            System.out.println("ARQUIVO: " + inputFile.replaceFirst("entrada", "saida"));
-            tokens.forEach((token) -> {
-                System.out.println(token.toString());
-            });
-            System.out.println("\n");
-            errors.forEach((error) -> {
-                System.out.println(error.toString());
-            });
+
+            String fileName = inputFile.replaceFirst("entrada", "saida");
+            String results = FileController.createOutputData(tokens, errors);
+            FileController.saveOnFile(fileName, results);
+
             tokens.clear();
             errors.clear();
         });
