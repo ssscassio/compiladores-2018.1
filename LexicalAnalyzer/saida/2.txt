@@ -1,0 +1,14 @@
+01 PRE function
+01 IDE funcao
+01 DEL (
+01 PRE var
+01 IDE algo
+01 DEL )
+01 DEL {
+02 IDE funcao
+02 DEL (
+02 IDE algo
+02 DEL )
+02 DEL ;
+03 DEL }
+
