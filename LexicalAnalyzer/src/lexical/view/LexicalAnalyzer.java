@@ -41,7 +41,6 @@ public class LexicalAnalyzer {
                     case REL_1_SYMBOL:
                     case LOG_1_SYMBOL:
                     case NUMBER:
-                    case ERROR_STRING_NOT_CLOSED:
                     case ERROR_LOGICAL_OP:
                         charRemoved = lexeme.remove(lexeme.size() - 1);
                         if (charRemoved == '\n') {
@@ -59,6 +58,9 @@ public class LexicalAnalyzer {
                             row--;
                         }
                         column -= 2;
+                        break;
+                    case ERROR_STRING_NOT_CLOSED:
+                        lexeme.remove(lexeme.size() - 1);
                         break;
                     case STRING:
                     case ERROR_INVALID_CHARACTER:
