@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
 
 public class FileController {
 
-    public static final String INPUT_FOLDER = "entrada/";
-    public static final String OUTPUT_FOLDER = "saida/";
+    public static final String INPUT_FOLDER = "entrada";
+    public static final String OUTPUT_FOLDER = "saida";
 
     /**
      * Construtor privado para previnir que a classe seja instanciada
