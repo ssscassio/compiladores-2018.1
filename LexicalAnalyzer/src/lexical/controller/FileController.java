@@ -1,6 +1,7 @@
 package lexical.controller;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -46,7 +47,8 @@ public class FileController {
         return Files.list(Paths.get(INPUT_FOLDER)).filter(path -> path.toString().endsWith(".txt"))
                 .collect(Collectors.toMap(path -> path.toString(), path -> {
                     try {
-                        return Files.lines(path).collect(Collectors.joining("\n", "", "\0"));
+                        return new String(Files.lines(path, StandardCharsets.ISO_8859_1)
+                                .collect(Collectors.joining("\n", "", "\0")).getBytes("ISO-8859-1"), "UTF-8");
                     } catch (IOException err) {
                         return new String();
                     }
@@ -62,7 +64,7 @@ public class FileController {
     public static void saveOnFile(String fileName, String results) {
         try {
             Files.createDirectories(Paths.get(OUTPUT_FOLDER));
-            Files.write(Paths.get(OUTPUT_FOLDER + fileName), (results).getBytes());
+            Files.write(Paths.get(OUTPUT_FOLDER + fileName), results.getBytes(StandardCharsets.UTF_8));
         } catch (IOException ie) {
             ie.printStackTrace();
         }
