@@ -43,7 +43,7 @@ public class FileController {
      *  
      * @return String com todas as linhas do arquivo separadas por \n
      */
-    public static Map<String, String> readFilesToString() throws IOException {
+    public static Map<String, String> readFilesAsString() throws IOException {
         return Files.list(Paths.get(INPUT_FOLDER)).filter(path -> path.toString().endsWith(".txt"))
                 .collect(Collectors.toMap(path -> path.toString(), path -> {
                     try {
