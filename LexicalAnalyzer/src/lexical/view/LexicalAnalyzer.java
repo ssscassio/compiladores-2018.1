@@ -32,6 +32,7 @@ public class LexicalAnalyzer {
                 automaton.next(charactere);
 
                 if (automaton.inFinalState()) {
+                    Character charRemoved;
                     // Manipulando ponteiro da Lista
                     switch ((FinalStates) automaton.getActualState()) {
                     case INDENTIFIER:
@@ -40,12 +41,22 @@ public class LexicalAnalyzer {
                     case REL_1_SYMBOL:
                     case LOG_1_SYMBOL:
                     case NUMBER:
-                        lexeme.remove(lexeme.size() - 1);
+                    case ERROR_STRING_NOT_CLOSED:
+                        charRemoved = lexeme.remove(lexeme.size() - 1);
+                        if (charRemoved == '\n') {
+                            row--;
+                        }
                         column--;
                         break;
                     case NUMBER_THAT_NEED_TO_REMOVE_DOT:
-                        lexeme.remove(lexeme.size() - 1);
-                        lexeme.remove(lexeme.size() - 1);
+                        charRemoved = lexeme.remove(lexeme.size() - 1);
+                        if (charRemoved == '\n') {
+                            row--;
+                        }
+                        charRemoved = lexeme.remove(lexeme.size() - 1);
+                        if (charRemoved == '\n') {
+                            row--;
+                        }
                         column -= 2;
                         break;
                     case STRING:
@@ -60,7 +71,6 @@ public class LexicalAnalyzer {
                     case ERROR_INVALID_CHARACTER_ON_STRING:
                     case ERROR_LOGICAL_OP:
                     case ERROR_BLOCK_COMMENT_NOT_CLOSED:
-                    case ERROR_STRING_NOT_CLOSED:
                     case END_OF_FILE:
                         break;
                     }

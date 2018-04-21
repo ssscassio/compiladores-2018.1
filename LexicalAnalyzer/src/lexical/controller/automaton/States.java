@@ -61,7 +61,7 @@ public enum States implements State {
     STATE_4 {
         @Override
         public State next(char character) {
-            if (character == '\n') {
+            if (character == '\n' || character == '\0') {
                 return FinalStates.LINE_COMMENT;
             }
             return STATE_4;
@@ -94,7 +94,7 @@ public enum States implements State {
     STATE_10 {
         @Override
         public State next(char character) {
-            if (character == '\n') {
+            if (character == '\n' || character == '\0') {
                 return FinalStates.ERROR_STRING_NOT_CLOSED;
             } else if (character == '\\') {
                 return STATE_12;
@@ -104,13 +104,24 @@ public enum States implements State {
                     || LexemeType.isSymbol(character)) {
                 return STATE_10;
             }
-            return FinalStates.ERROR_INVALID_CHARACTER_ON_STRING;
+            return STATE_11;
+        }
+    },
+    STATE_11 {
+        @Override
+        public State next(char character) {
+            if (character == '\n' || character == '\0') {
+                return FinalStates.ERROR_STRING_NOT_CLOSED;
+            } else if (character == '\"') {
+                return FinalStates.ERROR_INVALID_CHARACTER_ON_STRING;
+            }
+            return STATE_11;
         }
     },
     STATE_12 {
         @Override
         public State next(char character) {
-            if (character == '\n') {
+            if (character == '\n' || character == '\0') {
                 return FinalStates.ERROR_STRING_NOT_CLOSED;
             } else if (character == '\\') {
                 return STATE_12;
