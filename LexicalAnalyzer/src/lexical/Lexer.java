@@ -10,24 +10,41 @@ import lexical.model.LexicalError;
 import lexical.model.Token;
 
 /**
- * Classe responsável pela etapa do analisados lexico.
- * 
+ * Classe responsável pela etapa de análise lexica.
  * @author Cássio Santos
  * @author Beatriz de Brito
  */
 public class Lexer {
 
-    /** Criacao das variaveis. */
+    /** 
+     * Lista de tokens encontrados na etapa de análise lexica.
+     */
     private ArrayList<Token> tokens = new ArrayList<Token>();
+
+    /** 
+     * Lista de erros encontrados na etapa de análise lexica.
+     */
     private ArrayList<LexicalError> errors = new ArrayList<LexicalError>();
+
+    /** 
+     * Cadeia de caracteres (código fonte) que deve ser analisado
+     * lexicamente. As quebras de linha no arquivo devem ser representadas
+     * pelo caractere '\n'.
+     */
     private String string;
 
+    /**
+     * Construtor Lexer
+     * @param string a Cadeia de caracteres, vinda de um arquivo de código fonte, 
+     * que deseja-se analisar lexicamente
+     */
     public Lexer(String string) {
         this.string = string;
     }
 
     /**
-     * Metodo responsavel pela analise lexica.
+     * Método responsável por analisar lexicamente a string passada
+     * na construção da instância da classe Lexer
      */
     public void analyze() {
         tokens.clear();
@@ -48,7 +65,7 @@ public class Lexer {
 
             if (automaton.inFinalState()) {
                 Character charRemoved;
-                // Manipulando ponteiro da Lista
+                // Manipulando ponteiro da String
                 switch ((FinalStates) automaton.getActualState()) {
                 case INDENTIFIER:
                 case WHITE_SPACE:
@@ -157,14 +174,14 @@ public class Lexer {
         }
         return results;
     }
-    
+
     public String createOutputData() {
         return createOutputData(this.tokens, this.errors);
     }
 
     /**
-     * Verifica qual o token indicado para aquele lexema.
-     * @param state estado a ser analisado
+     * Verifica qual o token indicado para o lexema de acordo com o estado final.
+     * @param state estado final em que se encontrou o lexema
      * @param lexeme lexema a ser analisado
      * @return String com o nome do token correspondente
      */
@@ -198,7 +215,7 @@ public class Lexer {
     }
 
     /**
-     * Verifica qual o erro correspondende ao estado atual.
+     * Verifica qual o erro correspondende ao estado final atual.
      * @param state estado a ser analisado
      * @return String com a mensagem de erro correspondente
      */

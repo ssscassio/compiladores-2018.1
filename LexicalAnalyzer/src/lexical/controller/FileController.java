@@ -10,14 +10,16 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Classe responsavel pela manipulação de arquivos.
+ * Classe responsável pela manipulação de arquivos.
  * 
  * @author Cássio Santos
  * @author Beatriz de Brito
  */
 public class FileController {
 
+    /** Diretório padrão para leitura de arquivos de código fonte */
     public static final String INPUT_FOLDER = "entrada";
+    /** Diretório padrão para escrita de arquivos de resultado */
     public static final String OUTPUT_FOLDER = "saida";
 
     /**
@@ -28,10 +30,10 @@ public class FileController {
     }
 
     /**
-     * Carrega os arquivos dentro da pasta entrada na raiz do projeto.
+     * Carrega os arquivos dentro da pasta entrada na raiz do projeto como uma Lista de Strings.
      * 
      * @return Map de Listas onde as chaves do map são os caminhos dos arquivos de entrada
-     * e o valor é uma Lista de Strings contendo as linhas arquivo
+     * e o valor é uma Lista de Strings contendo as linhas arquivo.
      */
     public static Map<String, List<String>> readFiles() throws IOException {
         return Files.list(Paths.get(INPUT_FOLDER)).filter(path -> path.toString().endsWith(".txt"))
@@ -45,9 +47,11 @@ public class FileController {
     }
 
     /**
-     * Carrega os arquivos separando o conteúdo de cada um em Strings.
+     * Carrega os arquivos dentro da pasta entrada na raiz do projeto como uma unica String
+     * separada por \n.
      *  
-     * @return String com todas as linhas do arquivo separadas por \n
+     * @return Map de String onde as chaves do map são os caminhos dos arquivos de entrada
+     * e o valor é uma única Strings contendo as linhas arquivo separadas por \n.
      */
     public static Map<String, String> readFilesAsString() throws IOException {
         return Files.list(Paths.get(INPUT_FOLDER)).filter(path -> path.toString().endsWith(".txt"))
@@ -62,10 +66,12 @@ public class FileController {
     }
 
     /**
-     * Gera o arquivo de saida com os resultados obtidos.
+     * Método para salvar uma String em um arquivo no diretório pardrão de saída (OUTPUT_FOLDER) 
      * 
-     * @param fileName Nome do arquivo que será salvo
-     * @param results Conteudo que será salvo no arquivo
+     * @param   fileName 
+     *          Nome do arquivo que será salvo
+     * @param   results 
+     *          Conteúdo que será salvo no arquivo
      */
     public static void saveOnFile(String fileName, String results) {
         try {
@@ -75,5 +81,4 @@ public class FileController {
             ie.printStackTrace();
         }
     }
-
 }

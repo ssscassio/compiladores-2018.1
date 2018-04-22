@@ -30,9 +30,9 @@ public class LexicalError {
     }
 
     /**
-     * Retorna a linha aonde está localizado o erro.
+     * Retorna em qual linha está localizado o erro.
      * 
-     * @return linha do erro
+     * @return linha do erro.
      */
     public int getRow() {
         return this.row;
@@ -41,7 +41,7 @@ public class LexicalError {
     /**
      * Retorna o lexema que ocorreu o erro.
      * 
-     * @return lexema com erro
+     * @return lexema com erro.
      */
     public String getLexeme() {
         return this.lexeme;
@@ -50,17 +50,12 @@ public class LexicalError {
     /**
      * Retorna a mensagem de erro que deve ser apresentada para o usuário.
      * 
-     * @return mensagem de erro
+     * @return mensagem de erro.
      */
     public String getMessage() {
         return this.message;
     }
 
-     /**
-     * Retorna a mensagem em formato de String.
-     * 
-     * @return mensagem em formato de String.
-     */
     @Override
     public String toString() {
         return String.format("%02d %s %s", getRow(), getLexeme(), getMessage());

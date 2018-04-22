@@ -45,7 +45,7 @@ public class Token {
     }
 
     /**
-     * Retorna a linha aonde está localizado o token.
+     * Retorna em qual linha está localizado o token.
      * 
      * @return linha do token
      */
@@ -54,7 +54,7 @@ public class Token {
     }
 
     /**
-     * Retorna a coluna aonde começa o token.
+     * Retorna em que coluna começa o token.
      * 
      * @return coluna do token
      */
@@ -71,11 +71,6 @@ public class Token {
         return this.lexeme;
     }
 
-    /**
-     * Retorna o lexema em formato de String.
-     * 
-     * @return lexema em formato de String.
-     */
     @Override
     public String toString() {
         return String.format("%02d %s %s", getRow(), getType(), getLexeme());

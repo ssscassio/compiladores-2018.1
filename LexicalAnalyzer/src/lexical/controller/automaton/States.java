@@ -3,13 +3,12 @@ package lexical.controller.automaton;
 import lexical.util.LexemeType;
 
 /**
- * Classe contendo os estados do automato,
- * retornando os estados seguintes de acordo
- * com a entrada.
+ * Enum das classes dos estados não finais do autômato na qual são implementadas
+ * as transições de cada estado baseado no caractere sendo processado.
  * 
+ * @see State
  * @author Cássio Santos
  * @author Beatriz de Brito
- * @return proximo estado
  */
 public enum States implements State {
     STATE_INITIAL {
