@@ -10,19 +10,19 @@ import lexical.model.LexicalError;
 import lexical.model.Token;
 
 /**
- * Classe responsável pela etapa de análise lexica.
+ * Classe responsável pela etapa de análise léxica.
  * @author Cássio Santos
  * @author Beatriz de Brito
  */
 public class Lexer {
 
     /** 
-     * Lista de tokens encontrados na etapa de análise lexica.
+     * Lista de tokens encontrados na etapa de análise léxica.
      */
     private ArrayList<Token> tokens = new ArrayList<Token>();
 
     /** 
-     * Lista de erros encontrados na etapa de análise lexica.
+     * Lista de erros encontrados na etapa de análise léxica.
      */
     private ArrayList<LexicalError> errors = new ArrayList<LexicalError>();
 
