@@ -32,6 +32,7 @@ Antes de executar, garanta que os arquivos de entrada estejam dentro da pasta `.
 Na raiz do projeto, crie uma pasta para os arquivos *.class* compilados e compile os arquivos *.java*:
 
 ```
+mkdir target
 mkdir target/classes
 javac src/**/*.java -d target/classes
 ```
