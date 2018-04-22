@@ -9,20 +9,26 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Classe responsavel pela manipulação de arquivos.
+ * 
+ * @author Cássio Santos
+ * @author Beatriz de Brito
+ */
 public class FileController {
 
     public static final String INPUT_FOLDER = "entrada";
     public static final String OUTPUT_FOLDER = "saida";
 
     /**
-     * Construtor privado para previnir que a classe seja instanciada
+     * Construtor privado para previnir que a classe seja instanciada.
      */
     private FileController() {
         throw new AssertionError();
     }
 
     /**
-     * Carrega os arquivos dentro da pasta entrada na raiz do projeto
+     * Carrega os arquivos dentro da pasta entrada na raiz do projeto.
      * 
      * @return Map de Listas onde as chaves do map são os caminhos dos arquivos de entrada
      * e o valor é uma Lista de Strings contendo as linhas arquivo

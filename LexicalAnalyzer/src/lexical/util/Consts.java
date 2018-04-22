@@ -1,9 +1,10 @@
 package lexical.util;
 
 /**
- * Coleção de constantes de uso geral 
+ * Coleção de constantes de uso geral.
  * 
  * @author Cássio Santos
+ * @author Beatriz de Brito
  */
 public final class Consts {
 
@@ -25,7 +26,7 @@ public final class Consts {
     public static final String DELIMITER = "DEL";
 
     /**
-     * Construtor privado para previnir que a classe seja instanciada
+     * Construtor privado para previnir que a classe seja instanciada.
      */
     private Consts() {
         throw new AssertionError();

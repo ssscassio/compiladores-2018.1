@@ -1,29 +1,30 @@
 package lexical.model;
 
 /**
- * Compreende as informações de um token encontrado
+ * Compreende as informações de um token encontrado.
  * 
  * @author Cássio Santos
+ * @author Beatriz de Brito
  */
 public class Token {
 
     /**
-     * Linha onde está localizado o Token
+     * Linha onde está localizado o Token.
      */
     private final int row;
 
     /**
-     * Coluna onde está localizado o Token
+     * Coluna onde está localizado o Token.
      */
     private final int column;
 
     /**
-     *  Representa o tipo do Token 
+     *  Representa o tipo do Token.
      */
     private final String type;
 
     /**
-     * Representa o lexema do Token
+     * Representa o lexema do Token.
      */
     private final String lexeme;
 
@@ -35,7 +36,7 @@ public class Token {
     }
 
     /**
-     * Retorna o tipo do token
+     * Retorna o tipo do token.
      * 
      * @return Tipo do token
      */
@@ -44,7 +45,7 @@ public class Token {
     }
 
     /**
-     * Retorna a linha aonde está localizado o token
+     * Retorna a linha aonde está localizado o token.
      * 
      * @return linha do token
      */
@@ -53,7 +54,7 @@ public class Token {
     }
 
     /**
-     * Retorna a coluna aonde começa o token
+     * Retorna a coluna aonde começa o token.
      * 
      * @return coluna do token
      */
@@ -62,7 +63,7 @@ public class Token {
     }
 
     /**
-     * Retorna o lexema relacionado ao token
+     * Retorna o lexema relacionado ao token.
      * 
      * @return lexema do token
      */
@@ -70,6 +71,11 @@ public class Token {
         return this.lexeme;
     }
 
+    /**
+     * Retorna o lexema em formato de String.
+     * 
+     * @return lexema em formato de String.
+     */
     @Override
     public String toString() {
         return String.format("%02d %s %s", getRow(), getType(), getLexeme());

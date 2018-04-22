@@ -2,6 +2,15 @@ package lexical.controller.automaton;
 
 import lexical.util.LexemeType;
 
+/**
+ * Classe contendo os estados do automato,
+ * retornando os estados seguintes de acordo
+ * com a entrada.
+ * 
+ * @author Cássio Santos
+ * @author Beatriz de Brito
+ * @return proximo estado
+ */
 public enum States implements State {
     STATE_INITIAL {
         @Override
@@ -146,8 +155,6 @@ public enum States implements State {
         }
     },
     STATE_14 {
-        // TODO: Tomar cuidado na main quando encontrar um caractere MINUS
-        // Deve fazer o ponteiro resetar para o indice imediatamente próximo ao do '-'
         @Override
         public State next(char character) {
             if (LexemeType.isSpace(character)) {

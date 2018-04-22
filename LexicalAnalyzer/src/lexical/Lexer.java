@@ -9,8 +9,15 @@ import lexical.controller.automaton.*;
 import lexical.model.LexicalError;
 import lexical.model.Token;
 
+/**
+ * Classe responsável pela etapa do analisados lexico.
+ * 
+ * @author Cássio Santos
+ * @author Beatriz de Brito
+ */
 public class Lexer {
 
+    /** Criacao das variaveis. */
     private ArrayList<Token> tokens = new ArrayList<Token>();
     private ArrayList<LexicalError> errors = new ArrayList<LexicalError>();
     private String string;
@@ -19,6 +26,9 @@ public class Lexer {
         this.string = string;
     }
 
+    /**
+     * Metodo responsavel pela analise lexica.
+     */
     public void analyze() {
         tokens.clear();
         errors.clear();
@@ -147,11 +157,17 @@ public class Lexer {
         }
         return results;
     }
-
+    
     public String createOutputData() {
         return createOutputData(this.tokens, this.errors);
     }
 
+    /**
+     * Verifica qual o token indicado para aquele lexema.
+     * @param state estado a ser analisado
+     * @param lexeme lexema a ser analisado
+     * @return String com o nome do token correspondente
+     */
     private String getTokenName(State state, String lexeme) {
         switch ((FinalStates) state) {
         case INDENTIFIER:
@@ -181,6 +197,11 @@ public class Lexer {
         }
     }
 
+    /**
+     * Verifica qual o erro correspondende ao estado atual.
+     * @param state estado a ser analisado
+     * @return String com a mensagem de erro correspondente
+     */
     private String getErrorMessage(State state) {
         switch ((FinalStates) state) {
         case ERROR_STRING_NOT_CLOSED:

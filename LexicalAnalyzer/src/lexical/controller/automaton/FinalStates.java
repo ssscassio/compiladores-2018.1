@@ -1,5 +1,11 @@
 package lexical.controller.automaton;
 
+/**
+ * Classe contendo os possiveis estados finais de um automato.
+ * 
+ * @author Cássio Santos
+ * @author Beatriz de Brito
+ */
 public enum FinalStates implements FinalState {
     WHITE_SPACE {
         @Override

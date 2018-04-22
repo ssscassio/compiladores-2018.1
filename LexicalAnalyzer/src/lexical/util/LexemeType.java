@@ -4,14 +4,15 @@ import java.util.Arrays;
 
 /**
  * Utilitario para verificar Strings e informar se faz parte 
- * de determinado 'tipo/token' da linguagem
+ * de determinado 'tipo/token' da linguagem.
  * 
  * @author Cássio Santos
+ * @author Beatriz de Brito
  */
 public class LexemeType {
 
     /**
-     * Regex usadas para cada 'tipo' da linguagem
+     * Regex usadas para cada 'tipo' da linguagem.
      */
     private static final String LETTER_REGEX = "[a-zA-Z]";
     private static final String DIGIT_REGEX = "[\\d]";
@@ -29,21 +30,21 @@ public class LexemeType {
             + "(\\." + DIGIT_REGEX + DIGIT_REGEX + "*)?";
 
     /**
-     * Array que armazena todas as palavras reservadas da linguagem de forma ordenada
+     * Array que armazena todas as palavras reservadas da linguagem de forma ordenada.
      */
     private static final String KEYWORDS[] = { "bool", "const", "else", "extends", "false", "float", "function", "if",
             "int", "print", "procedure", "return", "scan", "start", "string", "struct", "then", "true", "typedef",
             "var", "while" };
 
     /**
-     * Construtor privado para previnir que a classe seja instanciada
+     * Construtor privado para previnir que a classe seja instanciada.
      */
     private LexemeType() {
         throw new AssertionError();
     }
 
     /**
-     * Verifica se uma string é do tipo letra
+     * Verifica se uma string é do tipo letra.
      * 
      * @param s String para ser validada
      * @return verdadeiro se a String s for uma letra, falso caso contrário
@@ -57,7 +58,7 @@ public class LexemeType {
     }
 
     /**
-     * Verifica se uma string é do tipo digito
+     * Verifica se uma string é do tipo digito.
      * 
      * @param s String para ser validada
      * @return verdadeiro se a String s for um digito, falso caso contrário
@@ -66,12 +67,18 @@ public class LexemeType {
         return s.matches(DIGIT_REGEX);
     }
 
+    /**
+     * Verifica se um char é do tipo digito.
+     * 
+     * @param c char para ser validado
+     * @return verdadeiro se o char c for um digito, falso caso contrário
+     */
     public static boolean isDigit(char c) {
         return isDigit(Character.toString(c));
     }
 
     /**
-     * Verifica se uma string é do tipo número
+     * Verifica se uma string é do tipo número.
      * 
      * @param s String para ser validada
      * @return verdadeiro se a String s for um número, falso caso contrário
@@ -81,7 +88,7 @@ public class LexemeType {
     }
 
     /**
-     * Verifica se uma string é do tipo identificador
+     * Verifica se uma string é do tipo identificador.
      * 
      * @param s String para ser validada
      * @return verdadeiro se a String s for um identificador, falso caso contrário
@@ -91,35 +98,47 @@ public class LexemeType {
     }
 
     /**
-     * Verifica se uma string é do tipo Espaco
+     * Verifica se uma string é do tipo Espaco.
      * 
      * @param s String para ser validada
-     * @return verdadeiro se a String s for um Espaco, falso caso contrário
+     * @return verdadeiro se a String s for um espaco, falso caso contrário
      */
     public static boolean isSpace(String s) {
         return s.matches(SPACE_REGEX);
     }
 
+    /**
+     * Verifica se um char é do tipo Espaco.
+     * 
+     * @param c char para ser validado
+     * @return verdadeiro se o char c for um espaco, falso caso contrário
+     */
     public static boolean isSpace(char c) {
         return isSpace(Character.toString(c));
     }
 
     /**
-     * Verifica se uma string é do tipo Simbolo
+     * Verifica se uma string é do tipo Simbolo.
      * 
      * @param s String para ser validada
-     * @return verdadeiro se a String s for um Simbolo, falso caso contrário
+     * @return verdadeiro se a String s for um simbolo, falso caso contrário
      */
     public static boolean isSymbol(String s) {
         return s.matches(SYMBOL_REGEX);
     }
 
+    /**
+     * Verifica se um char é do tipo Simbolo.
+     * 
+     * @param c char para ser validado
+     * @return verdadeiro se o char c for um simbolo, falso caso contrário
+     */
     public static boolean isSymbol(char c) {
         return isSymbol(Character.toString(c));
     }
 
     /**
-     * Verifica se uma string é do tipo Cadeia de caracteres
+     * Verifica se uma string é do tipo Cadeia de caracteres.
      * 
      * @param s String para ser validada
      * @return verdadeiro se a String s for uma Cadeia de caracteres, falso caso contrário
@@ -129,21 +148,27 @@ public class LexemeType {
     }
 
     /**
-     * Verifica se uma string é do tipo Delimitador
+     * Verifica se uma string é do tipo Delimitador.
      * 
      * @param s String para ser validada
-     * @return verdadeiro se a String s for um Delimitador, falso caso contrário
+     * @return verdadeiro se a String s for um delimitador, falso caso contrário
      */
     public static boolean isDelimiter(String s) {
         return s.matches(DELIMITER_REGEX);
     }
 
+    /**
+     * Verifica se um char é do tipo Delimitador.
+     * 
+     * @param c char para ser validado
+     * @return verdadeiro se o char c for um delimitador, falso caso contrário
+     */
     public static boolean isDelimiter(char c) {
         return isDelimiter(Character.toString(c));
     }
 
     /**
-     * Verifica se uma string é do tipo operador lógico
+     * Verifica se uma string é do tipo operador lógico.
      * 
      * @param s String para ser validada
      * @return verdadeiro se a String s for um operador lógico, falso caso contrário
@@ -153,7 +178,7 @@ public class LexemeType {
     }
 
     /**
-     * Verifica se uma string é do tipo operador relacional
+     * Verifica se uma string é do tipo operador relacional.
      * 
      * @param s String para ser validada
      * @return verdadeiro se a String s for um operador relacional, falso caso contrário
@@ -163,7 +188,7 @@ public class LexemeType {
     }
 
     /**
-     * Verifica se uma string é do tipo operador aritmético
+     * Verifica se uma string é do tipo operador aritmético.
      * 
      * @param s String para ser validada
      * @return verdadeiro se a String s for um operador aritmético, falso caso contrário
@@ -174,7 +199,7 @@ public class LexemeType {
 
     /**
      * Verifica se uma string é palavra reservada fazendo busca binária
-     * na lista de palavras reservadas
+     * na lista de palavras reservadas.
      * 
      * @param s String para ser validada
      * @return verdadeiro se a String s for uma palavra reservada da linguagem, falso caso contrário
@@ -184,7 +209,7 @@ public class LexemeType {
     }
 
     /**
-     * Verifica se uma string pertence a linguagem
+     * Verifica se uma string pertence a linguagem.
      * 
      * @param s String para ser verificada
      * @return verdadeiro se a String s pertencer a linguagem, falso caso contrário
@@ -194,6 +219,12 @@ public class LexemeType {
                 || isNumber(s) || isRelational(s) || isSpace(s) || isString(s) || isSymbol(s);
     }
 
+    /**
+     * Verifica se um char pertence a linguagem.
+     * 
+     * @param c char para ser verificada
+     * @return verdadeiro se o char c pertencer a linguagem, falso caso contrário
+     */
     public static boolean belongsToLanguage(char c) {
         return belongsToLanguage(Character.toString(c));
     }
@@ -208,6 +239,12 @@ public class LexemeType {
         return s.matches(LETTER_DIGIT_UNDERSCORE_REGEX);
     }
 
+    /**
+     * Verifica se um char pertence é uma letra, digito ou _
+     * 
+     * @param c char para ser verificada
+     * @return verdadeiro se o char c é um dos casos especificados, falso caso contrário
+     */
     public static boolean isLetterDigitOrUnderscore(char c) {
         return isLetterDigitOrUnderscore(Character.toString(c));
     }

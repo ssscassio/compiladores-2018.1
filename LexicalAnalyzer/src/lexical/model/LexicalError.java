@@ -1,24 +1,25 @@
 package lexical.model;
 
 /**
- * Compreende as informações de um erro encontrado
+ * Compreende as informações de um erro encontrado.
  * 
  * @author Cássio Santos
+ * @author Beatriz de Brito
  */
 public class LexicalError {
 
     /**
-     * Linha onde está localizado o Erro Léxico
+     * Linha onde está localizado o Erro Léxico.
      */
     private final int row;
 
     /**
-     * Representa o lexema que ocorreu o erro
+     * Representa o lexema que ocorreu o erro.
      */
     private final String lexeme;
 
     /**
-     *  Representa a mensagem de erro para ser apresentado
+     *  Representa a mensagem de erro para ser apresentado.
      */
     private final String message;
 
@@ -29,7 +30,7 @@ public class LexicalError {
     }
 
     /**
-     * Retorna a linha aonde está localizado o erro
+     * Retorna a linha aonde está localizado o erro.
      * 
      * @return linha do erro
      */
@@ -38,7 +39,7 @@ public class LexicalError {
     }
 
     /**
-     * Retorna o lexema que ocorreu o erro
+     * Retorna o lexema que ocorreu o erro.
      * 
      * @return lexema com erro
      */
@@ -47,7 +48,7 @@ public class LexicalError {
     }
 
     /**
-     * Retorna a mensagem de erro que deve ser apresentada para o usuário
+     * Retorna a mensagem de erro que deve ser apresentada para o usuário.
      * 
      * @return mensagem de erro
      */
@@ -55,6 +56,11 @@ public class LexicalError {
         return this.message;
     }
 
+     /**
+     * Retorna a mensagem em formato de String.
+     * 
+     * @return mensagem em formato de String.
+     */
     @Override
     public String toString() {
         return String.format("%02d %s %s", getRow(), getLexeme(), getMessage());
