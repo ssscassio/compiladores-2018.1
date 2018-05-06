@@ -1,0 +1,96 @@
+"Name"     = 'TODO: MyLanguage Grammar'
+"Author"   =  'TODO: List of Authors'
+"Version"  = '0.1'
+"About"    = 'TODO: MyLanguage Grammar,'
+
+"Case Sensitive" = True
+"Start Symbol" = <Program>
+
+! Reference: http://www.goldparser.org/doc/grammars/index.htm
+
+! =================================================
+! Character Sets
+! =================================================
+
+{ID Head}       = {Letter}
+{ID Tail}       = {Alphanumeric} + [_]
+
+{String Chars}  = {Printable} + {AlphaNumeric} - ["\]
+
+! =================================================
+! Terminals
+! =================================================
+
+Identifier      = {ID Head}{ID Tail}*
+
+! =================================================
+! Comments
+! =================================================
+
+Comment Start   = '/*'
+Comment End     = '*/'
+Comment Line    = '//'
+
+! =================================================
+! Rules
+! =================================================
+
+! -------------------------------------------------
+! Function, Procedure and Start Declaration
+! -------------------------------------------------
+
+<Function Declaration>  ::= 'function' <FuncID> '(' <Params> ')' <Block>
+                        | 'function' <FuncID> '(' ')' <Block>
+
+<Procedure Declaration> ::= 'procedure' <ProcID> '(' <Params> ')' <Block>
+                        | 'procedure' <ProcID> '(' ')' <Block>
+                                               
+<Start Declaration>     ::= 'start' '(' ')' <Block>
+
+<Block>     ::= '{' <Statement List> '}'
+            | '{' '}'
+
+<FuncID>    ::= <Type> Identifier
+
+<ProcID>    ::= Identifier
+
+<Params>    ::= <Param> ',' <Params>
+            | <Param>
+<Param>      ::= <Type> Identifier
+
+<Return Statement>  ::= 'return' ';'
+                    | 'return' <Expression> ';'
+
+! -------------------------------------------------
+! Base
+! -------------------------------------------------
+
+<Program>       ::= <Declarations>
+
+<Declarations>  ::= <Declaration> <Declarations>
+                | <Declaration> ! TODO: Verificar situação que o programa não tem declarações
+
+<Declaration>   ::= <Function Declaration>
+                | <Procedure Declaration>
+                | <Start Declaration>
+
+<Statement List>    ::= <Statement> 
+                    | <Statement> <Statement List>
+
+<Statement> ::= <Return Statement> ! TODO: Colocar os outros Statements aqui
+
+<Expression> ::= Identifier ! TODO: Expression
+
+! -------------------------------------------------
+! Types
+! -------------------------------------------------
+
+<Type>      ::= <Scalar>
+            | struct Identifier
+
+<Scalar>    ::= int
+            | float
+            | bool
+            | string
+
+
