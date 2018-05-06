@@ -56,13 +56,11 @@ Comment Line    = '//'
 
 <Params>    ::= <Param> ',' <Params>
             | <Param>
+
 <Param>      ::= <Type> Identifier
 
-<Return Statement>  ::= 'return' ';'
-                    | 'return' <Expression> ';'
-
 ! -------------------------------------------------
-! Base
+! Base and Statments
 ! -------------------------------------------------
 
 <Program>       ::= <Declarations>
@@ -77,9 +75,13 @@ Comment Line    = '//'
 <Statement List>    ::= <Statement> 
                     | <Statement> <Statement List>
 
-<Statement> ::= <Return Statement> ! TODO: Colocar os outros Statements aqui
+<Statement> ::= <Normal Statement> ! TODO: Colocar os outros Statements aqui
 
-<Expression> ::= Identifier ! TODO: Expression
+<Normal Statement>  ::= <Expression> ';' 
+                    | <Return Statement>
+
+<Return Statement>  ::= 'return' ';'
+                    | 'return' <Expression> ';'
 
 ! -------------------------------------------------
 ! Types
@@ -93,4 +95,20 @@ Comment Line    = '//'
             | bool
             | string
 
+! -------------------------------------------------
+! Operator Precedence
+! -------------------------------------------------
 
+<Expression>    ::= <Op Assign> ',' <Expression> ! TODO: Change <Value> to the next level of precedence
+                | <Op Assign> ! TODO: Change <Value> to the next level of precedence
+
+<Op Assign>     ::= <Value> '=' <Value>
+                | <Value>
+
+! TODO: Levels of operator precedence.
+
+
+! <Value> must be the last level of precedence
+<Value> ::= Identifier '(' <Expression> ')' ! Function with params
+            | Identifier '(' ')' ! Function without params
+            | Identifier ! Simple param
