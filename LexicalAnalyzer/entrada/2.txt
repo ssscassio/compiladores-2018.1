@@ -1,3 +1,0 @@
-function funcao( var algo ) {
-    funcao(algo);
-}

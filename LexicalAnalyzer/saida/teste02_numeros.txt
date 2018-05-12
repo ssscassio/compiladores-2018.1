@@ -1,0 +1,40 @@
+04 NRO 1
+04 DEL .
+04 DEL .
+04 NRO 3
+04 DEL ;
+05 NRO 1.3
+05 DEL .
+05 NRO 3.6
+05 ART +
+05 NRO 10
+06 NRO 1
+06 DEL .
+06 NRO 5
+06 REL >
+06 NRO 20.6
+07 NRO 9
+07 DEL .
+07 IDE a
+07 ART +
+07 NRO 3
+08 NRO 1
+08 ART --
+08 NRO 2
+10 NRO -
+20
+11 IDE a
+11 ART ++
+11 ART +
+12 NRO -		
+2
+13 NRO -2
+13 NRO -2
+14 NRO -12
+14 ART --
+14 NRO -2
+15 NRO -2
+15 ART - 
+15 ART -
+
+06 @ Caractere invalido.

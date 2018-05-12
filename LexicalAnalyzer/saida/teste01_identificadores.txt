@@ -1,0 +1,27 @@
+03 PRE start
+03 IDE principal
+03 DEL (
+03 DEL )
+04 DEL {
+05 PRE int
+05 IDE cont
+05 IDE dor
+05 DEL ;
+06 IDE x
+06 DEL ;
+08 IDE salario
+08 IDE mes
+08 DEL ;
+10 IDE flag_
+10 NRO 1
+10 DEL ,
+10 IDE flag2
+10 IDE flag_3_
+10 DEL ;
+12 IDE uefs_123
+
+05 @ Caractere invalido.
+06 _ Caractere invalido.
+08 $ Caractere invalido.
+10 # Caractere invalido.
+10 # Caractere invalido.

@@ -1,0 +1,15 @@
+04 IDE a
+04 REL >
+04 IDE b
+05 PRE print
+06 IDE a
+06 REL =
+07 NRO 6
+07 ART +
+07 IDE e
+
+03 @ Caractere invalido.
+04 ? Caractere invalido.
+05 $ Caractere invalido.
+06 # Caractere invalido.
+07 ^ Caractere invalido.

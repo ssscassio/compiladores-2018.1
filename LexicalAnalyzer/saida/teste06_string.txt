@@ -1,0 +1,9 @@
+03 CAD " ok "
+07 IDE nao
+07 IDE fechada
+11 CAD " diga \"oi\""
+
+06 "string Cadeia de caractere mal formada.
+08 " Cadeia de caractere mal formada.
+09 " string com simbolo invalido ₢ " Caractere invalido na cadeia de caracteres.
+13 " string \"nao fechada\" Cadeia de caractere mal formada.

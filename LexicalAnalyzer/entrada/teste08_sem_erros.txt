@@ -1,0 +1,26 @@
+/* teste08 - sem erros
+*/
+const int MAX = 10, MAX2 = 50;
+	
+string Mensagem = "Hello world";
+
+class principal {  
+
+	main( ) { // comeca aqui o programa principal 
+
+		int idade; 
+		float salario;
+		string nome;
+
+		print("Digite o nome");
+		scan(nome);
+		print("Digite a idade");
+		scan(idade);
+		
+		if (idade >= 150) print("pode aposentar kkkk");
+		else {
+			print("vai trabalhar");
+			salario = salario; // hehehe
+		}	
+	}  // fim main 
+} // fim class principal

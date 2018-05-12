@@ -1,0 +1,41 @@
+03 IDE a
+03 LOG !
+03 REL =
+03 LOG !
+03 IDE b
+04 IDE a
+04 REL !=
+04 LOG !
+04 IDE b
+05 IDE a
+05 REL >=
+05 IDE b
+05 IDE b
+05 REL <
+05 REL =
+05 IDE d
+06 IDE a
+06 LOG &&
+06 IDE b
+06 ART *
+06 NRO 2
+07 LOG !
+07 IDE b
+07 ART --
+07 REL <=
+07 REL =
+07 IDE d
+08 IDE a
+08 REL >
+08 REL >=
+08 NRO 10
+08 ART +
+08 NRO 20
+08 ART /
+08 LOG &&
+08 NRO 100
+
+05 & Operador logico incompleto.
+05 & Operador logico incompleto.
+07 | Operador logico incompleto.
+07 | Operador logico incompleto.
