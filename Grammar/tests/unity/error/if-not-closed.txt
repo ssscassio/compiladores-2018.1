@@ -1,0 +1,6 @@
+start () {
+    if (a==b) then{
+        print ( test );
+    } else {
+        print ( test2 );
+}

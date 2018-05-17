@@ -1,0 +1,16 @@
+start () {
+
+    struct StudentCard{
+        string name;
+        string course;
+        float exam_1;
+        float exam_2;  
+    }
+
+    var {
+        struct StudentCard student;  
+    }
+
+    student.name = "Joaozinho";
+
+}

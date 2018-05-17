@@ -1,0 +1,4 @@
+start () {
+    function() = a;
+    anotherFunction() = 0;
+}

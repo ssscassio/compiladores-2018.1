@@ -1,0 +1,4 @@
+start () {
+    scan (variable);
+    scan (age, year[10], user.weight);
+}

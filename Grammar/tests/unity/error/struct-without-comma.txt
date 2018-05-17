@@ -1,0 +1,8 @@
+start () {
+
+    struct Students{
+        string nome;
+        float math, physics, media;
+    }
+
+}

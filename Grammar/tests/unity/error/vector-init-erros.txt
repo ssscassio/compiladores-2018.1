@@ -1,0 +1,12 @@
+start () {
+
+    var {
+        int[20] vector;
+        "string"[] vector;
+        int vector[10];
+        string[][5] vector;
+        string[];
+        bool[] functionName();
+    }
+
+}

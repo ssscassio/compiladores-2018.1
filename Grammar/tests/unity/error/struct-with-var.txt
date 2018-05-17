@@ -1,0 +1,10 @@
+start () {
+
+    struct Students {
+        var {
+            string nome;
+            float math, physics, mean;
+        }
+    };
+
+}

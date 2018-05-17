@@ -1,0 +1,12 @@
+start () {
+
+    struct Students{
+        string nome;
+        float math, physics, mean;
+    };
+
+    struct ComputerStudents extends{
+        float algorithm, compiler;
+    }
+
+}

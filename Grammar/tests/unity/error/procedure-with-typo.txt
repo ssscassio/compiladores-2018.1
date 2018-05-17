@@ -1,0 +1,4 @@
+procedur nameOfProcedure ( ) {
+    functionName();
+    anotherVar = functionName();
+}

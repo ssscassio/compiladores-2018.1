@@ -1,0 +1,8 @@
+start () {
+    var {
+        int number, rate, total;
+        float mean;
+        bool approved, end;
+        string name;
+    }
+}

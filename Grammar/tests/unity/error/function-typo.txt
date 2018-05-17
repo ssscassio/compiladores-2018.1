@@ -1,0 +1,5 @@
+funtion int functionName () {
+    functionName();
+    anotherVar = functionName();
+    return anything;
+}

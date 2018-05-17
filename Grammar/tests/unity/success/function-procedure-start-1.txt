@@ -1,0 +1,14 @@
+function int functionName () {
+    functionName();
+    anyVar = functionName();
+    return;
+}
+
+procedure procedureName () {
+    functionName();
+    anyVar = functionName();
+}
+
+start() {
+    procedureName();
+}

@@ -1,0 +1,28 @@
+struct a {
+    int a;
+}
+
+function int a (int b, struct a c){
+    struct z {
+        int a;
+    };
+}
+
+start(){
+    struct z {
+        int a;
+    };
+    asd++;
+
+    if(a) then{
+        struct z {
+            int a;
+        };
+    }
+}
+
+var {
+    struct y {
+        int a;
+    } a, b, c,d;
+}

@@ -52,7 +52,7 @@ Comment Line    = '//'
 
 <FuncID>    ::= <Type> Identifier
 
-<ProcID>    ::= Identifier
+<ProcID>    ::= Identifier ! TODO: Excluir produção unitária
 
 <Params>    ::= <Param> ',' <Params>
             | <Param>
@@ -63,7 +63,7 @@ Comment Line    = '//'
 ! Base and Statments
 ! -------------------------------------------------
 
-<Program>       ::= <Declarations>
+<Program>       ::= <Declarations> ! TODO: Excluir produção unitária
 
 <Declarations>  ::= <Declaration> <Declarations>
                 | <Declaration> ! TODO: Verificar situação que o programa não tem declarações

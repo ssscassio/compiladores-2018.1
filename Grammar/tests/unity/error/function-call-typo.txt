@@ -1,0 +1,9 @@
+function int functionName ( ) {
+    functionName();
+    anotherVar = functionName();
+    return anything;
+}
+
+procedure nameOfProcedure ( ) {
+    anything = functionName(;
+}

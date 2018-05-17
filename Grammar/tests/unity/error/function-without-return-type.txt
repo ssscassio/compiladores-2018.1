@@ -1,0 +1,4 @@
+function functionName () {
+    functionName();
+    anotherVar = functionName();
+}

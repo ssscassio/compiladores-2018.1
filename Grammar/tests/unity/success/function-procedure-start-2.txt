@@ -1,0 +1,14 @@
+function int functionName (int firstParameter, float[][] secondParameter) {
+    functionName();
+    anotherVar = functionName();
+    return anything;
+}
+
+procedure procedureName (typeDefinedByUser secondParameter, int anything) {
+    functionName();
+    anotherVar = functionName(secondParameter, firstParameter);
+}
+
+start () {
+    procedureName();
+}

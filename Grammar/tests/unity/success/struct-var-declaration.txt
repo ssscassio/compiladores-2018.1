@@ -1,0 +1,5 @@
+var {
+    struct extends previousCreatedStruct { 
+        int newFieldNotOnPreviousCreated;
+    } nameOfVar;
+}

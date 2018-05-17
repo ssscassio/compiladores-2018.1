@@ -1,0 +1,3 @@
+start () {
+    operation.someThing.anotherThing = anything;
+}
