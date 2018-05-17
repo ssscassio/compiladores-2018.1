@@ -1,10 +1,10 @@
-"Name"     = 'TODO: MyLanguage Grammar'
-"Author"   =  'TODO: List of Authors'
-"Version"  = '0.1'
-"About"    = 'TODO: MyLanguage Grammar,'
+"Name"  = 'TODO: MyLanguage Grammar'
+"Author"    =  'TODO: List of Authors'
+"Version"   = '0.1'
+"About"     = 'TODO: MyLanguage Grammar,'
 
-"Case Sensitive" = True
-"Start Symbol" = <Program>
+"Case Sensitive"     = True
+"Start Symbol"      = <Program>
 
 ! Reference: http://www.goldparser.org/doc/grammars/index.htm
 
@@ -22,14 +22,8 @@
 ! =================================================
 
 Identifier      = {ID Head}{ID Tail}*
-
-! =================================================
-! Comments
-! =================================================
-
-Comment Start   = '/*'
-Comment End     = '*/'
-Comment Line    = '//'
+Numbers         = ( '-' )? {Number}+ ( '.' {Number}+ )?
+String          = '"' ({String Chars} | '\' {Printable})* '"'
 
 ! =================================================
 ! Rules
@@ -39,76 +33,252 @@ Comment Line    = '//'
 ! Function, Procedure and Start Declaration
 ! -------------------------------------------------
 
-<Function Declaration>  ::= 'function' <FuncID> '(' <Params> ')' <Block>
-                        | 'function' <FuncID> '(' ')' <Block>
+<Function Declaration>      ::= 'function' <Function Id> '(' <Function Procedure Tail>
 
-<Procedure Declaration> ::= 'procedure' <ProcID> '(' <Params> ')' <Block>
-                        | 'procedure' <ProcID> '(' ')' <Block>
-                                               
-<Start Declaration>     ::= 'start' '(' ')' <Block>
+<Procedure Declaration>     ::= 'procedure' Identifier '(' <Function Procedure Tail>
 
-<Block>     ::= '{' <Statement List> '}'
-            | '{' '}'
+<Start Declaration>         ::= 'start' '(' ')' <Block>
 
-<FuncID>    ::= <Type> Identifier
+<Function Procedure Tail>   ::= <Params Declaration> ')' <Block> 
+                              | ')' <Block>
 
-<ProcID>    ::= Identifier ! TODO: Excluir produção unitária
+<Block>         ::= '{' <Block Aux>
+<Block Aux>     ::= <Statement List> '}'
+                  | '}'
 
-<Params>    ::= <Param> ',' <Params>
-            | <Param>
+<Function Id>   ::= <Type> Identifier
 
-<Param>      ::= <Type> Identifier
+<Params Declaration>        ::= <Param> <Params Declaration Aux>
+<Params Declaration Aux>    ::= ',' <Params Declaration>
+                              | <>
+
+<Param>         ::= <Type> Identifier
 
 ! -------------------------------------------------
-! Base and Statments
+! Type Declaration (Typedef)
 ! -------------------------------------------------
 
-<Program>       ::= <Declarations> ! TODO: Excluir produção unitária
+<Type Declaration>          ::= 'typedef' <Type Declaration Aux>
+<Type Declaration Aux>      ::= <Type> Identifier ';'
 
-<Declarations>  ::= <Declaration> <Declarations>
-                | <Declaration> ! TODO: Verificar situação que o programa não tem declarações
+! -------------------------------------------------
+! Base and Declarations
+! -------------------------------------------------
+
+<Program>       ::= <Declaration> <Program Aux>
+<Program Aux>   ::= <Program>
+                  | <>
 
 <Declaration>   ::= <Function Declaration>
-                | <Procedure Declaration>
-                | <Start Declaration>
+                  | <Procedure Declaration>
+                  | <Start Declaration>
+                  | <Var Declaration>
+                  | <Const Declaration>
+                  | <Struct Declaration>
+                  | <Type Declaration>
 
-<Statement List>    ::= <Statement> 
-                    | <Statement> <Statement List>
+! -------------------------------------------------
+! Statements
+! -------------------------------------------------
 
-<Statement> ::= <Normal Statement> ! TODO: Colocar os outros Statements aqui
+<Statement List>        ::= <Statement> <Statement List Aux>
+<Statement List Aux>    ::= <Statement List>
+                          | <>
 
-<Normal Statement>  ::= <Expression> ';' 
-                    | <Return Statement>
+<Statement> ::= <Normal Statement>
+              | <If Statement>
+              | <While Statement>
+              | <Var Declaration>
+              | <Const Declaration>
+              | <Type Declaration>
 
-<Return Statement>  ::= 'return' ';'
-                    | 'return' <Expression> ';'
+<Normal Statement>      ::= <Op Assign> ';'
+                          | <Struct Declaration> ';'
+                          | <Return Statement> ';'
+                          | <Print Statement> ';'
+                          | <Scan Statement> ';'
+
+<Return Statement>      ::= 'return' <Return Statement Aux>
+<Return Statement Aux>  ::= <Expression> 
+                          |  <>
 
 ! -------------------------------------------------
 ! Types
 ! -------------------------------------------------
 
-<Type>      ::= <Scalar>
-            | struct Identifier
+<Type>      ::= <Type Base> <Type Aux>
+<Type Aux>  ::= <Array Type>
+              | <>
 
-<Scalar>    ::= int
-            | float
-            | bool
-            | string
+<Type Base> ::= <Scalar>
+              | <Struct Declaration>
+              | Identifier
+              | 'struct' Identifier
+
+<Scalar>    ::= 'int'
+              | 'float'
+              | 'bool'
+              | 'string'
+
+<Array Type>        ::= <Array Type Field> <Array Type Aux>
+<Array Type Aux>    ::= <Array Type>
+                      | <>
+
+<Array Type Field>  ::= '[' ']'
 
 ! -------------------------------------------------
 ! Operator Precedence
 ! -------------------------------------------------
 
-<Expression>    ::= <Op Assign> ',' <Expression> ! TODO: Change <Value> to the next level of precedence
-                | <Op Assign> ! TODO: Change <Value> to the next level of precedence
+<Op Assign>     ::= <Value Write or Read> '=' <Expression>
+                  | Identifier '=' <Expression>
+                  | <Expression>
 
-<Op Assign>     ::= <Value> '=' <Value>
-                | <Value>
+<Params>        ::= <Expression> <Params Aux>
+<Params Aux>    ::= ',' <Params>
+                  | <>
 
-! TODO: Levels of operator precedence.
+<Expression>        ::= <Op And> <Expression Aux>
+<Expression Aux>    ::= '||' <Expression>
+                      | <>
 
+<Op And>        ::= <Op Relational> <Op And Aux>
+<Op And Aux>    ::= '&&' <Op And>
+                  | <>
 
-! <Value> must be the last level of precedence
-<Value> ::= Identifier '(' <Expression> ')' ! Function with params
-            | Identifier '(' ')' ! Function without params
-            | Identifier ! Simple param
+<Op Relational>     ::= <Op Add> <Op Relational Aux>
+<Op Relational Aux> ::= <Relational Symbol> <Op Relational>
+                      | <>
+
+<Relational Symbol> ::= '!='
+                      | '=='
+                      | '<'
+                      | '<='
+                      | '>'
+                      | '>='
+
+<Op Add>        ::= <Op Mult> <Op Add Aux>
+<Op Add Aux>    ::= '+' <Op Mult> <Op Add Aux>
+                  | '-' <Op Mult> <Op Add Aux>
+                  | <>
+
+<Op Mult>       ::= <Op Unary> <Op Mult Aux>
+<Op Mult Aux>   ::= '*' <Op Unary> <Op Mult Aux>
+                  | '/' <Op Unary> <Op Mult Aux>
+                  | <>
+
+<Op Unary>      ::= '!' <Op Unary>
+                  | '++' <Op Unary>
+                  | '--' <Op Unary>
+                  | <Value Write or Read>
+                  | <Value Read Only>
+
+<Value Write or Read>   ::= Identifier <Accessing> 
+
+<Accessing>             ::= <Field> <Accessing Aux>
+<Accessing Aux>         ::= <Accessing>
+                          | <>
+
+<Field>                 ::= '.' Identifier ! Acesso de campo
+                          | '[' <Expression> ']' ! Acesso de array
+
+<Value Read Only>   ::= Identifier <Value Aux_1>
+                      | '(' <Expression> ')'
+                      | Numbers
+                      | String
+                      | 'true'
+                      | 'false'
+<Value Aux_1>       ::= '(' <Value Aux_2>
+                  | <>
+<Value Aux_2>       ::= <Params> ')'
+                  | ')'
+
+! -------------------------------------------------------------------
+! Var Declaration
+! -------------------------------------------------------------------
+
+<Var Declaration>           ::= 'var'  '{'  <Var Body> '}'
+
+<Var Body>      ::= <Var Row> <Var Body Aux>
+<Var Body Aux>  ::= <Var Body>
+                  | <> 
+
+<Var Row>       ::= <Type> <Var Identifier List>
+
+<Var Identifier List>       ::= <Var Identifier> <Var Identifier List Aux>
+<Var Identifier List Aux>   ::= ';'
+                              | ',' <Var Identifier List>
+
+<Var Identifier>        ::= Identifier <Var Identifier Aux>
+<Var Identifier Aux>    ::= '=' <Expression>
+                          | <>
+
+! -------------------------------------------------------------------
+! Const Declaration
+! -------------------------------------------------------------------
+
+<Const Declaration>             ::= 'const'  '{'  <Const Body> '}'
+
+<Const Body>        ::= <Const Row> <Const Body Aux>
+<Const Body Aux>    ::= <Const Body>
+                      | <>
+
+<Const Row>         ::= <Type> <Const Identifier List>
+
+<Const Identifier List>     ::= <Const Identifier> <Const Identifier List Aux>
+<Const Identifier List Aux> ::= ';' 
+                              | ',' <Const Identifier List>
+
+<Const Identifier>  ::= Identifier '=' <Expression>
+
+! -------------------------------------------------------------------
+! Struct Declaration
+! -------------------------------------------------------------------
+
+<Struct Declaration>        ::= 'struct' <Struct Declaration Aux>
+<Struct Declaration Aux>    ::= Identifier <Struct Extends>'{'  <Struct Body> '}'
+                              |  <Struct Extends>'{'  <Struct Body> '}'
+<Extends>   ::= 'extends' Identifier
+              | <>
+
+<Struct Body>       ::= <Struct Row> <Struct Body Aux>
+<Struct Body Aux>   ::= <Struct Body>
+                      | <>
+
+<Struct Row>    ::= <Type> <Struct Identifier List>
+
+<Struct Identifier List>        ::= <Struct Identifier> <Struct Identifier List Aux>
+<Struct Identifier List Aux>    ::= ';'
+                                  | ',' <Struct Identifier List>
+
+<Struct Identifier>   ::= Identifier
+
+! -------------------------------------------------------------------
+! Conditional Statements
+! -------------------------------------------------------------------
+
+<If Statement>      ::= <If Then> <If Statement Aux>
+<If Statement Aux>  ::= 'else' <Block>
+                      | <>
+
+<If Then> ::= 'if' '(' <Expression> ')' 'then' <Block>
+
+! -------------------------------------------------------------------
+! Repetition Statements
+! -------------------------------------------------------------------
+
+<While Statement> ::= 'while' '(' <Expression> ')' <Block>
+
+! -------------------------------------------------------------------
+! Print Statement & Scan Statement
+! -------------------------------------------------------------------
+
+<Print Statement>   ::= 'print' '(' <Output> <Output List> ')'
+<Output>            ::= <Expression>
+<Output List>       ::= ',' <Output> <Output List> 
+                      | <>
+
+<Scan Statement>    ::= 'scan' '(' <Input> <Input List> ')'
+<Input>             ::= <Value Write or Read>  | Identifier
+<Input List>        ::= ',' <Input> <Input List> 
+                      | <>
