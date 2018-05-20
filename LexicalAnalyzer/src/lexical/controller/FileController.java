@@ -30,13 +30,14 @@ public class FileController {
     }
 
     /**
-     * Carrega os arquivos dentro da pasta entrada na raiz do projeto como uma Lista de Strings.
+     * Carrega os arquivos dentro da pasta entrada na raiz do projeto como uma Lista
+     * de Strings.
      * 
-     * @return Map de Listas onde as chaves do map são os caminhos dos arquivos de entrada
-     * e o valor é uma Lista de Strings contendo as linhas arquivo.
+     * @return Map de Listas onde as chaves do map são os caminhos dos arquivos de
+     *         entrada e o valor é uma Lista de Strings contendo as linhas arquivo.
      */
     public static Map<String, List<String>> readFiles() throws IOException {
-        return Files.list(Paths.get(INPUT_FOLDER)).filter(path -> path.toString().endsWith(".txt"))
+        return Files.list(Paths.get(INPUT_FOLDER)).filter(path -> path.toString().endsWith(".top"))
                 .collect(Collectors.toMap(path -> path.toString(), path -> {
                     try {
                         return Files.readAllLines(path);
@@ -47,14 +48,15 @@ public class FileController {
     }
 
     /**
-     * Carrega os arquivos dentro da pasta entrada na raiz do projeto como uma unica String
-     * separada por \n.
-     *  
-     * @return Map de String onde as chaves do map são os caminhos dos arquivos de entrada
-     * e o valor é uma única Strings contendo as linhas arquivo separadas por \n.
+     * Carrega os arquivos dentro da pasta entrada na raiz do projeto como uma unica
+     * String separada por \n.
+     * 
+     * @return Map de String onde as chaves do map são os caminhos dos arquivos de
+     *         entrada e o valor é uma única Strings contendo as linhas arquivo
+     *         separadas por \n.
      */
     public static Map<String, String> readFilesAsString() throws IOException {
-        return Files.list(Paths.get(INPUT_FOLDER)).filter(path -> path.toString().endsWith(".txt"))
+        return Files.list(Paths.get(INPUT_FOLDER)).filter(path -> path.toString().endsWith(".top"))
                 .collect(Collectors.toMap(path -> path.toString(), path -> {
                     try {
                         return new String(Files.lines(path, StandardCharsets.ISO_8859_1)
@@ -66,12 +68,11 @@ public class FileController {
     }
 
     /**
-     * Método para salvar uma String em um arquivo no diretório pardrão de saída (OUTPUT_FOLDER) 
+     * Método para salvar uma String em um arquivo no diretório pardrão de saída
+     * (OUTPUT_FOLDER)
      * 
-     * @param   fileName 
-     *          Nome do arquivo que será salvo
-     * @param   results 
-     *          Conteúdo que será salvo no arquivo
+     * @param fileName Nome do arquivo que será salvo
+     * @param results  Conteúdo que será salvo no arquivo
      */
     public static void saveOnFile(String fileName, String results) {
         try {

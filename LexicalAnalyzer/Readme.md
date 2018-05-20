@@ -27,7 +27,7 @@
 
 ## Execução (Linux, MacOS)
 
-Antes de executar, garanta que os arquivos de entrada estejam dentro da pasta `./entrada`
+Antes de executar, garanta que os arquivos de entrada estejam dentro da pasta `./entrada`e tenham a extensão `.top`
 
 Na raiz do projeto, crie uma pasta para os arquivos *.class* compilados e compile os arquivos *.java*:
 

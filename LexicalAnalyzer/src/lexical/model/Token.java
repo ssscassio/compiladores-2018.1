@@ -19,7 +19,7 @@ public class Token {
     private final int column;
 
     /**
-     *  Representa o tipo do Token.
+     * Representa o tipo do Token.
      */
     private final String type;
 
