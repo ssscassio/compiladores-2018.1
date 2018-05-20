@@ -3,10 +3,10 @@ start () {
     struct Students{
         string name;
         float math, physics, mean;
-    }
+    };
 
     struct ComputerStudents extends Students{
         float algorithm, compiler;
-    }
+    };
 
 }

@@ -19,7 +19,7 @@ start () {
     c = a + b * 2;
 
     if (c < lim) then {
-        print ("O valor de c é: ", c);
+        print ("O valor de c eh: ", c);
     } else {
         print ("Passou o limite");
     }

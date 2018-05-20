@@ -6,7 +6,7 @@ start(){
     };
 
     var {
-        struct Students students[5];
+        struct Students [] students;
         int count;
     }
 
@@ -15,10 +15,10 @@ start(){
         print("Nome do aluno: ", count + 1);
         scan(students[count].name);
 
-        print("Nota de matemática: ");
+        print("Nota de matematica: ");
         scan(students[count].math);
 
-        print("Nota de física: ");
+        print("Nota de fisica: ");
         scan(students[count].physics);
 
         students[count].mean = (students[count].math + students[count].physics)/2;
