@@ -1,8 +1,9 @@
 package lexical.controller.automaton;
 
 /**
- * Enum das classes dos possíveis estados finais do autômato na qual são implementadas
- * as transições de cada estado baseado no caractere sendo processado.
+ * Enum das classes dos possíveis estados finais do autômato na qual são
+ * implementadas as transições de cada estado baseado no caractere sendo
+ * processado.
  * 
  * @see FinalState
  * @author Cássio Santos

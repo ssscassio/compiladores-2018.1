@@ -19,7 +19,7 @@ public class LexicalError {
     private final String lexeme;
 
     /**
-     *  Representa a mensagem de erro para ser apresentado.
+     * Representa a mensagem de erro para ser apresentado.
      */
     private final String message;
 
