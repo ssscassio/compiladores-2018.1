@@ -32,17 +32,3 @@
     - Comando **print**: O comando iniciará com a palavra *8print** e o que deverá ser impresso entre parênteses, finalizando com ponto-e-vírgula. O comando pode imprimir cadeias de caracteres, constantes, variáveis, variáveis (campos) de estruturas, elementos de vetores ou matrizes. Múltiplas impressões no mesmo comando devem ser separadas por vírgula.
     - Comando **scan**: O comando iniciará com a palavra **scan** e o nome da variável (inclusive campos de estruturas, elementos de vetores ou matrizes) entre parênteses, finalizando com ponto-e-vírgula. Múltiplas leituras no mesmo comando deverão ser separadas por vírgula.
 22. O usuário pode criar um tipo usando a palavra typedef.
-
-
-
-
-
-
-
-
-
-
-
-
-
-

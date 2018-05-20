@@ -1,7 +1,7 @@
-"Name"  = 'TODO: MyLanguage Grammar'
-"Author"    =  'TODO: List of Authors'
-"Version"   = '0.1'
-"About"     = 'TODO: MyLanguage Grammar,'
+"Name"      = 'Think out Programming Language'
+"Author"    =  'Beatriz de Brito, Cássio Santos, Dermeval Neves, Elvis Huges, Leandro Sampaio, Tayane Cerqueira'
+"Version"   = '1.0'
+"About"     = 'Language developed on course MI - Processadores de Linguagem de Programação from UEFS - 2018.1'
 
 "Case Sensitive"     = True
 "Start Symbol"      = <Program>
@@ -170,8 +170,11 @@ String          = '"' ({String Chars} | '\' {Printable})* '"'
 <Op Unary>      ::= '!' <Op Unary>
                   | '++' <Op Unary>
                   | '--' <Op Unary>
-                  | <Value Write or Read>
-                  | <Value Read Only>
+                  | <Value Write or Read> <Unary Symbol>
+                  | <Value Read Only> <Unary Symbol>
+<Unary Symbol>  ::= '++'
+                  | '--'
+                  | <>
 
 <Value Write or Read>   ::= Identifier <Accessing> 
 
