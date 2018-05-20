@@ -27,8 +27,8 @@
 19. Delimitadores **{** e **}** marcam inicio e fim de blocos (de comandos, procedimentos, funções, etc.), respectivamente.
 20. A linguagem permite o uso de expressões relacionais, lógicas e aritméticas.
 21. Comandos:
-    - Comando **if .. then .. else**: Na condição do comando **if** só são permitidas as expressões relacionais ou lógicas. O comando **else*8 não é obrigatório.
+    - Comando **if .. then .. else**: Na condição do comando **if** só são permitidas as expressões relacionais ou lógicas. O comando **else** não é obrigatório.
     - Comando **while**: Comando semelhante ao da linguagem Java. Na condição do comando só são permitida as expressões relacionais ou lógicas.
-    - Comando **print**: O comando iniciará com a palavra *8print** e o que deverá ser impresso entre parênteses, finalizando com ponto-e-vírgula. O comando pode imprimir cadeias de caracteres, constantes, variáveis, variáveis (campos) de estruturas, elementos de vetores ou matrizes. Múltiplas impressões no mesmo comando devem ser separadas por vírgula.
+    - Comando **print**: O comando iniciará com a palavra **print** e o que deverá ser impresso entre parênteses, finalizando com ponto-e-vírgula. O comando pode imprimir cadeias de caracteres, constantes, variáveis, variáveis (campos) de estruturas, elementos de vetores ou matrizes. Múltiplas impressões no mesmo comando devem ser separadas por vírgula.
     - Comando **scan**: O comando iniciará com a palavra **scan** e o nome da variável (inclusive campos de estruturas, elementos de vetores ou matrizes) entre parênteses, finalizando com ponto-e-vírgula. Múltiplas leituras no mesmo comando deverão ser separadas por vírgula.
 22. O usuário pode criar um tipo usando a palavra typedef.
