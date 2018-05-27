@@ -17,7 +17,7 @@ Trabalhos desenvolvidos durante a disciplina MI Processadores de Linguagem de Pr
 ### [Gramática da Linguagem](./Grammar)
 - As gramáticas são capazes de descrever a maioria das sintaxes das linguagens de programação. Certas restrições, como exigência que os identificadores sejam declarados antes de usados, ainda não podem ser descritas por uma gramática livre de contexto.
 
-### Analisador Sintático
-
+### [Analisador Sintático](./SyntaxAnalyzer)
+- O analisador sintático, também conhecido como *parser* é o processo que analisa a sequência de tokens vindas de um analisador léxico para determinar a estrutura gramatical do código de entrada segundo uma determinada **gramática**. 
 
 ### Analisador Semântico
