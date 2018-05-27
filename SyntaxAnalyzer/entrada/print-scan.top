@@ -1,0 +1,23 @@
+start() {
+
+    var{
+        int numerator, denominator;
+    }
+
+    print("\nDigite o valor do numerador:");
+    scan(numerator);
+
+    print("\nDigite o valor do denominador:");
+    scan(denominator);
+
+    if (denominator == 0) then {
+       return;
+    }
+
+    if (numerator / denominator < 0) then {
+        print("Valor encontrado: 0\n");
+    } else {
+        print("Valor calculado: ", (numerator / denominator));
+    }
+
+}
