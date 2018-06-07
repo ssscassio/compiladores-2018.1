@@ -89,7 +89,6 @@ String          = '"' ({String Chars} | '\' {Printable})* '"'
               | <If Statement>
               | <While Statement>
               | <Var Declaration>
-              | <Const Declaration>
               | <Type Declaration>
 
 <Normal Statement>      ::= <Op Assign> ';'
