@@ -238,8 +238,8 @@ String          = '"' ({String Chars} | '\' {Printable})* '"'
 ! -------------------------------------------------------------------
 
 <Struct Declaration>        ::= 'struct' <Struct Declaration Aux>
-<Struct Declaration Aux>    ::= Identifier <Struct Extends>'{'  <Struct Body> '}'
-                              |  <Struct Extends>'{'  <Struct Body> '}'
+<Struct Declaration Aux>    ::= Identifier <Extends>'{'  <Struct Body> '}'
+                              |  <Extends>'{'  <Struct Body> '}'
 <Extends>   ::= 'extends' Identifier
               | <>
 
