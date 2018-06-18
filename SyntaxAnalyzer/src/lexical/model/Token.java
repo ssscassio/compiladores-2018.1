@@ -1,5 +1,7 @@
 package lexical.model;
 
+import lexical.util.Consts;
+
 /**
  * Compreende as informações de um token encontrado.
  * 
@@ -31,6 +33,13 @@ public class Token {
     public Token(String type, String lexeme, int row, int column) {
         this.row = row;
         this.column = column;
+        this.type = type;
+        this.lexeme = lexeme;
+    }
+
+    public Token(String type, String lexeme) {
+        this.row = 0;
+        this.column = 0;
         this.type = type;
         this.lexeme = lexeme;
     }
@@ -74,5 +83,12 @@ public class Token {
     @Override
     public String toString() {
         return String.format("%02d %s %s", getRow(), getType(), getLexeme());
+    }
+
+    public boolean isSameType(Token token) {
+        if (this.type == Consts.IDENTIFIER || this.type == Consts.NUMBER || this.type == Consts.STRING) {
+            return this.type == token.getType();
+        }
+        return this.lexeme.equals(token.getLexeme());
     }
 }

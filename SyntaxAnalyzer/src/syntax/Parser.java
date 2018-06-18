@@ -1,9 +1,12 @@
 package syntax;
 
 import java.util.ArrayList;
-import lexical.model.Token;
+import java.util.Arrays;
 
+import lexical.model.Token;
+import lexical.util.Consts;
 import syntax.model.SyntaxError;
+import syntax.controller.grammar.*;
 
 /**
  * Classe responsável pela etapa de análise sintática.
@@ -34,10 +37,11 @@ public class Parser {
     }
 
     /**
-     * Método responsável por analisar sintáticamente a lista de tokens passada na construção da
-     * instância da classe Parser
+     * Método responsável por analisar sintáticamente a lista de tokens passada na
+     * construção da instância da classe Parser
      */
     public void analyze() {
         System.out.println("Analisador Sintático...");
+        Productions.Program.run(tokens);
     }
 }
