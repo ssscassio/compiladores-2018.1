@@ -370,9 +370,6 @@ public enum Productions implements Production {
             // } else { // TODO: ERRO: Esperado } e não encontrou
 
             // }
-
-            tokens = BlockAux.run(tokens);
-
             System.err.println("</BlockAux>");
             return tokens;
         }
