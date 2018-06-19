@@ -2,6 +2,8 @@ package syntax.controller.grammar;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Set;
+import java.util.HashSet;
 
 import lexical.model.Token;
 import lexical.util.Consts;
@@ -14,7 +16,7 @@ import lexical.util.Consts;
  * @author Beatriz de Brito
  */
 public enum Productions implements Production {
-    Program {
+    Program { // Program Production
         @Override
         public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
@@ -22,14 +24,10 @@ public enum Productions implements Production {
             if (Declaration.hasAsFirst(tokens.get(0))) {
                 tokens = Declaration.run(tokens);
             } else { // TODO:
-                     // ERROR
+                     // ERROR: Ver com o que vai sincronizar
 
             }
-            // if (ProgramAux.hasAsFirst(tokens.get(0))) {
-            // Program.run(tokens);
-            // } else { // TODO: Não da erro
-
-            // }
+            tokens = ProgramAux.run(tokens);
 
             System.err.println("</Program>");
             return tokens;
@@ -46,6 +44,29 @@ public enum Productions implements Production {
             return false;
         }
     },
+    ProgramAux { // ProgramAux Production
+        @Override
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
+            ArrayList<Token> tokens = tokenList;
+            System.err.println("<ProgramAux>");
+            if (!tokens.isEmpty() && ProgramAux.hasAsFirst(tokens.get(0))) {
+                tokens = Program.run(tokens);
+            }
+            System.err.println("</ProgramAux>");
+            return tokens;
+        }
+
+        @Override
+        public boolean hasAsFirst(Token token) {
+            String FIRST[] = { "function", "procedure", "start", "var", "const", "struct", "typedef" };
+            return (Arrays.binarySearch(FIRST, token.getLexeme()) >= 0);
+        }
+
+        @Override
+        public boolean hasAsFollow(Token token) { // TODO: Implementar
+            return false;
+        }
+    },
     Declaration {
         @Override
         public ArrayList<Token> run(ArrayList<Token> tokenList) {
@@ -53,7 +74,7 @@ public enum Productions implements Production {
             System.err.println("<Declaration>");
 
             if (tokens.get(0).isSameType(new Token(Consts.KEY_WORD, "function"))) {
-
+                tokens = FunctionDeclaration.run(tokens);
             } else if (tokens.get(0).isSameType(new Token(Consts.KEY_WORD, "procedure"))) {
 
             } else if (tokens.get(0).isSameType(new Token(Consts.KEY_WORD, "start"))) {
@@ -68,6 +89,9 @@ public enum Productions implements Production {
 
             } else { // TODO: Erro, token inesperado TODO: Remover 1 token por vez até conseguir
                      // executar Declaration
+                while (!tokens.isEmpty() && !Declaration.hasAsFirst(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
             System.err.println("</Declaration>");
             return tokens;
@@ -81,6 +105,289 @@ public enum Productions implements Production {
 
         @Override
         public boolean hasAsFollow(Token token) { // TODO:
+            return false;
+        }
+    },
+    FunctionDeclaration { // FunctionDeclaration Production
+        @Override
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
+            ArrayList<Token> tokens = tokenList;
+            System.err.println("<FunctionDeclaration>");
+
+            if (consumeToken(tokens.get(0), new Token(Consts.KEY_WORD, "function"))) {
+                System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
+                tokens.remove(0);
+            } else { // TODO: Erro, não encontrou a palavra "function"
+
+            }
+
+            tokens = FunctionId.run(tokens);
+
+            if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "("))) {
+                System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
+                tokens.remove(0);
+            } else { // ERRO: Não encontrou '('
+                // TODO: Disparar erro
+                // SINCRONIZAÇÃO
+                while (!FunctionProcedureTail.hasAsFirst(tokens.get(0))) {
+                    tokens.remove(0);
+                }
+            }
+
+            tokens = FunctionProcedureTail.run(tokens);
+
+            System.err.println("</FunctionDeclaration>");
+            return tokens;
+        }
+
+        @Override
+        public boolean hasAsFirst(Token token) {
+            return token.isSameType(new Token(Consts.KEY_WORD, "function"));
+        }
+
+        @Override
+        public boolean hasAsFollow(Token token) { // TODO: Implementar
+            return false;
+        }
+    },
+    FunctionProcedureTail { // FunctionProcedureTail Production
+        @Override
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
+            ArrayList<Token> tokens = tokenList;
+            System.err.println("<FunctionProcedureTail>");
+
+            if (ParamsDeclaration.hasAsFirst(tokens.get(0))) {
+
+                tokens = ParamsDeclaration.run(tokens);
+
+                if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, ")"))) {
+                    System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
+                    tokens.remove(0);
+                } else { // TODO: Erro: não encontrou ")"
+                    while (!Block.hasAsFirst(tokens.get(0))) {
+                        tokens.remove(0);
+                    }
+                }
+
+                tokens = Block.run(tokens);
+
+            } else if (tokens.get(0).isSameType(new Token(Consts.DELIMITER, ")"))) {
+
+                if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, ")"))) {
+                    System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
+                    tokens.remove(0);
+                } else { // TODO: Erro: não encontrou ")"
+                    while (!Block.hasAsFirst(tokens.get(0))) {
+                        tokens.remove(0);
+                    }
+                }
+
+                tokens = Block.run(tokens);
+            }
+
+            System.err.println("</FunctionProcedureTail>");
+            return tokens;
+        }
+
+        @Override
+        public boolean hasAsFirst(Token token) {
+            String FIRST[] = { "bool", "float", "int", "string", "struct" };
+            return (Arrays.binarySearch(FIRST, token.getLexeme()) >= 0) || token.getType().equals(Consts.IDENTIFIER);
+        }
+
+        @Override
+        public boolean hasAsFollow(Token token) { // TODO: Implementar
+            return false;
+        }
+    },
+    FunctionId { // FunctionId Production
+        @Override
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
+            ArrayList<Token> tokens = tokenList;
+            System.err.println("<FunctionId>");
+
+            tokens = Type.run(tokens);
+
+            if (consumeToken(tokens.get(0), new Token(Consts.IDENTIFIER, ""))) {
+                System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
+                tokens.remove(0);
+            } else { // TODO: Erro, não encontrou um identificador
+                // Sincronização com Follow
+                while (!FunctionId.hasAsFollow(tokens.get(0))) {
+                    tokens.remove(0);
+                }
+            }
+
+            System.err.println("</FunctionId>");
+            return tokens;
+        }
+
+        @Override
+        public boolean hasAsFirst(Token token) {
+            String FIRST[] = { "bool", "float", "int", "string", "struct" };
+            return (Arrays.binarySearch(FIRST, token.getLexeme()) >= 0) || token.getType().equals(Consts.IDENTIFIER);
+        }
+
+        @Override
+        public boolean hasAsFollow(Token token) {
+            return token.isSameType(new Token(Consts.DELIMITER, "("));
+        }
+    },
+    ParamsDeclaration { // ParamDeclaration Production
+        @Override
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
+            ArrayList<Token> tokens = tokenList;
+            System.err.println("<ParamsDeclaration>");
+            tokens = Param.run(tokens);
+            tokens = ParamsDeclarationAux.run(tokens);
+            System.err.println("</ParamsDeclaration>");
+            return tokens;
+        }
+
+        @Override
+        public boolean hasAsFirst(Token token) { // TODO: Implementar
+            String FIRST[] = { "bool", "float", "int", "string", "struct" };
+            return (Arrays.binarySearch(FIRST, token.getLexeme()) >= 0) || token.getType().equals(Consts.IDENTIFIER);
+        }
+
+        @Override
+        public boolean hasAsFollow(Token token) { // TODO: Implementar
+            return false;
+        }
+    },
+    ParamsDeclarationAux { // ParamDeclarationAux Production
+        @Override
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
+            ArrayList<Token> tokens = tokenList;
+            System.err.println("<ParamsDeclarationAux>");
+
+            if (tokens.get(0).isSameType(new Token(Consts.DELIMITER, ","))) {
+                if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, ","))) {
+                    System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
+                    tokens.remove(0);
+                    tokens = ParamsDeclaration.run(tokens);
+                }
+            }
+
+            System.err.println("</ParamsDeclarationAux>");
+            return tokens;
+        }
+
+        @Override
+        public boolean hasAsFirst(Token token) { // TODO: Implementar
+            return false;
+        }
+
+        @Override
+        public boolean hasAsFollow(Token token) { // TODO: Implementar
+            return false;
+        }
+    },
+    Param { // Param Production
+        @Override
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
+            ArrayList<Token> tokens = tokenList;
+            System.err.println("<Param>");
+
+            tokens = Type.run(tokens);
+
+            if (consumeToken(tokens.get(0), new Token(Consts.IDENTIFIER, ""))) {
+                System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
+                tokens.remove(0);
+            } else { // TODO: Erro, não encontrou um identificador
+                // Sincronização com Follow
+                while (!Param.hasAsFollow(tokens.get(0))) {
+                    tokens.remove(0);
+                }
+            }
+
+            System.err.println("</Param>");
+            return tokens;
+        }
+
+        @Override
+        public boolean hasAsFirst(Token token) {
+            String FIRST[] = { "bool", "float", "int", "string", "struct" };
+            return (Arrays.binarySearch(FIRST, token.getLexeme()) >= 0) || token.getType().equals(Consts.IDENTIFIER);
+        }
+
+        @Override
+        public boolean hasAsFollow(Token token) {
+            return token.isSameType(new Token(Consts.DELIMITER, "("));
+        }
+    },
+    Block { // Block Production
+        @Override
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
+            ArrayList<Token> tokens = tokenList;
+            System.err.println("<Block>");
+
+            if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "{"))) {
+                System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
+                tokens.remove(0);
+            } else { // TODO: Erro, não encontrou um delimitador '{'
+                // Sincronização com First
+                while (!BlockAux.hasAsFirst(tokens.get(0))) {
+                    tokens.remove(0);
+                }
+            }
+
+            tokens = BlockAux.run(tokens);
+
+            System.err.println("</Block>");
+            return tokens;
+        }
+
+        @Override
+        public boolean hasAsFirst(Token token) { // TODO: Implementar
+            return false;
+        }
+
+        @Override
+        public boolean hasAsFollow(Token token) { // TODO: Implementar
+            return false;
+        }
+    },
+    BlockAux { // BlockAux Production
+        @Override
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
+            ArrayList<Token> tokens = tokenList;
+            System.err.println("<BlockAux>");
+            if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "}"))) {
+                System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
+                tokens.remove(0);
+            }
+            // TODO: StatementList
+            // else if (StatementList.hasAsFirst(tokens.get(0))) {
+            // tokens = StatementList.run(tokens);
+
+            // if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "}"))) {
+            // System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
+            // tokens.remove(0);
+            // } else { // TODO: ERRO: Esperava } e não encontrou
+
+            // }
+            // } else { // TODO: ERRO: Esperado } e não encontrou
+
+            // }
+
+            tokens = BlockAux.run(tokens);
+
+            System.err.println("</BlockAux>");
+            return tokens;
+        }
+
+        @Override
+        public boolean hasAsFirst(Token token) {
+            Set<String> VALUES = new HashSet<String>(
+                    Arrays.asList(new String[] { "!", "++", "--", "(", "true", "false", "return", "while", "print",
+                            "scan", "if", "var", "typedef", "bool", "float", "int", "string", "struct" }));
+            return Arrays.asList(VALUES).contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER)
+                    || token.getType().equals(Consts.NUMBER) || token.getType().equals(Consts.STRING);
+        }
+
+        @Override
+        public boolean hasAsFollow(Token token) { // TODO: Implementar
             return false;
         }
     },

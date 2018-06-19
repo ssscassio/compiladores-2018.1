@@ -38,10 +38,15 @@ public class Parser {
 
     /**
      * Método responsável por analisar sintáticamente a lista de tokens passada na
-     * construção da instância da classe Parser
+     *  construção da instância da classe Parser
      */
     public void analyze() {
-        System.out.println("Analisador Sintático...");
-        Productions.Program.run(tokens);
+        System.out.println("Analisador Sintatico...");
+        try {
+            Productions.Program.run(tokens);
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
     }
 }
