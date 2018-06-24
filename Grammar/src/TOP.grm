@@ -58,8 +58,7 @@ String          = '"' ({String Chars} | '\' {Printable})* '"'
 ! Type Declaration (Typedef)
 ! -------------------------------------------------
 
-<Type Declaration>          ::= 'typedef' <Type Declaration Aux>
-<Type Declaration Aux>      ::= <Type> Identifier ';'
+<Type Declaration>          ::= 'typedef' <Type> Identifier ';'
 
 ! -------------------------------------------------
 ! Base and Declarations
@@ -110,7 +109,6 @@ String          = '"' ({String Chars} | '\' {Printable})* '"'
               | <>
 
 <Type Base> ::= <Scalar>
-              | <Struct Declaration>
               | Identifier
               | 'struct' Identifier
 
