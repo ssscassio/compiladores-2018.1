@@ -76,7 +76,7 @@ public enum Productions implements Production {
             if (tokens.get(0).isSameType(new Token(Consts.KEY_WORD, "function"))) {
                 tokens = FunctionDeclaration.run(tokens);
             } else if (tokens.get(0).isSameType(new Token(Consts.KEY_WORD, "procedure"))) {
-
+                tokens = ProcedureDeclaration.run(tokens);
             } else if (tokens.get(0).isSameType(new Token(Consts.KEY_WORD, "start"))) {
 
             } else if (tokens.get(0).isSameType(new Token(Consts.KEY_WORD, "var"))) {
@@ -143,6 +143,53 @@ public enum Productions implements Production {
         @Override
         public boolean hasAsFirst(Token token) {
             return token.isSameType(new Token(Consts.KEY_WORD, "function"));
+        }
+
+        @Override
+        public boolean hasAsFollow(Token token) { // TODO: Implementar
+            return false;
+        }
+    },
+    ProcedureDeclaration { // ProcedureDeclaration Production
+        @Override
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
+            ArrayList<Token> tokens = tokenList;
+            System.err.println("<ProcedureDeclaration>");
+
+            if (consumeToken(tokens.get(0), new Token(Consts.KEY_WORD, "procedure"))) {
+                System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
+                tokens.remove(0);
+            } else { // TODO: Erro, não encontrou a palavra "procedure"
+
+            }
+
+            if (consumeToken(tokens.get(0), new Token(Consts.IDENTIFIER, ""))) {
+                System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
+                tokens.remove(0);
+            } else { // TODO: Erro, não encontrou um Identificador
+
+            }
+
+            if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "("))) {
+                System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
+                tokens.remove(0);
+            } else { // ERRO: Não encontrou '('
+                // TODO: Disparar erro
+                // SINCRONIZAÇÃO
+                while (!FunctionProcedureTail.hasAsFirst(tokens.get(0))) {
+                    tokens.remove(0);
+                }
+            }
+
+            tokens = FunctionProcedureTail.run(tokens);
+
+            System.err.println("</ProcedureDeclaration>");
+            return tokens;
+        }
+
+        @Override
+        public boolean hasAsFirst(Token token) {
+            return token.isSameType(new Token(Consts.KEY_WORD, "procedure"));
         }
 
         @Override
@@ -647,13 +694,7 @@ public enum Productions implements Production {
             System.err.println("<TypeBase>");
             if (Scalar.hasAsFirst(tokens.get(0))) {
                 tokens = Scalar.run(tokens);
-            }
-            // else if (StructDeclaration.hasAsFirst(tokens.get(0))) {
-            // TODO: Ver o que vai azer com o struct aqui já que ele tem no seu first o
-            // "struct" que também é a ultima produção de TypeBase;
-            // tokens = StructDeclaration.run();
-            // }
-            else if (consumeToken(tokens.get(0), new Token(Consts.IDENTIFIER, ""))) {
+            } else if (consumeToken(tokens.get(0), new Token(Consts.IDENTIFIER, ""))) {
                 tokens.remove(0);
             } else if (consumeToken(tokens.get(0), new Token(Consts.KEY_WORD, "struct"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
