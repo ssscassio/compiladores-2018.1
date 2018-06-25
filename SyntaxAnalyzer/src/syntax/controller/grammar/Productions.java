@@ -78,7 +78,7 @@ public enum Productions implements Production {
             } else if (tokens.get(0).isSameType(new Token(Consts.KEY_WORD, "procedure"))) {
                 tokens = ProcedureDeclaration.run(tokens);
             } else if (tokens.get(0).isSameType(new Token(Consts.KEY_WORD, "start"))) {
-
+                tokens = StartDeclaration.run(tokens);
             } else if (tokens.get(0).isSameType(new Token(Consts.KEY_WORD, "var"))) {
                 tokens = VarDeclaration.run(tokens);
             } else if (tokens.get(0).isSameType(new Token(Consts.KEY_WORD, "const"))) {
@@ -190,6 +190,53 @@ public enum Productions implements Production {
         @Override
         public boolean hasAsFirst(Token token) {
             return token.isSameType(new Token(Consts.KEY_WORD, "procedure"));
+        }
+
+        @Override
+        public boolean hasAsFollow(Token token) { // TODO: Implementar
+            return false;
+        }
+    },
+    StartDeclaration { // StartDeclaration Production
+        @Override
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
+            ArrayList<Token> tokens = tokenList;
+            System.err.println("<StartDeclaration>");
+
+            if (consumeToken(tokens.get(0), new Token(Consts.KEY_WORD, "start"))) {
+                System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
+                tokens.remove(0);
+            } else { // TODO: Erro, não encontrou a palavra "start"
+
+            }
+
+            if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "("))) {
+                System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
+                tokens.remove(0);
+            } else { // ERRO: Não encontrou '('
+                // TODO: Disparar erro
+            }
+
+            if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, ")"))) {
+                System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
+                tokens.remove(0);
+            } else { // ERRO: Não encontrou ')'
+                // TODO: Disparar erro
+                // SINCRONIZAÇÃO
+                while (!Block.hasAsFirst(tokens.get(0))) {
+                    tokens.remove(0);
+                }
+            }
+
+            tokens = Block.run(tokens);
+
+            System.err.println("</StartDeclaration>");
+            return tokens;
+        }
+
+        @Override
+        public boolean hasAsFirst(Token token) {
+            return token.isSameType(new Token(Consts.KEY_WORD, "start"));
         }
 
         @Override
