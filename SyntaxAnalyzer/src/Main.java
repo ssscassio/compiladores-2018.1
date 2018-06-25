@@ -14,11 +14,12 @@ public class Main {
         // Leitura do arquivo de entrada
         FileController.readFilesAsString().forEach((inputFile, string) -> {
             String fileName = inputFile.replaceFirst(FileController.INPUT_FOLDER, "");
+            System.out.println(fileName);
             // Análise léxica
             Lexer lexer = new Lexer(string);
             lexer.analyze();
 
-            //Análise sintática
+            // Análise sintática
             Parser parser = new Parser(lexer.getTokensList());
             parser.analyze();
 

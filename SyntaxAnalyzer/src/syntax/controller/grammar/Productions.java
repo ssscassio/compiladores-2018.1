@@ -35,8 +35,9 @@ public enum Productions implements Production {
 
         @Override
         public boolean hasAsFirst(Token token) {
-            String FIRST[] = { "function", "procedure", "start", "var", "const", "struct", "typedef" };
-            return (Arrays.binarySearch(FIRST, token.getLexeme()) >= 0);
+            Set<String> VALUES = new HashSet<String>(
+                    Arrays.asList("function", "procedure", "start", "var", "const", "struct", "typedef"));
+            return VALUES.contains(token.getLexeme());
         }
 
         @Override
@@ -58,8 +59,9 @@ public enum Productions implements Production {
 
         @Override
         public boolean hasAsFirst(Token token) {
-            String FIRST[] = { "function", "procedure", "start", "var", "const", "struct", "typedef" };
-            return (Arrays.binarySearch(FIRST, token.getLexeme()) >= 0);
+            Set<String> VALUES = new HashSet<String>(
+                    Arrays.asList("function", "procedure", "start", "var", "const", "struct", "typedef"));
+            return VALUES.contains(token.getLexeme());
         }
 
         @Override
@@ -86,7 +88,7 @@ public enum Productions implements Production {
             } else if (tokens.get(0).isSameType(new Token(Consts.KEY_WORD, "struct"))) {
 
             } else if (tokens.get(0).isSameType(new Token(Consts.KEY_WORD, "typedef"))) {
-
+                tokens = TypeDeclaration.run(tokens);
             } else { // TODO: Erro, token inesperado TODO: Remover 1 token por vez até conseguir
                      // executar Declaration
                 while (!tokens.isEmpty() && !Declaration.hasAsFirst(tokens.get(0))) {
@@ -99,8 +101,9 @@ public enum Productions implements Production {
 
         @Override
         public boolean hasAsFirst(Token token) {
-            String FIRST[] = { "function", "procedure", "start", "var", "const", "struct", "typedef" };
-            return (Arrays.binarySearch(FIRST, token.getLexeme()) >= 0);
+            Set<String> VALUES = new HashSet<String>(
+                    Arrays.asList("function", "procedure", "start", "var", "const", "struct", "typedef"));
+            return VALUES.contains(token.getLexeme());
         }
 
         @Override
@@ -408,6 +411,49 @@ public enum Productions implements Production {
         @Override
         public boolean hasAsFollow(Token token) {
             return token.isSameType(new Token(Consts.DELIMITER, "("));
+        }
+    },
+    TypeDeclaration { // TypeDeclaration Production
+        @Override
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
+            ArrayList<Token> tokens = tokenList;
+            System.err.println("<TypeDeclaration>");
+
+            if (consumeToken(tokens.get(0), new Token(Consts.KEY_WORD, "typedef"))) {
+                System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
+                tokens.remove(0);
+            } else { // TODO: Erro, não encontrou a palavra "typedef"
+
+            }
+
+            tokens = Type.run(tokens);
+
+            if (consumeToken(tokens.get(0), new Token(Consts.IDENTIFIER, ""))) {
+                System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
+                tokens.remove(0);
+            } else { // TODO: Erro, não encontrou um Identificador
+
+            }
+
+            if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, ";"))) {
+                System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
+                tokens.remove(0);
+            } else { // TODO: Erro, não encontrou token ';'
+                // TODO: Sincronizar com próximo de TypeDeclaration
+            }
+
+            System.err.println("</TypeDeclaration>");
+            return tokens;
+        }
+
+        @Override
+        public boolean hasAsFirst(Token token) {
+            return token.isSameType(new Token(Consts.KEY_WORD, "typedef"));
+        }
+
+        @Override
+        public boolean hasAsFollow(Token token) { // TODO: Implementar
+            return false;
         }
     },
     Block { // Block Production
@@ -854,8 +900,10 @@ public enum Productions implements Production {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<ArrayTypeField>");
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "["))) {
+                System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
                 if (consumeToken(tokens.get(0), new Token(Consts.KEY_WORD, "]"))) {
+                    System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                     tokens.remove(0);
                 } else { // TODO: Erro: ']' não encontrado, Disparar erro
                     // TODO: Ideia: Fazer sincronização para Follow de Array Type Field

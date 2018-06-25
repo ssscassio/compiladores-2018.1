@@ -1,0 +1,5 @@
+typedef int[][] a;
+
+typedef float outro;
+
+typedef struct alguma outra;
