@@ -288,8 +288,8 @@ public enum Productions implements Production {
 
         @Override
         public boolean hasAsFirst(Token token) {
-            String FIRST[] = { "bool", "float", "int", "string", "struct" };
-            return (Arrays.binarySearch(FIRST, token.getLexeme()) >= 0) || token.getType().equals(Consts.IDENTIFIER);
+            Set<String> VALUES = new HashSet<String>(Arrays.asList("bool", "float", "int", "string", "struct"));
+            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER);
         }
 
         @Override
@@ -321,8 +321,8 @@ public enum Productions implements Production {
 
         @Override
         public boolean hasAsFirst(Token token) {
-            String FIRST[] = { "bool", "float", "int", "string", "struct" };
-            return (Arrays.binarySearch(FIRST, token.getLexeme()) >= 0) || token.getType().equals(Consts.IDENTIFIER);
+            Set<String> VALUES = new HashSet<String>(Arrays.asList("bool", "float", "int", "string", "struct"));
+            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER);
         }
 
         @Override
@@ -342,9 +342,9 @@ public enum Productions implements Production {
         }
 
         @Override
-        public boolean hasAsFirst(Token token) { // TODO: Implementar
-            String FIRST[] = { "bool", "float", "int", "string", "struct" };
-            return (Arrays.binarySearch(FIRST, token.getLexeme()) >= 0) || token.getType().equals(Consts.IDENTIFIER);
+        public boolean hasAsFirst(Token token) {
+            Set<String> VALUES = new HashSet<String>(Arrays.asList("bool", "float", "int", "string", "struct"));
+            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER);
         }
 
         @Override
@@ -404,8 +404,8 @@ public enum Productions implements Production {
 
         @Override
         public boolean hasAsFirst(Token token) {
-            String FIRST[] = { "bool", "float", "int", "string", "struct" };
-            return (Arrays.binarySearch(FIRST, token.getLexeme()) >= 0) || token.getType().equals(Consts.IDENTIFIER);
+            Set<String> VALUES = new HashSet<String>(Arrays.asList("bool", "float", "int", "string", "struct"));
+            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER);
         }
 
         @Override
@@ -516,10 +516,9 @@ public enum Productions implements Production {
 
         @Override
         public boolean hasAsFirst(Token token) {
-            Set<String> VALUES = new HashSet<String>(
-                    Arrays.asList(new String[] { "!", "++", "--", "(", "true", "false", "return", "while", "print",
-                            "scan", "if", "var", "typedef", "bool", "float", "int", "string", "struct" }));
-            return Arrays.asList(VALUES).contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER)
+            Set<String> VALUES = new HashSet<String>(Arrays.asList("!", "++", "--", "(", "true", "false", "return",
+                    "while", "print", "scan", "if", "var", "typedef", "bool", "float", "int", "string", "struct"));
+            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER)
                     || token.getType().equals(Consts.NUMBER) || token.getType().equals(Consts.STRING);
         }
 
@@ -591,8 +590,8 @@ public enum Productions implements Production {
 
         @Override
         public boolean hasAsFirst(Token token) {
-            String FIRST[] = { "bool", "float", "int", "string", "struct" };
-            return (Arrays.binarySearch(FIRST, token.getLexeme()) >= 0) || token.getType().equals(Consts.IDENTIFIER);
+            Set<String> VALUES = new HashSet<String>(Arrays.asList("bool", "float", "int", "string", "struct"));
+            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER);
         }
 
         @Override
@@ -614,8 +613,8 @@ public enum Productions implements Production {
 
         @Override
         public boolean hasAsFirst(Token token) {
-            String FIRST[] = { "bool", "float", "int", "string", "struct" };
-            return (Arrays.binarySearch(FIRST, token.getLexeme()) >= 0) || token.getType().equals(Consts.IDENTIFIER);
+            Set<String> VALUES = new HashSet<String>(Arrays.asList("bool", "float", "int", "string", "struct"));
+            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER);
         }
 
         @Override
@@ -641,8 +640,8 @@ public enum Productions implements Production {
 
         @Override
         public boolean hasAsFirst(Token token) {
-            String FIRST[] = { "bool", "float", "int", "string", "struct" };
-            return (Arrays.binarySearch(FIRST, token.getLexeme()) >= 0) || token.getType().equals(Consts.IDENTIFIER);
+            Set<String> VALUES = new HashSet<String>(Arrays.asList("bool", "float", "int", "string", "struct"));
+            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER);
         }
 
         @Override
@@ -749,8 +748,8 @@ public enum Productions implements Production {
 
         @Override
         public boolean hasAsFirst(Token token) {
-            String FIRST[] = { "bool", "float", "int", "string", "struct" };
-            return (Arrays.binarySearch(FIRST, token.getLexeme()) >= 0) || token.getType().equals(Consts.IDENTIFIER);
+            Set<String> VALUES = new HashSet<String>(Arrays.asList("bool", "float", "int", "string", "struct"));
+            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER);
         }
 
         @Override
@@ -812,8 +811,8 @@ public enum Productions implements Production {
 
         @Override
         public boolean hasAsFirst(Token token) {
-            String FIRST[] = { "bool", "float", "int", "string", "struct" };
-            return (Arrays.binarySearch(FIRST, token.getLexeme()) >= 0) || token.getType().equals(Consts.IDENTIFIER);
+            Set<String> VALUES = new HashSet<String>(Arrays.asList("bool", "float", "int", "string", "struct"));
+            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER);
         }
 
         @Override
@@ -838,8 +837,8 @@ public enum Productions implements Production {
 
         @Override
         public boolean hasAsFirst(Token token) {
-            String FIRST[] = { "bool", "float", "int", "string" };
-            return (Arrays.binarySearch(FIRST, token.getLexeme()) >= 0) || token.getType().equals(Consts.IDENTIFIER);
+            Set<String> VALUES = new HashSet<String>(Arrays.asList("bool", "float", "int", "string"));
+            return VALUES.contains(token.getLexeme());
         }
 
         @Override
