@@ -14,7 +14,7 @@ public final class Consts {
     public static final String ERROR_INVALID_CHARACTER = "Caractere invalido.";
     public static final String ERROR_INVALID_CHARACTER_ON_STRING = "Caractere invalido na cadeia de caracteres.";
     public static final String ERROR_LOGICAL_OP = "Operador logico incompleto.";
-
+    
     /** Tokens */
     public static final String IDENTIFIER = "IDE";
     public static final String KEY_WORD = "PRE";
@@ -24,6 +24,7 @@ public final class Consts {
     public static final String ARITHMETIC_OPERATOR = "ART";
     public static final String STRING = "CAD";
     public static final String DELIMITER = "DEL";
+    public static final String END_OF_FILE = "EOF";
 
     /**
      * Construtor privado para previnir que a classe seja instanciada.
