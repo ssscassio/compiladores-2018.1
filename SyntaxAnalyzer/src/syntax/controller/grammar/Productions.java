@@ -41,8 +41,8 @@ public enum Productions implements Production {
         }
 
         @Override
-        public boolean hasAsFollow(Token token) { // TODO: Adicionar Conjunto seguinte
-            return false;
+        public boolean hasAsFollow(Token token) {
+            return token.getType().equals(Consts.END_OF_FILE);
         }
     },
     ProgramAux { // ProgramAux Production
@@ -65,8 +65,8 @@ public enum Productions implements Production {
         }
 
         @Override
-        public boolean hasAsFollow(Token token) { // TODO: Implementar
-            return false;
+        public boolean hasAsFollow(Token token) {
+            return token.getType().equals(Consts.END_OF_FILE);
         }
     },
     Declaration {
@@ -107,8 +107,10 @@ public enum Productions implements Production {
         }
 
         @Override
-        public boolean hasAsFollow(Token token) { // TODO:
-            return false;
+        public boolean hasAsFollow(Token token) {
+            Set<String> VALUES = new HashSet<String>(
+                    Arrays.asList("function", "procedure", "start", "var", "const", "struct", "typedef"));
+            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.END_OF_FILE);
         }
     },
     FunctionDeclaration { // FunctionDeclaration Production
@@ -149,8 +151,10 @@ public enum Productions implements Production {
         }
 
         @Override
-        public boolean hasAsFollow(Token token) { // TODO: Implementar
-            return false;
+        public boolean hasAsFollow(Token token) {
+            Set<String> VALUES = new HashSet<String>(
+                    Arrays.asList("function", "procedure", "start", "var", "const", "struct", "typedef"));
+            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.END_OF_FILE);
         }
     },
     ProcedureDeclaration { // ProcedureDeclaration Production
@@ -196,8 +200,10 @@ public enum Productions implements Production {
         }
 
         @Override
-        public boolean hasAsFollow(Token token) { // TODO: Implementar
-            return false;
+        public boolean hasAsFollow(Token token) {
+            Set<String> VALUES = new HashSet<String>(
+                    Arrays.asList("function", "procedure", "start", "var", "const", "struct", "typedef"));
+            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.END_OF_FILE);
         }
     },
     StartDeclaration { // StartDeclaration Production
@@ -243,8 +249,10 @@ public enum Productions implements Production {
         }
 
         @Override
-        public boolean hasAsFollow(Token token) { // TODO: Implementar
-            return false;
+        public boolean hasAsFollow(Token token) {
+            Set<String> VALUES = new HashSet<String>(
+                    Arrays.asList("function", "procedure", "start", "var", "const", "struct", "typedef"));
+            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.END_OF_FILE);
         }
     },
     FunctionProcedureTail { // FunctionProcedureTail Production
@@ -293,8 +301,10 @@ public enum Productions implements Production {
         }
 
         @Override
-        public boolean hasAsFollow(Token token) { // TODO: Implementar
-            return false;
+        public boolean hasAsFollow(Token token) {
+            Set<String> VALUES = new HashSet<String>(
+                    Arrays.asList("function", "procedure", "start", "var", "const", "struct", "typedef"));
+            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.END_OF_FILE);
         }
     },
     FunctionId { // FunctionId Production
@@ -348,8 +358,8 @@ public enum Productions implements Production {
         }
 
         @Override
-        public boolean hasAsFollow(Token token) { // TODO: Implementar
-            return false;
+        public boolean hasAsFollow(Token token) {
+            return token.isSameType(new Token(Consts.DELIMITER, ")"));
         }
     },
     ParamsDeclarationAux { // ParamDeclarationAux Production
@@ -371,13 +381,15 @@ public enum Productions implements Production {
         }
 
         @Override
-        public boolean hasAsFirst(Token token) { // TODO: Implementar
-            return false;
+        public boolean hasAsFirst(Token token) {
+            Set<String> VALUES = new HashSet<String>(Arrays.asList("int", "float", "bool", "string", "struct"));
+            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER);
+
         }
 
         @Override
-        public boolean hasAsFollow(Token token) { // TODO: Implementar
-            return false;
+        public boolean hasAsFollow(Token token) {
+            return token.isSameType(new Token(Consts.DELIMITER, ")"));
         }
     },
     Param { // Param Production
@@ -410,7 +422,8 @@ public enum Productions implements Production {
 
         @Override
         public boolean hasAsFollow(Token token) {
-            return token.isSameType(new Token(Consts.DELIMITER, "("));
+            Set<String> VALUES = new HashSet<String>(Arrays.asList(",", ")"));
+            return VALUES.contains(token.getLexeme());
         }
     },
     TypeDeclaration { // TypeDeclaration Production
@@ -452,8 +465,13 @@ public enum Productions implements Production {
         }
 
         @Override
-        public boolean hasAsFollow(Token token) { // TODO: Implementar
-            return false;
+        public boolean hasAsFollow(Token token) {
+            Set<String> VALUES = new HashSet<String>(
+                    Arrays.asList("--", "!", "(", "++", "false", "print", "return", "scan", "struct", "true", "typdef",
+                            "var", "while", "}", "const", "function", "procedure", "start"));
+            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER)
+                    || token.getType().equals(Consts.NUMBER) || token.getType().equals(Consts.STRING)
+                    || token.getType().equals(Consts.END_OF_FILE);
         }
     },
     Block { // Block Production
@@ -479,13 +497,18 @@ public enum Productions implements Production {
         }
 
         @Override
-        public boolean hasAsFirst(Token token) { // TODO: Implementar
-            return false;
+        public boolean hasAsFirst(Token token) {
+            return token.isSameType(new Token(Consts.DELIMITER, "{"));
         }
 
         @Override
-        public boolean hasAsFollow(Token token) { // TODO: Implementar
-            return false;
+        public boolean hasAsFollow(Token token) {
+            Set<String> VALUES = new HashSet<String>(
+                    Arrays.asList("--", "!", "(", "++", "false", "print", "return", "scan", "struct", "true", "typdef",
+                            "var", "while", "else", "}", "const", "function", "procedure", "start"));
+            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER)
+                    || token.getType().equals(Consts.NUMBER) || token.getType().equals(Consts.STRING)
+                    || token.getType().equals(Consts.END_OF_FILE);
         }
     },
     BlockAux { // BlockAux Production
@@ -519,12 +542,18 @@ public enum Productions implements Production {
             Set<String> VALUES = new HashSet<String>(Arrays.asList("!", "++", "--", "(", "true", "false", "return",
                     "while", "print", "scan", "if", "var", "typedef", "bool", "float", "int", "string", "struct"));
             return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER)
-                    || token.getType().equals(Consts.NUMBER) || token.getType().equals(Consts.STRING);
+                    || token.getType().equals(Consts.NUMBER) || token.getType().equals(Consts.STRING)
+                    || token.getType().equals(Consts.END_OF_FILE);
         }
 
         @Override
-        public boolean hasAsFollow(Token token) { // TODO: Implementar
-            return false;
+        public boolean hasAsFollow(Token token) {
+            Set<String> VALUES = new HashSet<String>(
+                    Arrays.asList("--", "!", "(", "++", "print", "return", "scan", "struct", "true", "false", "typdef",
+                            "var", "while", "else", "}", "const", "function", "procedure", "start"));
+            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER)
+                    || token.getType().equals(Consts.NUMBER) || token.getType().equals(Consts.STRING)
+                    || token.getType().equals(Consts.END_OF_FILE);
         }
     },
     VarDeclaration { // VarDeclaration Production
@@ -569,8 +598,14 @@ public enum Productions implements Production {
 
         @Override
         public boolean hasAsFollow(Token token) {
-            return false;
+            Set<String> VALUES = new HashSet<String>(
+                    Arrays.asList("function", "procedure", "start", "var", "const", "struct", "typedef", "!", "++",
+                            "--", "(", "true", "false", "return", "print", "scan", "if", "then", "while", "}"));
+            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER)
+                    || token.getType().equals(Consts.NUMBER) || token.getType().equals(Consts.STRING)
+                    || token.getType().equals(Consts.END_OF_FILE);
         }
+
     },
     VarBody { // VarBody Production
         @Override
@@ -595,8 +630,8 @@ public enum Productions implements Production {
         }
 
         @Override
-        public boolean hasAsFollow(Token token) { // TODO: Implementar
-            return false;
+        public boolean hasAsFollow(Token token) {
+            return token.isSameType(new Token(Consts.DELIMITER, "}"));
         }
     },
     VarBodyAux { // VarBodyAux Production
@@ -618,8 +653,8 @@ public enum Productions implements Production {
         }
 
         @Override
-        public boolean hasAsFollow(Token token) { // TODO: Implementar
-            return false;
+        public boolean hasAsFollow(Token token) {
+            return token.isSameType(new Token(Consts.DELIMITER, "}"));
         }
     },
     VarRow { // VarRow Production
@@ -645,8 +680,9 @@ public enum Productions implements Production {
         }
 
         @Override
-        public boolean hasAsFollow(Token token) { // TODO: Implementar
-            return false;
+        public boolean hasAsFollow(Token token) {
+            Set<String> VALUES = new HashSet<String>(Arrays.asList("int", "float", "bool", "string", "struct", "}"));
+            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER);
         }
     },
     VarIdentifierList { // VarIdentifierList Production
@@ -666,8 +702,8 @@ public enum Productions implements Production {
         }
 
         @Override
-        public boolean hasAsFollow(Token token) { // TODO: Implementar
-            return false;
+        public boolean hasAsFollow(Token token) {
+            return token.isSameType(new Token(Consts.DELIMITER, "}"));
         }
     },
     VarIdentifierListAux { // VarIdentifierListAux Production
@@ -699,8 +735,8 @@ public enum Productions implements Production {
         }
 
         @Override
-        public boolean hasAsFollow(Token token) { // TODO: Implementar
-            return false;
+        public boolean hasAsFollow(Token token) {
+            return token.isSameType(new Token(Consts.DELIMITER, "}"));
         }
     },
     VarIdentifier { // VarIdentifier Production
@@ -726,8 +762,9 @@ public enum Productions implements Production {
         }
 
         @Override
-        public boolean hasAsFollow(Token token) { // TODO: Implementar
-            return false;
+        public boolean hasAsFollow(Token token) {
+            Set<String> VALUES = new HashSet<String>(Arrays.asList(",", ")"));
+            return VALUES.contains(token.getLexeme());
         }
     },
     Type { // Type Production
@@ -753,8 +790,8 @@ public enum Productions implements Production {
         }
 
         @Override
-        public boolean hasAsFollow(Token token) { // TODO: Implementar
-            return false;
+        public boolean hasAsFollow(Token token) {
+            return token.getType().equals(Consts.IDENTIFIER);
         }
     },
     TypeAux { // TypeAux Production
@@ -775,8 +812,8 @@ public enum Productions implements Production {
         }
 
         @Override
-        public boolean hasAsFollow(Token token) { // TODO: Implementar
-            return false;
+        public boolean hasAsFollow(Token token) {
+            return token.getType().equals(Consts.IDENTIFIER);
         }
     },
     TypeBase { // TypeBase Production
@@ -816,8 +853,9 @@ public enum Productions implements Production {
         }
 
         @Override
-        public boolean hasAsFollow(Token token) { // TODO: Implementar
-            return false;
+        public boolean hasAsFollow(Token token) {
+            Set<String> VALUES = new HashSet<String>(Arrays.asList("["));
+            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER);
         }
     },
     Scalar { // Scalar Production
@@ -842,8 +880,9 @@ public enum Productions implements Production {
         }
 
         @Override
-        public boolean hasAsFollow(Token token) { // TODO: Implementar
-            return false;
+        public boolean hasAsFollow(Token token) {
+            Set<String> VALUES = new HashSet<String>(Arrays.asList("["));
+            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER);
         }
     },
     ArrayType { // ArrayType Production
@@ -867,8 +906,8 @@ public enum Productions implements Production {
         }
 
         @Override
-        public boolean hasAsFollow(Token token) { // TODO: Implementar
-            return false;
+        public boolean hasAsFollow(Token token) {
+            return token.getType().equals(Consts.IDENTIFIER);
         }
     },
     ArrayTypeAux { // ArrayTypeAux Production
@@ -889,8 +928,8 @@ public enum Productions implements Production {
         }
 
         @Override
-        public boolean hasAsFollow(Token token) { // TODO: Implementar
-            return false;
+        public boolean hasAsFollow(Token token) {
+            return token.getType().equals(Consts.IDENTIFIER);
         }
     },
     ArrayTypeField { // ArrayTypeField Production
@@ -922,8 +961,9 @@ public enum Productions implements Production {
         }
 
         @Override
-        public boolean hasAsFollow(Token token) { // TODO: Implementar
-            return false;
+        public boolean hasAsFollow(Token token) {
+            Set<String> VALUES = new HashSet<String>(Arrays.asList("["));
+            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER);
         }
     },
     Template { // Template Production
@@ -937,12 +977,12 @@ public enum Productions implements Production {
         }
 
         @Override
-        public boolean hasAsFirst(Token token) { // TODO: Implementar
+        public boolean hasAsFirst(Token token) { // Implementar
             return false;
         }
 
         @Override
-        public boolean hasAsFollow(Token token) { // TODO: Implementar
+        public boolean hasAsFollow(Token token) { // Implementar
             return false;
         }
     };
