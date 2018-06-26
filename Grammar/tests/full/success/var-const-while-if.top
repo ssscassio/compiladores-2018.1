@@ -1,12 +1,12 @@
+const{
+        int lim = 50;
+}
+
 start () {
 
     var {
         int a, b;
         float c;
-    }
-
-    const{
-        int lim = 50;
     }
 
     a = 1;

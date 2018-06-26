@@ -1,7 +1,9 @@
 start(){
 
-    typedef struct extends Student {
+    struct Student {
         float math, physics, mean;
-    } EngStudent;
+    };
+    
+    typedef Student EngStudent;
 
 }

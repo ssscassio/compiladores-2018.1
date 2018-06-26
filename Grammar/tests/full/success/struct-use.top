@@ -20,9 +20,3 @@ start(){
         };
     }
 }
-
-var {
-    struct y {
-        int a;
-    } a, b, c,d;
-}

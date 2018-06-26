@@ -1,10 +1,11 @@
 start () {
 
-    typedef struct{ 
+    struct Humano{ 
         float weight;  
         int age;   
         float height;
-    } Pessoa;
+    };
+    typedef Humano Pessoa;
 
     var {
         Pessoa joao, maria; 
