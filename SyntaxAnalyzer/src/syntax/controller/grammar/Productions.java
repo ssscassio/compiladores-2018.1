@@ -16,106 +16,6 @@ import lexical.util.Consts;
  * @author Beatriz de Brito
  */
 public enum Productions implements Production {
-    Program { // Program Production
-        @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {
-            ArrayList<Token> tokens = tokenList;
-            System.err.println("<Program>");
-
-            if (Declaration.hasAsFirst(tokens.get(0))) {
-                tokens = Declaration.run(tokens);
-            } else { // TODO: ERRO, Ver com o que vai sincronizar
-
-            }
-            tokens = ProgramAux.run(tokens);
-
-            System.err.println("</Program>");
-            return tokens;
-        }
-
-        @Override
-        public boolean hasAsFirst(Token token) {
-            Set<String> VALUES = new HashSet<String>(
-                    Arrays.asList("function", "procedure", "start", "var", "const", "struct", "typedef"));
-            return VALUES.contains(token.getLexeme());
-        }
-
-        @Override
-        public boolean hasAsFollow(Token token) {
-            return token.getType().equals(Consts.END_OF_FILE);
-        }
-    },
-    ProgramAux { // ProgramAux Production
-        @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {
-            ArrayList<Token> tokens = tokenList;
-            System.err.println("<ProgramAux>");
-
-            if (!tokens.isEmpty() && ProgramAux.hasAsFirst(tokens.get(0))) {
-                tokens = Program.run(tokens);
-            }
-
-            System.err.println("</ProgramAux>");
-            return tokens;
-        }
-
-        @Override
-        public boolean hasAsFirst(Token token) {
-            Set<String> VALUES = new HashSet<String>(
-                    Arrays.asList("function", "procedure", "start", "var", "const", "struct", "typedef"));
-            return VALUES.contains(token.getLexeme());
-        }
-
-        @Override
-        public boolean hasAsFollow(Token token) {
-            return token.getType().equals(Consts.END_OF_FILE);
-        }
-    },
-    Declaration {
-        @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {
-            ArrayList<Token> tokens = tokenList;
-            System.err.println("<Declaration>");
-
-            if (tokens.get(0).isSameType(new Token(Consts.KEY_WORD, "function"))) {
-                tokens = FunctionDeclaration.run(tokens);
-            } else if (tokens.get(0).isSameType(new Token(Consts.KEY_WORD, "procedure"))) {
-                tokens = ProcedureDeclaration.run(tokens);
-            } else if (tokens.get(0).isSameType(new Token(Consts.KEY_WORD, "start"))) {
-                tokens = StartDeclaration.run(tokens);
-            } else if (tokens.get(0).isSameType(new Token(Consts.KEY_WORD, "var"))) {
-                tokens = VarDeclaration.run(tokens);
-            } else if (tokens.get(0).isSameType(new Token(Consts.KEY_WORD, "const"))) {
-
-            } else if (tokens.get(0).isSameType(new Token(Consts.KEY_WORD, "struct"))) {
-
-            } else if (tokens.get(0).isSameType(new Token(Consts.KEY_WORD, "typedef"))) {
-                tokens = TypeDeclaration.run(tokens);
-            } else { // TODO: Erro, token inesperado
-                     // TODO: Sincronizar
-                while (!tokens.isEmpty() && !Declaration.hasAsFirst(tokens.get(0))) {
-                    tokens.remove(0);
-                }
-            }
-
-            System.err.println("</Declaration>");
-            return tokens;
-        }
-
-        @Override
-        public boolean hasAsFirst(Token token) {
-            Set<String> VALUES = new HashSet<String>(
-                    Arrays.asList("function", "procedure", "start", "var", "const", "struct", "typedef"));
-            return VALUES.contains(token.getLexeme());
-        }
-
-        @Override
-        public boolean hasAsFollow(Token token) {
-            Set<String> VALUES = new HashSet<String>(
-                    Arrays.asList("function", "procedure", "start", "var", "const", "struct", "typedef"));
-            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.END_OF_FILE);
-        }
-    },
     FunctionDeclaration { // FunctionDeclaration Production
         @Override
         public ArrayList<Token> run(ArrayList<Token> tokenList) {
@@ -309,6 +209,88 @@ public enum Productions implements Production {
             return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.END_OF_FILE);
         }
     },
+    Block { // Block Production
+        @Override
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
+            ArrayList<Token> tokens = tokenList;
+            System.err.println("<Block>");
+
+            if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "{"))) {
+                System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
+                tokens.remove(0);
+            } else { // TODO: ERRO: Não encontrou '{'
+                // Sincronização com First
+                while (!BlockAux.hasAsFirst(tokens.get(0))) {
+                    tokens.remove(0);
+                }
+            }
+
+            tokens = BlockAux.run(tokens);
+
+            System.err.println("</Block>");
+            return tokens;
+        }
+
+        @Override
+        public boolean hasAsFirst(Token token) {
+            return token.isSameType(new Token(Consts.DELIMITER, "{"));
+        }
+
+        @Override
+        public boolean hasAsFollow(Token token) {
+            Set<String> VALUES = new HashSet<String>(
+                    Arrays.asList("--", "!", "(", "++", "false", "print", "return", "scan", "struct", "true", "typdef",
+                            "var", "while", "else", "}", "const", "function", "procedure", "start"));
+            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER)
+                    || token.getType().equals(Consts.NUMBER) || token.getType().equals(Consts.STRING)
+                    || token.getType().equals(Consts.END_OF_FILE);
+        }
+    },
+    BlockAux { // BlockAux Production
+        @Override
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
+            ArrayList<Token> tokens = tokenList;
+            System.err.println("<BlockAux>");
+            if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "}"))) {
+                System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
+                tokens.remove(0);
+            }
+            // TODO: StatementList
+            // else if (StatementList.hasAsFirst(tokens.get(0))) {
+            // tokens = StatementList.run(tokens);
+
+            // if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "}"))) {
+            // System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
+            // tokens.remove(0);
+            // } else { // TODO: ERRO: Esperava } e não encontrou
+
+            // }
+            // } else { // TODO: ERRO: Esperado } e não encontrou
+
+            // }
+            System.err.println("</BlockAux>");
+            return tokens;
+        }
+
+        @Override
+        public boolean hasAsFirst(Token token) {
+            Set<String> VALUES = new HashSet<String>(Arrays.asList("!", "++", "--", "(", "true", "false", "return",
+                    "while", "print", "scan", "if", "var", "typedef", "bool", "float", "int", "string", "struct"));
+            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER)
+                    || token.getType().equals(Consts.NUMBER) || token.getType().equals(Consts.STRING)
+                    || token.getType().equals(Consts.END_OF_FILE);
+        }
+
+        @Override
+        public boolean hasAsFollow(Token token) {
+            Set<String> VALUES = new HashSet<String>(
+                    Arrays.asList("--", "!", "(", "++", "print", "return", "scan", "struct", "true", "false", "typdef",
+                            "var", "while", "else", "}", "const", "function", "procedure", "start"));
+            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER)
+                    || token.getType().equals(Consts.NUMBER) || token.getType().equals(Consts.STRING)
+                    || token.getType().equals(Consts.END_OF_FILE);
+        }
+    },
     FunctionId { // FunctionId Production
         @Override
         public ArrayList<Token> run(ArrayList<Token> tokenList) {
@@ -476,345 +458,259 @@ public enum Productions implements Production {
                     || token.getType().equals(Consts.END_OF_FILE);
         }
     },
-    TypeDeclarationAux { // Type Declaration Aux Production
+    Program { // Program Production
+        @Override
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
+            ArrayList<Token> tokens = tokenList;
+            System.err.println("<Program>");
+
+            if (Declaration.hasAsFirst(tokens.get(0))) {
+                tokens = Declaration.run(tokens);
+            } else { // TODO: ERRO, Ver com o que vai sincronizar
+
+            }
+            tokens = ProgramAux.run(tokens);
+
+            System.err.println("</Program>");
+            return tokens;
+        }
+
+        @Override
+        public boolean hasAsFirst(Token token) {
+            Set<String> VALUES = new HashSet<String>(
+                    Arrays.asList("function", "procedure", "start", "var", "const", "struct", "typedef"));
+            return VALUES.contains(token.getLexeme());
+        }
+
+        @Override
+        public boolean hasAsFollow(Token token) {
+            return token.getType().equals(Consts.END_OF_FILE);
+        }
+    },
+    ProgramAux { // ProgramAux Production
+        @Override
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
+            ArrayList<Token> tokens = tokenList;
+            System.err.println("<ProgramAux>");
+
+            if (!tokens.isEmpty() && ProgramAux.hasAsFirst(tokens.get(0))) {
+                tokens = Program.run(tokens);
+            }
+
+            System.err.println("</ProgramAux>");
+            return tokens;
+        }
+
+        @Override
+        public boolean hasAsFirst(Token token) {
+            Set<String> VALUES = new HashSet<String>(
+                    Arrays.asList("function", "procedure", "start", "var", "const", "struct", "typedef"));
+            return VALUES.contains(token.getLexeme());
+        }
+
+        @Override
+        public boolean hasAsFollow(Token token) {
+            return token.getType().equals(Consts.END_OF_FILE);
+        }
+    },
+    Declaration {
+        @Override
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
+            ArrayList<Token> tokens = tokenList;
+            System.err.println("<Declaration>");
+
+            if (tokens.get(0).isSameType(new Token(Consts.KEY_WORD, "function"))) {
+                tokens = FunctionDeclaration.run(tokens);
+            } else if (tokens.get(0).isSameType(new Token(Consts.KEY_WORD, "procedure"))) {
+                tokens = ProcedureDeclaration.run(tokens);
+            } else if (tokens.get(0).isSameType(new Token(Consts.KEY_WORD, "start"))) {
+                tokens = StartDeclaration.run(tokens);
+            } else if (tokens.get(0).isSameType(new Token(Consts.KEY_WORD, "var"))) {
+                tokens = VarDeclaration.run(tokens);
+            } else if (tokens.get(0).isSameType(new Token(Consts.KEY_WORD, "const"))) {
+
+            } else if (tokens.get(0).isSameType(new Token(Consts.KEY_WORD, "struct"))) {
+
+            } else if (tokens.get(0).isSameType(new Token(Consts.KEY_WORD, "typedef"))) {
+                tokens = TypeDeclaration.run(tokens);
+            } else { // TODO: Erro, token inesperado
+                     // TODO: Sincronizar
+                while (!tokens.isEmpty() && !Declaration.hasAsFirst(tokens.get(0))) {
+                    tokens.remove(0);
+                }
+            }
+
+            System.err.println("</Declaration>");
+            return tokens;
+        }
+
+        @Override
+        public boolean hasAsFirst(Token token) {
+            Set<String> VALUES = new HashSet<String>(
+                    Arrays.asList("function", "procedure", "start", "var", "const", "struct", "typedef"));
+            return VALUES.contains(token.getLexeme());
+        }
+
+        @Override
+        public boolean hasAsFollow(Token token) {
+            Set<String> VALUES = new HashSet<String>(
+                    Arrays.asList("function", "procedure", "start", "var", "const", "struct", "typedef"));
+            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.END_OF_FILE);
+        }
+    },
+    StatementList { // Statement List Production
         @Override
         public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
             ArrayList<Token> tokens = tokenList;
-            System.err.println("<Template>");
+            System.err.println("<StatementList>");
 
-            System.err.println("</Template>");
+            System.err.println("</StatementList>");
             return tokens;
         }
 
         @Override
         public boolean hasAsFirst(Token token) {
-            Set<String> VALUES = new HashSet<String>(Arrays.asList("int", "float", "bool", "string", "struct"));
-            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER);
-        }
 
-        @Override
-        public boolean hasAsFollow(Token token) {
-            Set<String> VALUES = new HashSet<String>(
-                    Arrays.asList("--", "!", "(", "++", "false", "print", "return", "scan", "struct", "true", "typdef",
-                            "var", "while", "}", "const", "function", "procedure", "start"));
+            Set<String> VALUES = new HashSet<String>(Arrays.asList("!", "++", "(", "true", "false", "struct", "return",
+                    "print", "scan", "if", "then", "while", "var", "typedef"));
             return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER)
-                    || token.getType().equals(Consts.NUMBER) || token.getType().equals(Consts.STRING)
-                    || token.getType().equals(Consts.END_OF_FILE);
-        }
-    },
-    Block { // Block Production
-        @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {
-            ArrayList<Token> tokens = tokenList;
-            System.err.println("<Block>");
+                    || token.getType().equals(Consts.NUMBER) || token.getType().equals(Consts.STRING);
 
-            if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "{"))) {
-                System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
-                tokens.remove(0);
-            } else { // TODO: ERRO: Não encontrou '{'
-                // Sincronização com First
-                while (!BlockAux.hasAsFirst(tokens.get(0))) {
-                    tokens.remove(0);
-                }
-            }
-
-            tokens = BlockAux.run(tokens);
-
-            System.err.println("</Block>");
-            return tokens;
-        }
-
-        @Override
-        public boolean hasAsFirst(Token token) {
-            return token.isSameType(new Token(Consts.DELIMITER, "{"));
-        }
-
-        @Override
-        public boolean hasAsFollow(Token token) {
-            Set<String> VALUES = new HashSet<String>(
-                    Arrays.asList("--", "!", "(", "++", "false", "print", "return", "scan", "struct", "true", "typdef",
-                            "var", "while", "else", "}", "const", "function", "procedure", "start"));
-            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER)
-                    || token.getType().equals(Consts.NUMBER) || token.getType().equals(Consts.STRING)
-                    || token.getType().equals(Consts.END_OF_FILE);
-        }
-    },
-    BlockAux { // BlockAux Production
-        @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {
-            ArrayList<Token> tokens = tokenList;
-            System.err.println("<BlockAux>");
-            if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "}"))) {
-                System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
-                tokens.remove(0);
-            }
-            // TODO: StatementList
-            // else if (StatementList.hasAsFirst(tokens.get(0))) {
-            // tokens = StatementList.run(tokens);
-
-            // if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "}"))) {
-            // System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
-            // tokens.remove(0);
-            // } else { // TODO: ERRO: Esperava } e não encontrou
-
-            // }
-            // } else { // TODO: ERRO: Esperado } e não encontrou
-
-            // }
-            System.err.println("</BlockAux>");
-            return tokens;
-        }
-
-        @Override
-        public boolean hasAsFirst(Token token) {
-            Set<String> VALUES = new HashSet<String>(Arrays.asList("!", "++", "--", "(", "true", "false", "return",
-                    "while", "print", "scan", "if", "var", "typedef", "bool", "float", "int", "string", "struct"));
-            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER)
-                    || token.getType().equals(Consts.NUMBER) || token.getType().equals(Consts.STRING)
-                    || token.getType().equals(Consts.END_OF_FILE);
-        }
-
-        @Override
-        public boolean hasAsFollow(Token token) {
-            Set<String> VALUES = new HashSet<String>(
-                    Arrays.asList("--", "!", "(", "++", "print", "return", "scan", "struct", "true", "false", "typdef",
-                            "var", "while", "else", "}", "const", "function", "procedure", "start"));
-            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER)
-                    || token.getType().equals(Consts.NUMBER) || token.getType().equals(Consts.STRING)
-                    || token.getType().equals(Consts.END_OF_FILE);
-        }
-    },
-    VarDeclaration { // VarDeclaration Production
-        @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {
-            ArrayList<Token> tokens = tokenList;
-            System.err.println("<VarDeclaration>");
-            if (consumeToken(tokens.get(0), new Token(Consts.KEY_WORD, "var"))) {
-                System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
-                tokens.remove(0);
-            } else { // TODO: ERRO: Esperava palavra var
-
-            }
-            if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "{"))) {
-                System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
-                tokens.remove(0);
-            } else { // ERRO:
-                // TODO: Disparar erro
-                // SINCRONIZAÇÃO
-                while (!VarBody.hasAsFirst(tokens.get(0))) {
-                    tokens.remove(0);
-                }
-            }
-            if (VarBody.hasAsFirst(tokens.get(0))) {
-                tokens = VarBody.run(tokens);
-            } else {
-                // Sem body
-            }
-            if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "}"))) {
-                System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
-                tokens.remove(0);
-            }
-
-            System.err.println("</VarDeclaration>");
-            return tokenList;
-        }
-
-        @Override
-        public boolean hasAsFirst(Token token) {
-            return token.isSameType(new Token(Consts.KEY_WORD, "var"));
-        }
-
-        @Override
-        public boolean hasAsFollow(Token token) {
-            Set<String> VALUES = new HashSet<String>(
-                    Arrays.asList("function", "procedure", "start", "var", "const", "struct", "typedef", "!", "++",
-                            "--", "(", "true", "false", "return", "print", "scan", "if", "then", "while", "}"));
-            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER)
-                    || token.getType().equals(Consts.NUMBER) || token.getType().equals(Consts.STRING)
-                    || token.getType().equals(Consts.END_OF_FILE);
-        }
-
-    },
-    VarBody { // VarBody Production
-        @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {
-            ArrayList<Token> tokens = tokenList;
-            System.err.println("<VarBody>");
-            if (VarBody.hasAsFirst(tokens.get(0))) {
-                tokens = VarRow.run(tokens);
-                tokens = VarBodyAux.run(tokens);
-            } else { // TODO:
-                     // ERRO
-
-            }
-            System.err.println("</VarBody>");
-            return tokens;
-        }
-
-        @Override
-        public boolean hasAsFirst(Token token) {
-            Set<String> VALUES = new HashSet<String>(Arrays.asList("bool", "float", "int", "string", "struct"));
-            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER);
         }
 
         @Override
         public boolean hasAsFollow(Token token) {
             return token.isSameType(new Token(Consts.DELIMITER, "}"));
+
         }
     },
-    VarBodyAux { // VarBodyAux Production
-        @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {
-            ArrayList<Token> tokens = tokenList;
-            System.err.println("<VarBodyAux>");
-            if (VarBody.hasAsFirst(tokens.get(0))) {
-                tokens = VarBody.run(tokens);
-            }
-            System.err.println("</VarBodyAux>");
-            return tokens;
-        }
-
-        @Override
-        public boolean hasAsFirst(Token token) {
-            Set<String> VALUES = new HashSet<String>(Arrays.asList("bool", "float", "int", "string", "struct"));
-            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER);
-        }
-
-        @Override
-        public boolean hasAsFollow(Token token) {
-            return token.isSameType(new Token(Consts.DELIMITER, "}"));
-        }
-    },
-    VarRow { // VarRow Production
-        @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {
-            ArrayList<Token> tokens = tokenList;
-            System.err.println("<VarRow>");
-            if (VarRow.hasAsFirst(tokens.get(0))) {
-                tokens = Type.run(tokens);
-                tokens = VarIdentifierList.run(tokens);
-            } else { // TODO: ERRO
-
-            }
-            System.err.println("</VarRow>");
-            return tokens;
-        }
-
-        @Override
-        public boolean hasAsFirst(Token token) {
-            Set<String> VALUES = new HashSet<String>(Arrays.asList("bool", "float", "int", "string", "struct"));
-            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER);
-        }
-
-        @Override
-        public boolean hasAsFollow(Token token) {
-            Set<String> VALUES = new HashSet<String>(Arrays.asList("int", "float", "bool", "string", "struct", "}"));
-            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER);
-        }
-    },
-    VarIdentifierList { // VarIdentifierList Production
-        @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {
-            ArrayList<Token> tokens = tokenList;
-            System.err.println("<VarIdentifierList>");
-            tokens = VarIdentifier.run(tokens);
-            tokens = VarIdentifierListAux.run(tokens);
-            System.err.println("</VarIdentifierList>");
-            return tokens;
-        }
-
-        @Override
-        public boolean hasAsFirst(Token token) {
-            return token.getType().equals(Consts.IDENTIFIER);
-        }
-
-        @Override
-        public boolean hasAsFollow(Token token) {
-            return token.isSameType(new Token(Consts.DELIMITER, "}"));
-        }
-    },
-    VarIdentifierListAux { // VarIdentifierListAux Production
-        @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {
-            ArrayList<Token> tokens = tokenList;
-            System.err.println("<VarIdentifierListAux>");
-            if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, ";"))) {
-                System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
-                tokens.remove(0);
-            } else if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, ","))) {
-                System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
-                tokens.remove(0);
-                tokens = VarIdentifierList.run(tokens);
-            } else { // TODO: Erro: esperava ',' ou ';'
-                // TODO: Ideia: Fazer sincronização para Follow de Array Type Field
-                // TODO: Ver se isso é realmente preciso, ou se basta dar o return;
-                while (!VarIdentifierListAux.hasAsFollow(tokens.get(0))) {
-                    tokens.remove(0);
-                }
-            }
-            System.err.println("</VarIdentifierListAux>");
-            return tokens;
-        }
-
-        @Override
-        public boolean hasAsFirst(Token token) {
-            return token.getType().equals(Consts.IDENTIFIER);
-        }
-
-        @Override
-        public boolean hasAsFollow(Token token) {
-            return token.isSameType(new Token(Consts.DELIMITER, "}"));
-        }
-    },
-    VarIdentifier { // VarIdentifier Production
-        @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {
-            ArrayList<Token> tokens = tokenList;
-            System.err.println("<VarIdentifier>");
-            if (consumeToken(tokens.get(0), new Token(Consts.IDENTIFIER, ""))) {
-                System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
-                tokens.remove(0);
-                // TODO: Parte que começa as expressões
-                // tokens = tokens = VarIdentifierAux.run(tokens);
-            } else { // TODO: ERRO: Esperava um Identificador, não encontrou isso
-                // TODO: Sincronização, como fazer sincronização com coisas que tem vazio?
-            }
-            System.err.println("</VarIdentifier>");
-            return tokens;
-        }
-
-        @Override
-        public boolean hasAsFirst(Token token) {
-            return token.getType().equals(Consts.IDENTIFIER);
-        }
-
-        @Override
-        public boolean hasAsFollow(Token token) {
-            Set<String> VALUES = new HashSet<String>(Arrays.asList(",", ")"));
-            return VALUES.contains(token.getLexeme());
-        }
-    },
-    VarIdentifierAux { // Var Identifier Aux Production
+    StatementListAux { // Statement List Aux Production
         @Override
         public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
             ArrayList<Token> tokens = tokenList;
-            System.err.println("<VarIdentifierAux>");
+            System.err.println("<StatementListAux>");
 
-            System.err.println("</VarIdentifierAux>");
+            System.err.println("</StatementListAux>");
             return tokens;
         }
 
         @Override
         public boolean hasAsFirst(Token token) {
-            return token.isSameType(new Token(Consts.RELATIONAL_OPERATOR, "="))
-                    || token.getType().equals(Consts.END_OF_FILE);
+
+            Set<String> VALUES = new HashSet<String>(Arrays.asList("!", "++", "--", "(", "true", "false", "struct",
+                    "return", "print", "scan", "if", "then", "while", "var", "typedef"));
+            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER)
+                    || token.getType().equals(Consts.NUMBER) || token.getType().equals(Consts.STRING);
 
         }
 
         @Override
         public boolean hasAsFollow(Token token) {
-            Set<String> VALUES = new HashSet<String>(Arrays.asList(",", ";"));
-            return VALUES.contains(token.getLexeme());
+            return token.isSameType(new Token(Consts.DELIMITER, "}"));
+
+        }
+    },
+    Statement { // Statement Production
+        @Override
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+            ArrayList<Token> tokens = tokenList;
+            System.err.println("<Statement>");
+
+            System.err.println("</Statement>");
+            return tokens;
+        }
+
+        @Override
+        public boolean hasAsFirst(Token token) {
+
+            Set<String> VALUES = new HashSet<String>(Arrays.asList("!", "++", "--", "(", "true", "false", "struct",
+                    "return", "print", "scan", "if", "then", "while", "var", "typedef"));
+            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER)
+                    || token.getType().equals(Consts.NUMBER) || token.getType().equals(Consts.STRING);
+
+        }
+
+        @Override
+        public boolean hasAsFollow(Token token) {
+            Set<String> VALUES = new HashSet<String>(Arrays.asList("!", "++", "(", "true", "false", "struct", "return",
+                    "print", "scan", "if", "then", "while", "var", "typedef", "}"));
+            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER)
+                    || token.getType().equals(Consts.NUMBER) || token.getType().equals(Consts.STRING);
+
+        }
+    },
+    NormalStatement { // Normal Statement Production
+        @Override
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+            ArrayList<Token> tokens = tokenList;
+            System.err.println("<NormalStatement>");
+
+            System.err.println("</NormalStatement>");
+            return tokens;
+        }
+
+        @Override
+        public boolean hasAsFirst(Token token) {
+
+            Set<String> VALUES = new HashSet<String>(
+                    Arrays.asList("!", "++", "--", "(", "true", "false", "struct", "return", "print", "scan"));
+            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER)
+                    || token.getType().equals(Consts.NUMBER) || token.getType().equals(Consts.STRING);
+
+        }
+
+        @Override
+        public boolean hasAsFollow(Token token) {
+            Set<String> VALUES = new HashSet<String>(Arrays.asList("!", "++", "(", "true", "false", "struct", "return",
+                    "print", "scan", "if", "then", "while", "var", "typedef", "}"));
+            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER)
+                    || token.getType().equals(Consts.NUMBER) || token.getType().equals(Consts.STRING);
+
+        }
+    },
+    ReturnStatement { // Return Statement Production
+        @Override
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+            ArrayList<Token> tokens = tokenList;
+            System.err.println("<ReturnStatement>");
+
+            System.err.println("</ReturnStatement>");
+            return tokens;
+        }
+
+        @Override
+        public boolean hasAsFirst(Token token) {
+            return token.isSameType(new Token(Consts.KEY_WORD, "return"));
+        }
+
+        @Override
+        public boolean hasAsFollow(Token token) {
+            return token.isSameType(new Token(Consts.DELIMITER, ";"));
+        }
+    },
+    ReturnStatementAux { // Return Statement Aux Production
+        @Override
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+            ArrayList<Token> tokens = tokenList;
+            System.err.println("<ReturnStatementAux>");
+
+            System.err.println("</ReturnStatementAux>");
+            return tokens;
+        }
+
+        @Override
+        public boolean hasAsFirst(Token token) {
+
+            Set<String> VALUES = new HashSet<String>(Arrays.asList("!", "++", "--", "(", "true", "false"));
+            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER)
+                    || token.getType().equals(Consts.NUMBER) || token.getType().equals(Consts.STRING);
+
+        }
+
+        @Override
+        public boolean hasAsFollow(Token token) {
+            return token.isSameType(new Token(Consts.DELIMITER, ";"));
+
         }
     },
     Type { // Type Production
@@ -1015,7 +911,6 @@ public enum Productions implements Production {
             return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER);
         }
     },
-
     OpAssing { // Op Assign Production
         @Override
         public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
@@ -1553,6 +1448,240 @@ public enum Productions implements Production {
             return VALUES.contains(token.getLexeme());
         }
     },
+    VarDeclaration { // VarDeclaration Production
+        @Override
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
+            ArrayList<Token> tokens = tokenList;
+            System.err.println("<VarDeclaration>");
+            if (consumeToken(tokens.get(0), new Token(Consts.KEY_WORD, "var"))) {
+                System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
+                tokens.remove(0);
+            } else { // TODO: ERRO: Esperava palavra var
+
+            }
+            if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "{"))) {
+                System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
+                tokens.remove(0);
+            } else { // ERRO:
+                // TODO: Disparar erro
+                // SINCRONIZAÇÃO
+                while (!VarBody.hasAsFirst(tokens.get(0))) {
+                    tokens.remove(0);
+                }
+            }
+            if (VarBody.hasAsFirst(tokens.get(0))) {
+                tokens = VarBody.run(tokens);
+            } else {
+                // Sem body
+            }
+            if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "}"))) {
+                System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
+                tokens.remove(0);
+            }
+
+            System.err.println("</VarDeclaration>");
+            return tokenList;
+        }
+
+        @Override
+        public boolean hasAsFirst(Token token) {
+            return token.isSameType(new Token(Consts.KEY_WORD, "var"));
+        }
+
+        @Override
+        public boolean hasAsFollow(Token token) {
+            Set<String> VALUES = new HashSet<String>(
+                    Arrays.asList("function", "procedure", "start", "var", "const", "struct", "typedef", "!", "++",
+                            "--", "(", "true", "false", "return", "print", "scan", "if", "then", "while", "}"));
+            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER)
+                    || token.getType().equals(Consts.NUMBER) || token.getType().equals(Consts.STRING)
+                    || token.getType().equals(Consts.END_OF_FILE);
+        }
+
+    },
+    VarBody { // VarBody Production
+        @Override
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
+            ArrayList<Token> tokens = tokenList;
+            System.err.println("<VarBody>");
+            if (VarBody.hasAsFirst(tokens.get(0))) {
+                tokens = VarRow.run(tokens);
+                tokens = VarBodyAux.run(tokens);
+            } else { // TODO:
+                     // ERRO
+
+            }
+            System.err.println("</VarBody>");
+            return tokens;
+        }
+
+        @Override
+        public boolean hasAsFirst(Token token) {
+            Set<String> VALUES = new HashSet<String>(Arrays.asList("bool", "float", "int", "string", "struct"));
+            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER);
+        }
+
+        @Override
+        public boolean hasAsFollow(Token token) {
+            return token.isSameType(new Token(Consts.DELIMITER, "}"));
+        }
+    },
+    VarBodyAux { // VarBodyAux Production
+        @Override
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
+            ArrayList<Token> tokens = tokenList;
+            System.err.println("<VarBodyAux>");
+            if (VarBody.hasAsFirst(tokens.get(0))) {
+                tokens = VarBody.run(tokens);
+            }
+            System.err.println("</VarBodyAux>");
+            return tokens;
+        }
+
+        @Override
+        public boolean hasAsFirst(Token token) {
+            Set<String> VALUES = new HashSet<String>(Arrays.asList("bool", "float", "int", "string", "struct"));
+            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER);
+        }
+
+        @Override
+        public boolean hasAsFollow(Token token) {
+            return token.isSameType(new Token(Consts.DELIMITER, "}"));
+        }
+    },
+    VarRow { // VarRow Production
+        @Override
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
+            ArrayList<Token> tokens = tokenList;
+            System.err.println("<VarRow>");
+            if (VarRow.hasAsFirst(tokens.get(0))) {
+                tokens = Type.run(tokens);
+                tokens = VarIdentifierList.run(tokens);
+            } else { // TODO: ERRO
+
+            }
+            System.err.println("</VarRow>");
+            return tokens;
+        }
+
+        @Override
+        public boolean hasAsFirst(Token token) {
+            Set<String> VALUES = new HashSet<String>(Arrays.asList("bool", "float", "int", "string", "struct"));
+            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER);
+        }
+
+        @Override
+        public boolean hasAsFollow(Token token) {
+            Set<String> VALUES = new HashSet<String>(Arrays.asList("int", "float", "bool", "string", "struct", "}"));
+            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER);
+        }
+    },
+    VarIdentifierList { // VarIdentifierList Production
+        @Override
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
+            ArrayList<Token> tokens = tokenList;
+            System.err.println("<VarIdentifierList>");
+            tokens = VarIdentifier.run(tokens);
+            tokens = VarIdentifierListAux.run(tokens);
+            System.err.println("</VarIdentifierList>");
+            return tokens;
+        }
+
+        @Override
+        public boolean hasAsFirst(Token token) {
+            return token.getType().equals(Consts.IDENTIFIER);
+        }
+
+        @Override
+        public boolean hasAsFollow(Token token) {
+            return token.isSameType(new Token(Consts.DELIMITER, "}"));
+        }
+    },
+    VarIdentifierListAux { // VarIdentifierListAux Production
+        @Override
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
+            ArrayList<Token> tokens = tokenList;
+            System.err.println("<VarIdentifierListAux>");
+            if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, ";"))) {
+                System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
+                tokens.remove(0);
+            } else if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, ","))) {
+                System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
+                tokens.remove(0);
+                tokens = VarIdentifierList.run(tokens);
+            } else { // TODO: Erro: esperava ',' ou ';'
+                // TODO: Ideia: Fazer sincronização para Follow de Array Type Field
+                // TODO: Ver se isso é realmente preciso, ou se basta dar o return;
+                while (!VarIdentifierListAux.hasAsFollow(tokens.get(0))) {
+                    tokens.remove(0);
+                }
+            }
+            System.err.println("</VarIdentifierListAux>");
+            return tokens;
+        }
+
+        @Override
+        public boolean hasAsFirst(Token token) {
+            return token.getType().equals(Consts.IDENTIFIER);
+        }
+
+        @Override
+        public boolean hasAsFollow(Token token) {
+            return token.isSameType(new Token(Consts.DELIMITER, "}"));
+        }
+    },
+    VarIdentifier { // VarIdentifier Production
+        @Override
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
+            ArrayList<Token> tokens = tokenList;
+            System.err.println("<VarIdentifier>");
+            if (consumeToken(tokens.get(0), new Token(Consts.IDENTIFIER, ""))) {
+                System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
+                tokens.remove(0);
+                // TODO: Parte que começa as expressões
+                // tokens = tokens = VarIdentifierAux.run(tokens);
+            } else { // TODO: ERRO: Esperava um Identificador, não encontrou isso
+                // TODO: Sincronização, como fazer sincronização com coisas que tem vazio?
+            }
+            System.err.println("</VarIdentifier>");
+            return tokens;
+        }
+
+        @Override
+        public boolean hasAsFirst(Token token) {
+            return token.getType().equals(Consts.IDENTIFIER);
+        }
+
+        @Override
+        public boolean hasAsFollow(Token token) {
+            Set<String> VALUES = new HashSet<String>(Arrays.asList(",", ")"));
+            return VALUES.contains(token.getLexeme());
+        }
+    },
+    VarIdentifierAux { // Var Identifier Aux Production
+        @Override
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+            ArrayList<Token> tokens = tokenList;
+            System.err.println("<VarIdentifierAux>");
+
+            System.err.println("</VarIdentifierAux>");
+            return tokens;
+        }
+
+        @Override
+        public boolean hasAsFirst(Token token) {
+            return token.isSameType(new Token(Consts.RELATIONAL_OPERATOR, "="))
+                    || token.getType().equals(Consts.END_OF_FILE);
+
+        }
+
+        @Override
+        public boolean hasAsFollow(Token token) {
+            Set<String> VALUES = new HashSet<String>(Arrays.asList(",", ";"));
+            return VALUES.contains(token.getLexeme());
+        }
+    },
+
     ConstDeclaration { // Const Declaration Production
         @Override
         public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
@@ -2157,161 +2286,6 @@ public enum Productions implements Production {
         @Override
         public boolean hasAsFollow(Token token) {
             return token.isSameType(new Token(Consts.DELIMITER, ")"));
-
-        }
-    },
-    StatementList { // Statement List Production
-        @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
-            ArrayList<Token> tokens = tokenList;
-            System.err.println("<StatementList>");
-
-            System.err.println("</StatementList>");
-            return tokens;
-        }
-
-        @Override
-        public boolean hasAsFirst(Token token) {
-
-            Set<String> VALUES = new HashSet<String>(Arrays.asList("!", "++", "(", "true", "false", "struct", "return",
-                    "print", "scan", "if", "then", "while", "var", "typedef"));
-            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER)
-                    || token.getType().equals(Consts.NUMBER) || token.getType().equals(Consts.STRING);
-
-        }
-
-        @Override
-        public boolean hasAsFollow(Token token) {
-            return token.isSameType(new Token(Consts.DELIMITER, "}"));
-
-        }
-    },
-    StatementListAux { // Statement List Aux Production
-        @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
-            ArrayList<Token> tokens = tokenList;
-            System.err.println("<StatementListAux>");
-
-            System.err.println("</StatementListAux>");
-            return tokens;
-        }
-
-        @Override
-        public boolean hasAsFirst(Token token) {
-
-            Set<String> VALUES = new HashSet<String>(Arrays.asList("!", "++", "--", "(", "true", "false", "struct",
-                    "return", "print", "scan", "if", "then", "while", "var", "typedef"));
-            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER)
-                    || token.getType().equals(Consts.NUMBER) || token.getType().equals(Consts.STRING);
-
-        }
-
-        @Override
-        public boolean hasAsFollow(Token token) {
-            return token.isSameType(new Token(Consts.DELIMITER, "}"));
-
-        }
-    },
-    Statement { // Statement Production
-        @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
-            ArrayList<Token> tokens = tokenList;
-            System.err.println("<Statement>");
-
-            System.err.println("</Statement>");
-            return tokens;
-        }
-
-        @Override
-        public boolean hasAsFirst(Token token) {
-
-            Set<String> VALUES = new HashSet<String>(Arrays.asList("!", "++", "--", "(", "true", "false", "struct",
-                    "return", "print", "scan", "if", "then", "while", "var", "typedef"));
-            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER)
-                    || token.getType().equals(Consts.NUMBER) || token.getType().equals(Consts.STRING);
-
-        }
-
-        @Override
-        public boolean hasAsFollow(Token token) {
-            Set<String> VALUES = new HashSet<String>(Arrays.asList("!", "++", "(", "true", "false", "struct", "return",
-                    "print", "scan", "if", "then", "while", "var", "typedef", "}"));
-            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER)
-                    || token.getType().equals(Consts.NUMBER) || token.getType().equals(Consts.STRING);
-
-        }
-    },
-    NormalStatement { // Normal Statement Production
-        @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
-            ArrayList<Token> tokens = tokenList;
-            System.err.println("<NormalStatement>");
-
-            System.err.println("</NormalStatement>");
-            return tokens;
-        }
-
-        @Override
-        public boolean hasAsFirst(Token token) {
-
-            Set<String> VALUES = new HashSet<String>(
-                    Arrays.asList("!", "++", "--", "(", "true", "false", "struct", "return", "print", "scan"));
-            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER)
-                    || token.getType().equals(Consts.NUMBER) || token.getType().equals(Consts.STRING);
-
-        }
-
-        @Override
-        public boolean hasAsFollow(Token token) {
-            Set<String> VALUES = new HashSet<String>(Arrays.asList("!", "++", "(", "true", "false", "struct", "return",
-                    "print", "scan", "if", "then", "while", "var", "typedef", "}"));
-            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER)
-                    || token.getType().equals(Consts.NUMBER) || token.getType().equals(Consts.STRING);
-
-        }
-    },
-    ReturnStatement { // Return Statement Production
-        @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
-            ArrayList<Token> tokens = tokenList;
-            System.err.println("<ReturnStatement>");
-
-            System.err.println("</ReturnStatement>");
-            return tokens;
-        }
-
-        @Override
-        public boolean hasAsFirst(Token token) {
-            return token.isSameType(new Token(Consts.KEY_WORD, "return"));
-        }
-
-        @Override
-        public boolean hasAsFollow(Token token) {
-            return token.isSameType(new Token(Consts.DELIMITER, ";"));
-        }
-    },
-    ReturnStatementAux { // Return Statement Aux Production
-        @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
-            ArrayList<Token> tokens = tokenList;
-            System.err.println("<ReturnStatementAux>");
-
-            System.err.println("</ReturnStatementAux>");
-            return tokens;
-        }
-
-        @Override
-        public boolean hasAsFirst(Token token) {
-
-            Set<String> VALUES = new HashSet<String>(Arrays.asList("!", "++", "--", "(", "true", "false"));
-            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER)
-                    || token.getType().equals(Consts.NUMBER) || token.getType().equals(Consts.STRING);
-
-        }
-
-        @Override
-        public boolean hasAsFollow(Token token) {
-            return token.isSameType(new Token(Consts.DELIMITER, ";"));
 
         }
     },
