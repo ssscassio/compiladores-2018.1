@@ -598,7 +598,8 @@ public enum Productions implements Production {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<StatementListAux>");
 
-            if (!tokens.isEmpty() && StatementList.hasAsFirst(tokens.get(0))) {
+            if (!tokens.isEmpty() && StatementList.hasAsFirst(tokens.get(0))
+                    && !StatementListAux.hasAsFollow(tokens.get(0))) {
                 tokens = StatementList.run(tokens);
             }
 
@@ -1504,7 +1505,7 @@ public enum Productions implements Production {
             System.err.println("<Accessing>");
 
             tokens = Field.run(tokens);
-            tokens = AcessingAux.run(tokens);
+            tokens = AccessingAux.run(tokens);
 
             System.err.println("</Accessing>");
             return tokens;
@@ -1632,7 +1633,8 @@ public enum Productions implements Production {
         @Override
         public boolean hasAsFirst(Token token) {
             Set<String> VALUES = new HashSet<String>(Arrays.asList("(", "true", "false"));
-            return VALUES.contains(token.getLexeme());
+            return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER)
+                    || token.getType().equals(Consts.NUMBER) || token.getType().equals(Consts.STRING);
         }
 
         @Override
