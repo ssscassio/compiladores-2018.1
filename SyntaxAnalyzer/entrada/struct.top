@@ -1,0 +1,4 @@
+struct Students{
+        string name;
+        float math, physics, mean;
+    };

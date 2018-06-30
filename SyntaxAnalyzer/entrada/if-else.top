@@ -1,0 +1,8 @@
+start () {
+    if (a == b) then {
+
+    } else {
+
+    }
+
+}

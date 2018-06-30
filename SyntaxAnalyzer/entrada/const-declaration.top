@@ -1,0 +1,4 @@
+const {
+    int number = 5;
+    bool approved = false;
+}
