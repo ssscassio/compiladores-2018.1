@@ -26,7 +26,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.KEY_WORD, "function"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else { // TODO: ERRO: Não encontrou a palavra function
+            } else {
                 displayError(tokens.get(0), "'function'");
                 while (!FunctionId.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
@@ -38,7 +38,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "("))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else { // TODO: ERRO: Não encontoru '('
+            } else {
                 displayError(tokens.get(0), "'('");
                 while (!FunctionProcedureTail.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
@@ -72,7 +72,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.KEY_WORD, "procedure"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else { // TODO: Erro: Não encontrou procedure
+            } else {
                 displayError(tokens.get(0), "'procedure'");
                 while (!FunctionProcedureTail.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
@@ -82,7 +82,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.IDENTIFIER, ""))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else { // TODO: Erro: Não encontrou identificador
+            } else {
                 displayError(tokens.get(0), "'Identifier'");
                 while (!FunctionProcedureTail.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
@@ -92,9 +92,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "("))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else { // TODO: Erro: Não encontrou '('
-                // TODO: Disparar erro
-                // SINCRONIZAÇÃO
+            } else {
                 displayError(tokens.get(0), "'('");
                 while (!FunctionProcedureTail.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
@@ -128,7 +126,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.KEY_WORD, "start"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else { // TODO: ERRO: Não encontrou a palavra start
+            } else {
                 displayError(tokens.get(0), "'start'");
                 while (!Block.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
@@ -138,7 +136,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "("))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else { // TODO: Erro: Não encontrou '('
+            } else {
                 displayError(tokens.get(0), "'start'");
                 while (!Block.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
@@ -148,9 +146,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, ")"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else { // TODO: Erro: Não encontrou ')'
-                // TODO: Disparar erro
-                // SINCRONIZAÇÃO
+            } else {
                 displayError(tokens.get(0), "')'");
                 while (!Block.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
@@ -188,7 +184,7 @@ public enum Productions implements Production {
                 if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, ")"))) {
                     System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                     tokens.remove(0);
-                } else { /// TODO: Erro: Não encontrou ')'
+                } else {
                     displayError(tokens.get(0), ")");
                     while (!Block.hasAsFirst(tokens.get(0))) {
                         tokens.remove(0);
@@ -202,7 +198,7 @@ public enum Productions implements Production {
                 if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, ")"))) {
                     System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                     tokens.remove(0);
-                } else { // TODO: Erro: Não encontrou ')'
+                } else {
                     displayError(tokens.get(0), "')'");
                     while (!Block.hasAsFirst(tokens.get(0))) {
                         tokens.remove(0);
@@ -238,8 +234,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "{"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else { // TODO: ERRO: Não encontrou '{'
-                // Sincronização com First
+            } else {
                 displayError(tokens.get(0), "{");
                 while (!BlockAux.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
@@ -281,15 +276,13 @@ public enum Productions implements Production {
                 if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "}"))) {
                     System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                     tokens.remove(0);
-                } else { // TODO: ERRO: Esperava } e não encontrou
-                    // Sincronizar com seguinte de BlockAux
+                } else {
                     displayError(tokens.get(0), "'}'");
                     while (!BlockAux.hasAsFollow(tokens.get(0))) {
                         tokens.remove(0);
                     }
                 }
-            } else { // TODO: ERRO: Esperado } e não encontrou
-                // Sincronizar com seguinte de BlockAux
+            } else {
                 displayError(tokens.get(0), "'}'");
                 while (!BlockAux.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
@@ -329,8 +322,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.IDENTIFIER, ""))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else { // TODO: Erro: Não encontrou identificador
-                // Sincronização com Follow
+            } else {
                 displayError(tokens.get(0), "'Identifier'");
                 while (!FunctionId.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
@@ -417,8 +409,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.IDENTIFIER, ""))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else { // TODO: Erro: Não encontrou identificador
-                // Sincronização com Follow
+            } else {
                 displayError(tokens.get(0), "'Identifier'");
                 while (!Param.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
@@ -450,7 +441,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.KEY_WORD, "typedef"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else { // TODO: Erro: Não encontrou 'typedef'
+            } else {
                 displayError(tokens.get(0), "'typedef'");
                 while (!Type.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
@@ -462,7 +453,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.IDENTIFIER, ""))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else { // TODO: Erro: Não encontrou identificador
+            } else {
                 displayError(tokens.get(0), "'Identifier'");
                 while (!TypeDeclaration.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
@@ -472,8 +463,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, ";"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else { // TODO: ERRO: Não encontrou ';'
-                // TODO: Sincronizar com seguinte de TypeDeclaration
+            } else {
                 displayError(tokens.get(0), "';'");
                 while (!TypeDeclaration.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
@@ -570,8 +560,7 @@ public enum Productions implements Production {
                 tokens = StructDeclaration.run(tokens);
             } else if (tokens.get(0).isSameType(new Token(Consts.KEY_WORD, "typedef"))) {
                 tokens = TypeDeclaration.run(tokens);
-            } else { // TODO: Erro, token inesperado
-                     // TODO: Sincronizar
+            } else {
                 displayError(tokens.get(0), "'start', 'function', 'var', 'struct' or 'typedef'");
                 while (!ProgramAux.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
@@ -671,7 +660,6 @@ public enum Productions implements Production {
             } else if (TypeDeclaration.hasAsFirst(tokens.get(0))) {
                 tokens = TypeDeclaration.run(tokens);
             } else {
-                // TODO: ERRO, Sincronizar com seguinte de Statement
                 displayError(tokens.get(0),
                         "'!', '++', '--', '(', 'true', 'false', 'struct', 'return', 'print', 'scan', 'if', 'while', 'var' or typedef");
                 while (!Statement.hasAsFollow(tokens.get(0))) {
@@ -722,7 +710,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, ";"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else { // TODO: Erro: Não encontrou ';'
+            } else {
                 displayError(tokens.get(0), "';'");
                 while (!NormalStatement.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
@@ -761,7 +749,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.KEY_WORD, "return"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else { // TODO: Erro: Não encontrou return
+            } else {
                 displayError(tokens.get(0), "'return'");
                 while (!ReturnStatementAux.hasAsFirst(tokens.get(0)) && !ReturnStatement.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
@@ -874,15 +862,13 @@ public enum Productions implements Production {
                 if (consumeToken(tokens.get(0), new Token(Consts.IDENTIFIER, ""))) {
                     System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                     tokens.remove(0);
-                } else { // TODO: ERRO: Esperado Identificador
-                    // TODO: Ideia: Fazer sincronização para Follow de Type Base
-                    // TODO: Ver se isso é realmente preciso, ou se basta dar o return;
-                    // while (!TypeBase.hasAsFollow(tokens.get(0))) {
-                    // tokens.remove(0);
-                    // }
+                } else {
+                    displayError(tokens.get(0), "'Identifier'");
+                    while (!TypeBase.hasAsFollow(tokens.get(0))) {
+                        tokens.remove(0);
+                    }
                 }
-            } else { // TODO: ERRO - Não entrou em nenhuma
-                     // opção dos primeiros de TypeBase
+            } else {
                 displayError(tokens.get(0), "'return'");
                 while (!TypeBase.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
@@ -912,7 +898,7 @@ public enum Productions implements Production {
             if (TypeBase.hasAsFirst(tokens.get(0))) { // TODO: Ver se vai ser preciso definir a partir do tipo
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else { // TODO: Algum erro que eu acho que não vai acontecer
+            } else {
                 System.err.println("ERROR: Scalar");
                 while (!Scalar.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
@@ -992,14 +978,13 @@ public enum Productions implements Production {
                 if (consumeToken(tokens.get(0), new Token(Consts.KEY_WORD, "]"))) {
                     System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                     tokens.remove(0);
-                } else { // TODO: ERRO: ']' não encontrado
-                    // TODO: Ideia: Fazer sincronização para Follow de Array Type Field
-                    // TODO: Ver se isso é realmente preciso, ou se basta dar o return;
-                    // while (!ArrayTypeField.hasAsFollow(tokens.get(0))) {
-                    // tokens.remove(0);
-                    // }
+                } else {
+                    displayError(tokens.get(0), "']'");
+                    while (!ArrayTypeField.hasAsFollow(tokens.get(0))) {
+                        tokens.remove(0);
+                    }
                 }
-            } else { // TODO: ERRO: '[' não encontrado
+            } else {
                 displayError(tokens.get(0), "'['");
                 while (!ArrayTypeField.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
@@ -1036,8 +1021,7 @@ public enum Productions implements Production {
                     if (consumeToken(tokens.get(0), new Token(Consts.RELATIONAL_OPERATOR, "="))) {
                         System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                         tokens.remove(0);
-                    } else { // TODO: Erro: Não encontrou '='
-                        // Sincronizar
+                    } else {
                         displayError(tokens.get(0), "'['");
                         while (!Expression.hasAsFirst(tokens.get(0))) {
                             tokens.remove(0);
@@ -1298,7 +1282,6 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else {
-                // TODO: Esperado operador relacional, encontrou outra coisa
                 displayError(tokens.get(0), "Relational Operator");
                 while (!RelationalSymbol.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
@@ -1361,7 +1344,7 @@ public enum Productions implements Production {
                 tokens = OpMult.run(tokens);
                 tokens = OpAddAux.run(tokens);
 
-            } else { // TODO: Erro, esperado + ou -
+            } else {
                 displayError(tokens.get(0), "'+ or -'");
                 while (!OpMult.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
@@ -1473,7 +1456,6 @@ public enum Productions implements Production {
                 tokens = ValueReadOnly.run(tokens);
                 tokens = UnarySymbol.run(tokens);
             } else {
-                // TODO: Esperado algum dos first
                 System.err.println("ERROR: ");
                 while (!OpUnary.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
@@ -1535,7 +1517,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.IDENTIFIER, ""))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else { // TODO: Erro: Não encontrou identificador
+            } else {
                 displayError(tokens.get(0), "'Identifier'");
                 while (!Accessing.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
@@ -1625,7 +1607,7 @@ public enum Productions implements Production {
                 if (consumeToken(tokens.get(0), new Token(Consts.IDENTIFIER, ""))) {
                     System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                     tokens.remove(0);
-                } else { // TODO: Erro: Não encontrou identificador
+                } else {
                     displayError(tokens.get(0), "'Identifier'");
                     while (!Field.hasAsFollow(tokens.get(0))) {
                         tokens.remove(0);
@@ -1640,7 +1622,7 @@ public enum Productions implements Production {
                 if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "]"))) {
                     System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                     tokens.remove(0);
-                } else { // TODO: Erro: Não encontrou ']'
+                } else {
                     System.err.println("ERROR: ']'");
                     while (!Field.hasAsFollow(tokens.get(0))) {
                         tokens.remove(0);
@@ -1681,7 +1663,7 @@ public enum Productions implements Production {
                 if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, ")"))) {
                     System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                     tokens.remove(0);
-                } else { // TODO: Erro: Não encontrou ')'
+                } else {
                     System.err.println("ERROR: ')'");
                     while (!ValueReadOnly.hasAsFollow(tokens.get(0))) {
                         tokens.remove(0);
@@ -1694,7 +1676,6 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else {
-                // TODO: ERRO: Nenhum dos tipos exigidos encontrados
                 System.err.println("ERROR: ");
                 while (!ValueReadOnly.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
@@ -1760,14 +1741,13 @@ public enum Productions implements Production {
                 if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, ")"))) {
                     System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                     tokens.remove(0);
-                } else { // TODO: Disparar erro, não encontrou )
+                } else {
                     System.err.println("ERROR: ')'");
                     while (!ValueAux2.hasAsFollow(tokens.get(0))) {
                         tokens.remove(0);
                     }
                 }
             } else {
-                // TODO: Erro, esperava um parametro ou um )
                 System.err.println("ERROR: ')' or param");
                 while (!ValueAux2.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
@@ -1800,7 +1780,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.KEY_WORD, "var"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else { // TODO: ERRO: Esperava palavra var
+            } else {
                 System.err.println("ERROR: 'var'");
                 while (!VarBody.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
@@ -1809,9 +1789,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "{"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else { // ERRO:
-                // TODO: Disparar erro
-                // SINCRONIZAÇÃO
+            } else {
                 System.err.println("ERROR: '{'");
                 while (!VarBody.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
@@ -1820,7 +1798,6 @@ public enum Productions implements Production {
             if (VarBody.hasAsFirst(tokens.get(0))) {
                 tokens = VarBody.run(tokens);
             } else {
-                // Sem body
                 System.err.println("ERROR: var declarations");
                 while (!VarDeclaration.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
@@ -1859,8 +1836,7 @@ public enum Productions implements Production {
             if (VarBody.hasAsFirst(tokens.get(0))) {
                 tokens = VarRow.run(tokens);
                 tokens = VarBodyAux.run(tokens);
-            } else { // TODO:
-                     // ERRO
+            } else {
                 System.err.println("ERROR: ");
                 while (!VarBodyAux.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
@@ -1912,7 +1888,7 @@ public enum Productions implements Production {
             if (VarRow.hasAsFirst(tokens.get(0))) {
                 tokens = Type.run(tokens);
                 tokens = VarIdentifierList.run(tokens);
-            } else { // TODO: ERRO
+            } else {
                 System.err.println("ERROR: ");
                 while (!VarRow.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
@@ -1967,12 +1943,11 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
                 tokens = VarIdentifierList.run(tokens);
-            } else { // TODO: Erro: esperava ',' ou ';'
-                // TODO: Ideia: Fazer sincronização para Follow de Array Type Field
-                // TODO: Ver se isso é realmente preciso, ou se basta dar o return;
-                // while (!VarIdentifierListAux.hasAsFollow(tokens.get(0))) {
-                // tokens.remove(0);
-                // }
+            } else {
+                displayError(tokens.get(0), "',' or ';'");
+                while (!VarIdentifierListAux.hasAsFollow(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
             System.err.println("</VarIdentifierListAux>");
             return tokens;
@@ -1999,6 +1974,7 @@ public enum Productions implements Production {
                 tokens = VarIdentifierAux.run(tokens);
             } else { // TODO: ERRO: Esperava um Identificador, não encontrou isso
                 // TODO: Sincronização, como fazer sincronização com coisas que tem vazio?
+
             }
             System.err.println("</VarIdentifier>");
             return tokens;
@@ -2044,14 +2020,14 @@ public enum Productions implements Production {
     },
     ConstDeclaration { // Const Declaration Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<ConstDeclaration>");
 
             if (consumeToken(tokens.get(0), new Token(Consts.KEY_WORD, "const"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else { // TODO: Disparar erro faltou const
+            } else {
                 System.err.println("ERROR: 'const'");
                 while (!ConstBody.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
@@ -2060,8 +2036,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "{"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else { // TODO: Disparar erro faltou {
-                // Fazer sincronização com primeiro de const body
+            } else {
                 System.err.println("ERROR: '{'");
                 while (!ConstBody.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
@@ -2071,7 +2046,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "}"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else { // TODO: Disparar erro faltou }
+            } else {
                 System.err.println("ERROR: '}'");
                 while (!ConstDeclaration.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
@@ -2194,7 +2169,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, ";"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, ","))) { // TODO: Disparar erro
+            } else if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, ","))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
                 tokens = ConstIdentifierList.run(tokens);
@@ -2228,7 +2203,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.IDENTIFIER, ""))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else { // TODO: ERRO: Esperava um Identificador, não encontrou isso
+            } else {
                 displayError(tokens.get(0), "'Identifier'");
                 while (!Expression.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
@@ -2239,7 +2214,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
                 tokens = ConstIdentifierList.run(tokens);
-            } else { // TODO: ERRO: Esperava um =, não encontrou isso
+            } else {
                 displayError(tokens.get(0), "'='");
                 while (!Expression.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
@@ -2274,7 +2249,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.KEY_WORD, "struct"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else { // TODO: Erro: Não encontrou palavra struct
+            } else {
                 displayError(tokens.get(0), "'struct'");
                 while (!StructDeclarationAux.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
@@ -2316,7 +2291,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "{"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else { // TODO: Disparar erro e sincronizar
+            } else {
                 displayError(tokens.get(0), "'{'");
                 while (!StructBody.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
@@ -2326,7 +2301,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "}"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else { // TODO: Disparar erro e sincronizar
+            } else {
                 displayError(tokens.get(0), "'}'");
                 while (!StructDeclarationAux.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
@@ -2362,7 +2337,7 @@ public enum Productions implements Production {
                 if (consumeToken(tokens.get(0), new Token(Consts.IDENTIFIER, ""))) {
                     System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                     tokens.remove(0);
-                } else { // TODO: Erro: Não encontrou identificador
+                } else {
                     displayError(tokens.get(0), "'Identifier'");
                     while (!Extends.hasAsFollow(tokens.get(0))) {
                         tokens.remove(0);
@@ -2496,7 +2471,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, ";"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, ","))) { // TODO: Disparar erro
+            } else if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, ","))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
                 tokens = StructIdentifierList.run(tokens);
@@ -2531,7 +2506,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.IDENTIFIER, ""))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else { // TODO: Erro: Não encontrou identificador
+            } else {
                 displayError(tokens.get(0), "'Identifier'");
                 while (!StructIdentifier.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
@@ -2624,7 +2599,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.KEY_WORD, "if"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else { // TODO: Erro: Não encontrou if
+            } else {
                 displayError(tokens.get(0), "'if'");
                 while (!Expression.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
@@ -2633,7 +2608,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "("))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else { // TODO: Erro: Não encontrou (
+            } else {
                 displayError(tokens.get(0), "'('");
                 while (!Expression.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
@@ -2643,7 +2618,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, ")"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else { // TODO: Erro: Não encontrou )
+            } else {
                 displayError(tokens.get(0), "'}'");
                 while (!Expression.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
@@ -2652,7 +2627,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.KEY_WORD, "then"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else { // TODO: Erro: Não encontrou then
+            } else {
                 displayError(tokens.get(0), "'}'");
                 while (!Block.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
@@ -2688,7 +2663,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.KEY_WORD, "while"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else { // TODO: Erro: Não encontrou while
+            } else {
                 displayError(tokens.get(0), "'Identifier'");
                 while (!Expression.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
@@ -2697,7 +2672,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "("))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else { // TODO: Erro: Não encontrou (
+            } else {
                 displayError(tokens.get(0), "'('");
                 while (!Expression.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
@@ -2707,7 +2682,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, ")"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else { // TODO: Erro: Não encontrou )
+            } else {
                 displayError(tokens.get(0), "')'");
                 while (!jdk.nashorn.internal.ir.Block.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
@@ -2742,7 +2717,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.KEY_WORD, "print"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else { // TODO: Erro: Não encontrou print
+            } else {
                 displayError(tokens.get(0), "'print'");
                 while (!Output.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
@@ -2752,7 +2727,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "("))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else { // TODO: Erro: Não encontrou (
+            } else {
                 displayError(tokens.get(0), "'('");
                 while (!Output.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
@@ -2765,7 +2740,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, ")"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else { // TODO: Erro: Não encontrou )
+            } else {
                 displayError(tokens.get(0), "')'");
                 while (!PrintStatement.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
@@ -2850,7 +2825,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.KEY_WORD, "scan"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else { // TODO: Erro: Não encontrou scan
+            } else {
                 displayError(tokens.get(0), "'scan'");
                 while (!Input.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
@@ -2860,7 +2835,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "("))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else { // TODO: Erro: Não encontrou (
+            } else {
                 displayError(tokens.get(0), "'('");
                 while (!Input.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
@@ -2873,7 +2848,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, ")"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } else { // TODO: Erro: Não encontrou )
+            } else {
                 displayError(tokens.get(0), "'Identifier'");
                 while (!ScanStatement.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
@@ -2908,7 +2883,7 @@ public enum Productions implements Production {
                     System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                     tokens.remove(0);
                 }
-            } else { // TODO: Erro: Não encontrou identificador
+            } else {
                 displayError(tokens.get(0), "'Identifier'");
                 while (!Input.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
@@ -2962,6 +2937,7 @@ public enum Productions implements Production {
 
             System.err.println("</Template>");
             return tokens;
+
         }
 
         @Override
