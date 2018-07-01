@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Set;
 
+import com.sun.org.apache.xalan.internal.xsltc.compiler.Parser;
+
 import java.util.HashSet;
 
+import lexical.controller.FileController;
 import lexical.model.Token;
 import lexical.util.Consts;
 
@@ -2956,7 +2959,8 @@ public enum Productions implements Production {
     }
 
     static private void displayError(Token token, String spectedString) {
-        System.err.println(
-                "Line " + token.getRow() + " ERROR: expected " + spectedString + " found " + token.getLexeme());
+        String message = "Line " + token.getRow() + " ERROR: expected " + spectedString + " found " + token.getLexeme();
+        Parser.createOutput(token.getRow(), message);
     }
+
 }

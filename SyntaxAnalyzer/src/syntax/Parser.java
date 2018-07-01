@@ -39,15 +39,40 @@ public class Parser {
 
     /**
      * Método responsável por analisar sintáticamente a lista de tokens passada na
-     * construção da instância da classe Parser
+     *  construção da instância da classe Parser
      */
     public void analyze() {
         System.out.println("Analisador Sintatico...");
         try {
+            errors.clear();
             Productions.Program.run(tokens);
 
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
     }
+
+    public void createOutput(int row, String message) {
+        SyntaxError error = new SyntaxError(row, message);
+        errors.add(error);
+        createOutputData(errors);
+    }
+
+    /**
+     * Junta os resultados obtidos do analisador léxico: tokens e erros.
+     * 
+     * @return String com o resultado completo.
+     */
+    public String createOutputData(ArrayList<LexicalError> errors) {
+        String results = "";
+        if (errors.isEmpty()) {
+            results = results + "Sucesso!";
+        } else {
+            for (SystaxError error : errors) {
+                results = results + error.toString() + System.lineSeparator();
+            }
+        }
+        return results;
+    }
+
 }

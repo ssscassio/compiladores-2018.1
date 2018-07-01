@@ -24,8 +24,8 @@ public class Main {
             parser.analyze();
 
             // Escrita de Tokens e Erros no arquivo de saída
-            // String results = lexer.createOutputData();
-            // FileController.saveOnFile(fileName, results);
+            String results = lexer.createOutputData();
+            FileController.saveOnFile(fileName, results);
         });
 
     }
