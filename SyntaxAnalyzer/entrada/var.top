@@ -1,4 +1,0 @@
-var {
-    int a, c, d ,e ;
-    float b, d, g;
-}

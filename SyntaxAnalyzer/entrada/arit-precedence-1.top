@@ -1,3 +1,0 @@
-start () {
-    operation = (a + b) * c;
-}

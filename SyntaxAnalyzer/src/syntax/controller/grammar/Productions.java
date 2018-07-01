@@ -8,6 +8,7 @@ import java.util.HashSet;
 
 import lexical.model.Token;
 import lexical.util.Consts;
+import syntax.controller.ErrorController;
 
 /**
  * TODO: Fazer documentação
@@ -2956,7 +2957,6 @@ public enum Productions implements Production {
     }
 
     static private void displayError(Token token, String spectedString) {
-        System.err.println(
-                "Line " + token.getRow() + " ERROR: expected " + spectedString + " found " + token.getLexeme());
+        ErrorController.getInstance().addError(spectedString, token.getLexeme(), token.getRow());
     }
 }

@@ -1,4 +1,5 @@
 import lexical.controller.FileController;
+import syntax.controller.ErrorController;
 import lexical.Lexer;
 import syntax.Parser;
 
@@ -24,8 +25,9 @@ public class Main {
             parser.analyze();
 
             // Escrita de Tokens e Erros no arquivo de saída
-            // String results = lexer.createOutputData();
-            // FileController.saveOnFile(fileName, results);
+            String results = parser.createOutputData();
+            FileController.saveOnFile(fileName, results);
+            ErrorController.getInstance().clearErrors();
         });
 
     }

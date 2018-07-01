@@ -1,5 +1,0 @@
-start () {
-    scan (variable);
-	scan (user.weight);
-    scan (age, year[10], user.weight);
-}

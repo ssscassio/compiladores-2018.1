@@ -6,6 +6,7 @@ import java.util.Arrays;
 import lexical.model.Token;
 import lexical.util.Consts;
 import syntax.model.SyntaxError;
+import syntax.controller.ErrorController;
 import syntax.controller.grammar.*;
 
 /**
@@ -20,11 +21,6 @@ public class Parser {
      * Lista de tokens encontrados na etapa de análise léxica.
      */
     private ArrayList<Token> tokens;
-
-    /**
-     * Lista de erros encontrados na etapa de análise sintática.
-     */
-    private ArrayList<SyntaxError> errors = new ArrayList<SyntaxError>();
 
     /**
      * Construtor Parser
@@ -50,4 +46,26 @@ public class Parser {
             System.err.println(e.getMessage());
         }
     }
+
+    /**
+     * Junta os resultados obtidos do analisador sintático: erros.
+     * 
+     * @return String com o resultado completo.
+     */
+    public String createOutputData(ArrayList<SyntaxError> errors) {
+        String results = "";
+        if (errors.isEmpty()) {
+            results = results + "Sucesso!";
+        } else {
+            for (SyntaxError error : errors) {
+                results = results + error.toString() + System.lineSeparator();
+            }
+        }
+        return results;
+    }
+
+    public String createOutputData() {
+        return createOutputData(ErrorController.getInstance().getErrors());
+    }
+
 }

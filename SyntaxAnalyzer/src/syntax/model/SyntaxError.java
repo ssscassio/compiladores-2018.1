@@ -12,16 +12,13 @@ public class SyntaxError {
      * Linha onde está localizado o Erro Sintático.
      */
     private final int row;
+    private final String expected;
+    private final String found;
 
-
-    /**
-     * Representa a mensagem de erro para ser apresentado.
-     */
-    private final String message;
-
-    public SyntaxError(int row, String message) {
+    public SyntaxError(String expected, String found, int row) {
+        this.expected = expected;
+        this.found = found;
         this.row = row;
-        this.message = message;
     }
 
     /**
@@ -34,16 +31,21 @@ public class SyntaxError {
     }
 
     /**
-     * Retorna a mensagem de erro que deve ser apresentada para o usuário.
-     * 
-     * @return mensagem de erro.
+     * @return the expected
      */
-    public String getMessage() {
-        return this.message;
+    public String getExpected() {
+        return this.expected;
+    }
+
+    /**
+     * @return the found
+     */
+    public String getFound() {
+        return this.found;
     }
 
     @Override
     public String toString() {
-        return String.format("%02d %s", getRow(), getMessage());
+        return String.format("Line %02d ERROR: expected %s found %s", getRow(), getExpected(), getFound());
     }
 }
