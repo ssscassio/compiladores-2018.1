@@ -34,7 +34,7 @@ public class Parser {
      */
     public Parser(ArrayList<Token> tokens) {
         this.tokens = tokens;
-        this.tokens.add(new Token(Consts.END_OF_FILE, ""));
+        this.tokens.add(new Token(Consts.END_OF_FILE, "END_OF_FILE", tokens.get(tokens.size() - 1).getRow() + 1, 0));
     }
 
     /**

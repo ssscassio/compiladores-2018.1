@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Set;
 
-import com.sun.glass.ui.CommonDialogs.Type;
-import com.sun.tools.internal.ws.processor.model.Block;
-
 import java.util.HashSet;
 
 import lexical.model.Token;
@@ -30,7 +27,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: ERRO: Não encontrou a palavra function
-                System.err.println("ERROR: Expected 'function' ");
+                displayError(tokens.get(0), "'function'");
                 while (!FunctionId.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -42,7 +39,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: ERRO: Não encontoru '('
-                System.err.println("ERROR: Expected '(' ");
+                displayError(tokens.get(0), "'('");
                 while (!FunctionProcedureTail.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -76,7 +73,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou procedure
-                System.err.println("ERROR: Expected 'procedure' ");
+                displayError(tokens.get(0), "'procedure'");
                 while (!FunctionProcedureTail.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -86,7 +83,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou identificador
-                System.err.println("ERROR: Expected identifier ");
+                displayError(tokens.get(0), "'Identifier'");
                 while (!FunctionProcedureTail.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -98,7 +95,7 @@ public enum Productions implements Production {
             } else { // TODO: Erro: Não encontrou '('
                 // TODO: Disparar erro
                 // SINCRONIZAÇÃO
-                System.err.println("ERROR: Expected '(' ");
+                displayError(tokens.get(0), "'('");
                 while (!FunctionProcedureTail.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -132,7 +129,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: ERRO: Não encontrou a palavra start
-                System.err.println("ERROR: Expected 'start' ");
+                displayError(tokens.get(0), "'start'");
                 while (!Block.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -142,7 +139,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou '('
-                System.err.println("ERROR: Expected 'start' ");
+                displayError(tokens.get(0), "'start'");
                 while (!Block.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -154,7 +151,7 @@ public enum Productions implements Production {
             } else { // TODO: Erro: Não encontrou ')'
                 // TODO: Disparar erro
                 // SINCRONIZAÇÃO
-                System.err.println("ERROR: Expected ')' ");
+                displayError(tokens.get(0), "')'");
                 while (!Block.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -192,7 +189,7 @@ public enum Productions implements Production {
                     System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                     tokens.remove(0);
                 } else { /// TODO: Erro: Não encontrou ')'
-                    System.err.println("ERROR: Expected ')' ");
+                    displayError(tokens.get(0), ")");
                     while (!Block.hasAsFirst(tokens.get(0))) {
                         tokens.remove(0);
                     }
@@ -206,7 +203,7 @@ public enum Productions implements Production {
                     System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                     tokens.remove(0);
                 } else { // TODO: Erro: Não encontrou ')'
-                    System.err.println("ERROR: Expected ')' ");
+                    displayError(tokens.get(0), "')'");
                     while (!Block.hasAsFirst(tokens.get(0))) {
                         tokens.remove(0);
                     }
@@ -243,7 +240,7 @@ public enum Productions implements Production {
                 tokens.remove(0);
             } else { // TODO: ERRO: Não encontrou '{'
                 // Sincronização com First
-                System.err.println("ERROR: Expected '{' ");
+                displayError(tokens.get(0), "{");
                 while (!BlockAux.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -286,14 +283,14 @@ public enum Productions implements Production {
                     tokens.remove(0);
                 } else { // TODO: ERRO: Esperava } e não encontrou
                     // Sincronizar com seguinte de BlockAux
-                    System.err.println("ERROR: Expected '}' ");
+                    displayError(tokens.get(0), "'}'");
                     while (!BlockAux.hasAsFollow(tokens.get(0))) {
                         tokens.remove(0);
                     }
                 }
             } else { // TODO: ERRO: Esperado } e não encontrou
                 // Sincronizar com seguinte de BlockAux
-                System.err.println("ERROR: Expected '}' ");
+                displayError(tokens.get(0), "'}'");
                 while (!BlockAux.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -334,7 +331,7 @@ public enum Productions implements Production {
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou identificador
                 // Sincronização com Follow
-                System.err.println("ERROR: Expected identifier ");
+                displayError(tokens.get(0), "'Identifier'");
                 while (!FunctionId.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -422,7 +419,7 @@ public enum Productions implements Production {
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou identificador
                 // Sincronização com Follow
-                System.err.println("ERROR: Expected identifier ");
+                displayError(tokens.get(0), "'Identifier'");
                 while (!Param.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -454,7 +451,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou 'typedef'
-                System.err.println("ERROR: Expected 'typedef' ");
+                displayError(tokens.get(0), "'typedef'");
                 while (!Type.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -466,7 +463,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou identificador
-                System.err.println("ERROR: Expected identifier");
+                displayError(tokens.get(0), "'Identifier'");
                 while (!TypeDeclaration.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -477,7 +474,7 @@ public enum Productions implements Production {
                 tokens.remove(0);
             } else { // TODO: ERRO: Não encontrou ';'
                 // TODO: Sincronizar com seguinte de TypeDeclaration
-                System.err.println("ERROR: Expected ;");
+                displayError(tokens.get(0), "';'");
                 while (!TypeDeclaration.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -575,7 +572,7 @@ public enum Productions implements Production {
                 tokens = TypeDeclaration.run(tokens);
             } else { // TODO: Erro, token inesperado
                      // TODO: Sincronizar
-                System.err.println("ERROR: Expected start, function, var, struct or typedef");
+                displayError(tokens.get(0), "'start', 'function', 'var', 'struct' or 'typedef'");
                 while (!ProgramAux.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -650,13 +647,11 @@ public enum Productions implements Production {
                     "return", "print", "scan", "if", "then", "while", "var", "typedef"));
             return VALUES.contains(token.getLexeme()) || token.getType().equals(Consts.IDENTIFIER)
                     || token.getType().equals(Consts.NUMBER) || token.getType().equals(Consts.STRING);
-
         }
 
         @Override
         public boolean hasAsFollow(Token token) {
             return token.isSameType(new Token(Consts.DELIMITER, "}"));
-
         }
     },
     Statement { // Statement Production
@@ -677,7 +672,8 @@ public enum Productions implements Production {
                 tokens = TypeDeclaration.run(tokens);
             } else {
                 // TODO: ERRO, Sincronizar com seguinte de Statement
-                System.err.println("ERROR: Expected statement if, struct, return, print or scan");
+                displayError(tokens.get(0),
+                        "'!', '++', '--', '(', 'true', 'false', 'struct', 'return', 'print', 'scan', 'if', 'while', 'var' or typedef");
                 while (!Statement.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -727,7 +723,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou ';'
-                System.err.println("ERROR: Expected ';'");
+                displayError(tokens.get(0), "';'");
                 while (!NormalStatement.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -766,8 +762,8 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou return
-                System.err.println("ERROR: Expected 'return'");
-                while (!ReturnStatementAux.hasAsFirst(tokens.get(0))) {
+                displayError(tokens.get(0), "'return'");
+                while (!ReturnStatementAux.hasAsFirst(tokens.get(0)) && !ReturnStatement.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
                 }
             }
@@ -887,7 +883,7 @@ public enum Productions implements Production {
                 }
             } else { // TODO: ERRO - Não entrou em nenhuma
                      // opção dos primeiros de TypeBase
-                System.err.println("ERROR: Expected 'return'");
+                displayError(tokens.get(0), "'return'");
                 while (!TypeBase.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -1004,7 +1000,7 @@ public enum Productions implements Production {
                     // }
                 }
             } else { // TODO: ERRO: '[' não encontrado
-                System.err.println("ERROR: Expected '['");
+                displayError(tokens.get(0), "'['");
                 while (!ArrayTypeField.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -1042,7 +1038,7 @@ public enum Productions implements Production {
                         tokens.remove(0);
                     } else { // TODO: Erro: Não encontrou '='
                         // Sincronizar
-                        System.err.println("ERROR: Expected '['");
+                        displayError(tokens.get(0), "'['");
                         while (!Expression.hasAsFirst(tokens.get(0))) {
                             tokens.remove(0);
                         }
@@ -1303,7 +1299,7 @@ public enum Productions implements Production {
                 tokens.remove(0);
             } else {
                 // TODO: Esperado operador relacional, encontrou outra coisa
-                System.err.println("ERROR: Unexpected token");
+                displayError(tokens.get(0), "Relational Operator");
                 while (!RelationalSymbol.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -1366,7 +1362,7 @@ public enum Productions implements Production {
                 tokens = OpAddAux.run(tokens);
 
             } else { // TODO: Erro, esperado + ou -
-                System.err.println("ERROR: Expected + or -");
+                displayError(tokens.get(0), "'+ or -'");
                 while (!OpMult.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -1540,7 +1536,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou identificador
-                System.err.println("ERROR: Expected identifier");
+                displayError(tokens.get(0), "'Identifier'");
                 while (!Accessing.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -1630,7 +1626,7 @@ public enum Productions implements Production {
                     System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                     tokens.remove(0);
                 } else { // TODO: Erro: Não encontrou identificador
-                    System.err.println("ERROR: Expected identifier");
+                    displayError(tokens.get(0), "'Identifier'");
                     while (!Field.hasAsFollow(tokens.get(0))) {
                         tokens.remove(0);
                     }
@@ -2233,7 +2229,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: ERRO: Esperava um Identificador, não encontrou isso
-                System.err.println("ERROR: expected 'identifier'");
+                displayError(tokens.get(0), "'Identifier'");
                 while (!Expression.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -2244,7 +2240,7 @@ public enum Productions implements Production {
                 tokens.remove(0);
                 tokens = ConstIdentifierList.run(tokens);
             } else { // TODO: ERRO: Esperava um =, não encontrou isso
-                System.err.println("ERROR: expected '='");
+                displayError(tokens.get(0), "'='");
                 while (!Expression.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -2279,7 +2275,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou palavra struct
-                System.err.println("ERROR: expected 'struct'");
+                displayError(tokens.get(0), "'struct'");
                 while (!StructDeclarationAux.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -2321,7 +2317,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Disparar erro e sincronizar
-                System.err.println("ERROR: expected '{'");
+                displayError(tokens.get(0), "'{'");
                 while (!StructBody.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -2331,7 +2327,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Disparar erro e sincronizar
-                System.err.println("ERROR: expected '}'");
+                displayError(tokens.get(0), "'}'");
                 while (!StructDeclarationAux.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -2367,7 +2363,7 @@ public enum Productions implements Production {
                     System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                     tokens.remove(0);
                 } else { // TODO: Erro: Não encontrou identificador
-                    System.err.println("ERROR: expected 'identifier'");
+                    displayError(tokens.get(0), "'Identifier'");
                     while (!Extends.hasAsFollow(tokens.get(0))) {
                         tokens.remove(0);
                     }
@@ -2536,7 +2532,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou identificador
-                System.err.println("ERROR: expected 'identifier'");
+                displayError(tokens.get(0), "'Identifier'");
                 while (!StructIdentifier.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -2629,7 +2625,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou if
-                System.err.println("ERROR: expected 'if'");
+                displayError(tokens.get(0), "'if'");
                 while (!Expression.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -2638,7 +2634,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou (
-                System.err.println("ERROR: expected '('");
+                displayError(tokens.get(0), "'('");
                 while (!Expression.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -2648,7 +2644,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou )
-                System.err.println("ERROR: expected ')'");
+                displayError(tokens.get(0), "'}'");
                 while (!Expression.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -2657,7 +2653,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou then
-                System.err.println("ERROR: expected 'then'");
+                displayError(tokens.get(0), "'}'");
                 while (!Block.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -2693,7 +2689,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou while
-                System.err.println("ERROR: expected 'identifier'");
+                displayError(tokens.get(0), "'Identifier'");
                 while (!Expression.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -2702,7 +2698,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou (
-                System.err.println("ERROR: expected '('");
+                displayError(tokens.get(0), "'('");
                 while (!Expression.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -2712,7 +2708,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou )
-                System.err.println("ERROR: expected ')'");
+                displayError(tokens.get(0), "')'");
                 while (!jdk.nashorn.internal.ir.Block.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -2747,7 +2743,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou print
-                System.err.println("ERROR: expected 'identifier'");
+                displayError(tokens.get(0), "'print'");
                 while (!Output.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -2757,7 +2753,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou (
-                System.err.println("ERROR: expected '('");
+                displayError(tokens.get(0), "'('");
                 while (!Output.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -2770,7 +2766,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou )
-                System.err.println("ERROR: expected ')'");
+                displayError(tokens.get(0), "')'");
                 while (!PrintStatement.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -2855,7 +2851,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou scan
-                System.err.println("ERROR: expected 'scan'");
+                displayError(tokens.get(0), "'scan'");
                 while (!Input.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -2865,7 +2861,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou (
-                System.err.println("ERROR: expected '('");
+                displayError(tokens.get(0), "'('");
                 while (!Input.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -2878,7 +2874,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou )
-                System.err.println("ERROR: expected 'identifier'");
+                displayError(tokens.get(0), "'Identifier'");
                 while (!ScanStatement.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -2913,7 +2909,7 @@ public enum Productions implements Production {
                     tokens.remove(0);
                 }
             } else { // TODO: Erro: Não encontrou identificador
-                System.err.println("ERROR: expected 'identifier'");
+                displayError(tokens.get(0), "'Identifier'");
                 while (!Input.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -2981,5 +2977,10 @@ public enum Productions implements Production {
 
     static private boolean consumeToken(Token token, Token spectedToken) {
         return token.isSameType(spectedToken);
+    }
+
+    static private void displayError(Token token, String spectedString) {
+        System.err.println(
+                "Line " + token.getRow() + " ERROR: expected " + spectedString + " found " + token.getLexeme());
     }
 }
