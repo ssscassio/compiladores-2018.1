@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Set;
 
+import com.sun.glass.ui.CommonDialogs.Type;
 import com.sun.tools.internal.ws.processor.model.Block;
 
 import java.util.HashSet;
@@ -29,7 +30,10 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: ERRO: Não encontrou a palavra function
-
+                System.err.println("ERROR: Expected 'function' ");
+                while (!FunctionId.hasAsFirst(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
 
             tokens = FunctionId.run(tokens);
@@ -38,10 +42,10 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: ERRO: Não encontoru '('
-                // SINCRONIZAÇÃO
-                // while (!FunctionProcedureTail.hasAsFirst(tokens.get(0))) {
-                // tokens.remove(0);
-                // }
+                System.err.println("ERROR: Expected '(' ");
+                while (!FunctionProcedureTail.hasAsFirst(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
 
             tokens = FunctionProcedureTail.run(tokens);
@@ -72,14 +76,20 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou procedure
-
+                System.err.println("ERROR: Expected 'procedure' ");
+                while (!FunctionProcedureTail.hasAsFirst(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
 
             if (consumeToken(tokens.get(0), new Token(Consts.IDENTIFIER, ""))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou identificador
-
+                System.err.println("ERROR: Expected identifier ");
+                while (!FunctionProcedureTail.hasAsFirst(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
 
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "("))) {
@@ -88,9 +98,10 @@ public enum Productions implements Production {
             } else { // TODO: Erro: Não encontrou '('
                 // TODO: Disparar erro
                 // SINCRONIZAÇÃO
-                // while (!FunctionProcedureTail.hasAsFirst(tokens.get(0))) {
-                // tokens.remove(0);
-                // }
+                System.err.println("ERROR: Expected '(' ");
+                while (!FunctionProcedureTail.hasAsFirst(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
 
             tokens = FunctionProcedureTail.run(tokens);
@@ -121,14 +132,20 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: ERRO: Não encontrou a palavra start
-
+                System.err.println("ERROR: Expected 'start' ");
+                while (!Block.hasAsFirst(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
 
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "("))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou '('
-                // TODO: Disparar erro
+                System.err.println("ERROR: Expected 'start' ");
+                while (!Block.hasAsFirst(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
 
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, ")"))) {
@@ -137,9 +154,10 @@ public enum Productions implements Production {
             } else { // TODO: Erro: Não encontrou ')'
                 // TODO: Disparar erro
                 // SINCRONIZAÇÃO
-                // while (!Block.hasAsFirst(tokens.get(0))) {
-                // tokens.remove(0);
-                // }
+                System.err.println("ERROR: Expected ')' ");
+                while (!Block.hasAsFirst(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
 
             tokens = Block.run(tokens);
@@ -174,9 +192,10 @@ public enum Productions implements Production {
                     System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                     tokens.remove(0);
                 } else { /// TODO: Erro: Não encontrou ')'
-                    // while (!Block.hasAsFirst(tokens.get(0))) {
-                    // tokens.remove(0);
-                    // }
+                    System.err.println("ERROR: Expected ')' ");
+                    while (!Block.hasAsFirst(tokens.get(0))) {
+                        tokens.remove(0);
+                    }
                 }
 
                 tokens = Block.run(tokens);
@@ -187,9 +206,10 @@ public enum Productions implements Production {
                     System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                     tokens.remove(0);
                 } else { // TODO: Erro: Não encontrou ')'
-                    // while (!Block.hasAsFirst(tokens.get(0))) {
-                    // tokens.remove(0);
-                    // }
+                    System.err.println("ERROR: Expected ')' ");
+                    while (!Block.hasAsFirst(tokens.get(0))) {
+                        tokens.remove(0);
+                    }
                 }
 
                 tokens = Block.run(tokens);
@@ -223,6 +243,7 @@ public enum Productions implements Production {
                 tokens.remove(0);
             } else { // TODO: ERRO: Não encontrou '{'
                 // Sincronização com First
+                System.err.println("ERROR: Expected '{' ");
                 while (!BlockAux.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -265,15 +286,17 @@ public enum Productions implements Production {
                     tokens.remove(0);
                 } else { // TODO: ERRO: Esperava } e não encontrou
                     // Sincronizar com seguinte de BlockAux
-                    // while (!BlockAux.hasAsFollow(tokens.get(0))) {
-                    // tokens.remove(0);
-                    // }
+                    System.err.println("ERROR: Expected '}' ");
+                    while (!BlockAux.hasAsFollow(tokens.get(0))) {
+                        tokens.remove(0);
+                    }
                 }
             } else { // TODO: ERRO: Esperado } e não encontrou
                 // Sincronizar com seguinte de BlockAux
-                // while (!BlockAux.hasAsFollow(tokens.get(0))) {
-                // tokens.remove(0);
-                // }
+                System.err.println("ERROR: Expected '}' ");
+                while (!BlockAux.hasAsFollow(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
             System.err.println("</BlockAux>");
             return tokens;
@@ -311,9 +334,10 @@ public enum Productions implements Production {
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou identificador
                 // Sincronização com Follow
-                // while (!FunctionId.hasAsFollow(tokens.get(0))) {
-                // tokens.remove(0);
-                // }
+                System.err.println("ERROR: Expected identifier ");
+                while (!FunctionId.hasAsFollow(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
 
             System.err.println("</FunctionId>");
@@ -398,9 +422,10 @@ public enum Productions implements Production {
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou identificador
                 // Sincronização com Follow
-                // while (!Param.hasAsFollow(tokens.get(0))) {
-                // tokens.remove(0);
-                // }
+                System.err.println("ERROR: Expected identifier ");
+                while (!Param.hasAsFollow(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
 
             System.err.println("</Param>");
@@ -429,7 +454,10 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou 'typedef'
-
+                System.err.println("ERROR: Expected 'typedef' ");
+                while (!Type.hasAsFirst(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
 
             tokens = Type.run(tokens);
@@ -438,7 +466,10 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou identificador
-
+                System.err.println("ERROR: Expected identifier");
+                while (!TypeDeclaration.hasAsFollow(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
 
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, ";"))) {
@@ -446,6 +477,10 @@ public enum Productions implements Production {
                 tokens.remove(0);
             } else { // TODO: ERRO: Não encontrou ';'
                 // TODO: Sincronizar com seguinte de TypeDeclaration
+                System.err.println("ERROR: Expected ;");
+                while (!TypeDeclaration.hasAsFollow(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
 
             System.err.println("</TypeDeclaration>");
@@ -540,9 +575,10 @@ public enum Productions implements Production {
                 tokens = TypeDeclaration.run(tokens);
             } else { // TODO: Erro, token inesperado
                      // TODO: Sincronizar
-                // while (!tokens.isEmpty() && !Declaration.hasAsFirst(tokens.get(0))) {
-                // tokens.remove(0);
-                // }
+                System.err.println("ERROR: Expected start, function, var, struct or typedef");
+                while (!ProgramAux.hasAsFirst(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
 
             System.err.println("</Declaration>");
@@ -565,7 +601,7 @@ public enum Productions implements Production {
     },
     StatementList { // Statement List Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<StatementList>");
 
@@ -594,7 +630,7 @@ public enum Productions implements Production {
     },
     StatementListAux { // Statement List Aux Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<StatementListAux>");
 
@@ -625,7 +661,7 @@ public enum Productions implements Production {
     },
     Statement { // Statement Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<Statement>");
 
@@ -641,9 +677,10 @@ public enum Productions implements Production {
                 tokens = TypeDeclaration.run(tokens);
             } else {
                 // TODO: ERRO, Sincronizar com seguinte de Statement
-                // while (!Statement.hasAsFollow(tokens.get(0))) {
-                // tokens.remove(0);
-                // }
+                System.err.println("ERROR: Expected statement if, struct, return, print or scan");
+                while (!Statement.hasAsFollow(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
 
             System.err.println("</Statement>");
@@ -670,7 +707,7 @@ public enum Productions implements Production {
     },
     NormalStatement { // Normal Statement Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<NormalStatement>");
 
@@ -690,7 +727,10 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou ';'
-
+                System.err.println("ERROR: Expected ';'");
+                while (!NormalStatement.hasAsFollow(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
 
             System.err.println("</NormalStatement>");
@@ -718,7 +758,7 @@ public enum Productions implements Production {
     },
     ReturnStatement { // Return Statement Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<ReturnStatement>");
 
@@ -726,9 +766,10 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou return
-                // while (!ReturnStatementAux.hasAsFirst(tokens.get(0))) {
-                // tokens.remove(0);
-                // }
+                System.err.println("ERROR: Expected 'return'");
+                while (!ReturnStatementAux.hasAsFirst(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
 
             if (ReturnStatementAux.hasAsFirst(tokens.get(0))) {
@@ -751,7 +792,7 @@ public enum Productions implements Production {
     },
     ReturnStatementAux { // Return Statement Aux Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<ReturnStatementAux>");
             if (!tokens.isEmpty() && Expression.hasAsFirst(tokens.get(0))) {
@@ -846,7 +887,10 @@ public enum Productions implements Production {
                 }
             } else { // TODO: ERRO - Não entrou em nenhuma
                      // opção dos primeiros de TypeBase
-
+                System.err.println("ERROR: Expected 'return'");
+                while (!TypeBase.hasAsFirst(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
             System.err.println("</TypeBase>");
             return tokens;
@@ -873,7 +917,10 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Algum erro que eu acho que não vai acontecer
-
+                System.err.println("ERROR: Scalar");
+                while (!Scalar.hasAsFollow(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
             System.err.println("</Scalar>");
             return tokens;
@@ -957,7 +1004,10 @@ public enum Productions implements Production {
                     // }
                 }
             } else { // TODO: ERRO: '[' não encontrado
-
+                System.err.println("ERROR: Expected '['");
+                while (!ArrayTypeField.hasAsFollow(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
 
             System.err.println("</ArrayTypeField>");
@@ -977,7 +1027,7 @@ public enum Productions implements Production {
     },
     OpAssing { // Op Assign Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<OpAssing>");
 
@@ -992,9 +1042,11 @@ public enum Productions implements Production {
                         tokens.remove(0);
                     } else { // TODO: Erro: Não encontrou '='
                         // Sincronizar
-                        // while (!Expression.hasAsFirst(tokens.get(0))) {
-                        // tokens.remove(0);
-                        // }
+                        System.err.println("ERROR: Expected '['");
+                        while (!Expression.hasAsFirst(tokens.get(0))) {
+                            tokens.remove(0);
+                        }
+
                     }
                     tokens = Expression.run(tokens);
 
@@ -1032,7 +1084,7 @@ public enum Productions implements Production {
     },
     Params { // Params Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<Params>");
 
@@ -1057,7 +1109,7 @@ public enum Productions implements Production {
     },
     ParamsAux { // Params Aux Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<ParamsAux>");
 
@@ -1083,7 +1135,7 @@ public enum Productions implements Production {
     },
     Expression { // Expression Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<Expression>");
 
@@ -1109,7 +1161,7 @@ public enum Productions implements Production {
     },
     ExpressionAux { // Expression Aux Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<ExpressionAux>");
 
@@ -1136,7 +1188,7 @@ public enum Productions implements Production {
     },
     OpAnd { // Op And Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<OpAnd>");
 
@@ -1162,7 +1214,7 @@ public enum Productions implements Production {
     },
     OpAndAux { // Op And Aux Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<OpAndAux>");
 
@@ -1189,7 +1241,7 @@ public enum Productions implements Production {
     },
     OpRelational { // Op Relational Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<OpRelational>");
 
@@ -1215,7 +1267,7 @@ public enum Productions implements Production {
     },
     OpRelationalAux { // Op Relational Aux Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<OpRelationalAux>");
 
@@ -1242,7 +1294,7 @@ public enum Productions implements Production {
     },
     RelationalSymbol { // Relational Symbol Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<RelationalSymbol>");
 
@@ -1251,6 +1303,10 @@ public enum Productions implements Production {
                 tokens.remove(0);
             } else {
                 // TODO: Esperado operador relacional, encontrou outra coisa
+                System.err.println("ERROR: Unexpected token");
+                while (!RelationalSymbol.hasAsFollow(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
 
             System.err.println("</RelationalSymbol>");
@@ -1271,7 +1327,7 @@ public enum Productions implements Production {
     },
     OpAdd { // Op Add Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<OpAdd>");
 
@@ -1297,7 +1353,7 @@ public enum Productions implements Production {
     },
     OpAddAux { // Op Add Aux Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<OpAddAux>");
 
@@ -1310,7 +1366,10 @@ public enum Productions implements Production {
                 tokens = OpAddAux.run(tokens);
 
             } else { // TODO: Erro, esperado + ou -
-
+                System.err.println("ERROR: Expected + or -");
+                while (!OpMult.hasAsFirst(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
 
             System.err.println("</OpAddAux>");
@@ -1332,7 +1391,7 @@ public enum Productions implements Production {
     },
     OpMult { // Op Mult Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<OpMult>");
 
@@ -1359,7 +1418,7 @@ public enum Productions implements Production {
     },
     OpMultAux { // Op Mult Aux Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<OpMultAux>");
 
@@ -1392,7 +1451,7 @@ public enum Productions implements Production {
     },
     OpUnary { // Op Unary Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<OpUnary>");
 
@@ -1419,6 +1478,10 @@ public enum Productions implements Production {
                 tokens = UnarySymbol.run(tokens);
             } else {
                 // TODO: Esperado algum dos first
+                System.err.println("ERROR: ");
+                while (!OpUnary.hasAsFirst(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
 
             System.err.println("</OpUnary>");
@@ -1441,7 +1504,7 @@ public enum Productions implements Production {
     },
     UnarySymbol { // Unary Symbol Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<UnarySymbol>");
 
@@ -1469,7 +1532,7 @@ public enum Productions implements Production {
     },
     ValueWriteOrRead { // Value Write or Read Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<ValueWriteOrRead>");
 
@@ -1477,7 +1540,10 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou identificador
-
+                System.err.println("ERROR: Expected identifier");
+                while (!Accessing.hasAsFirst(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
 
             tokens = Accessing.run(tokens);
@@ -1500,7 +1566,7 @@ public enum Productions implements Production {
     },
     Accessing { // Accessing Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<Accessing>");
 
@@ -1526,7 +1592,7 @@ public enum Productions implements Production {
     },
     AccessingAux { // Accessing Aux Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<AccessingAux>");
 
@@ -1553,7 +1619,7 @@ public enum Productions implements Production {
     },
     Field { // Field Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<Field>");
 
@@ -1564,7 +1630,10 @@ public enum Productions implements Production {
                     System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                     tokens.remove(0);
                 } else { // TODO: Erro: Não encontrou identificador
-
+                    System.err.println("ERROR: Expected identifier");
+                    while (!Field.hasAsFollow(tokens.get(0))) {
+                        tokens.remove(0);
+                    }
                 }
             } else if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "["))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
@@ -1576,7 +1645,10 @@ public enum Productions implements Production {
                     System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                     tokens.remove(0);
                 } else { // TODO: Erro: Não encontrou ']'
-
+                    System.err.println("ERROR: ']'");
+                    while (!Field.hasAsFollow(tokens.get(0))) {
+                        tokens.remove(0);
+                    }
                 }
             }
             System.err.println("</Field>");
@@ -1598,7 +1670,7 @@ public enum Productions implements Production {
     },
     ValueReadOnly { // Value Read Only Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<ValueReadOnly>");
 
@@ -1614,7 +1686,10 @@ public enum Productions implements Production {
                     System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                     tokens.remove(0);
                 } else { // TODO: Erro: Não encontrou ')'
-
+                    System.err.println("ERROR: ')'");
+                    while (!ValueReadOnly.hasAsFollow(tokens.get(0))) {
+                        tokens.remove(0);
+                    }
                 }
             } else if (consumeToken(tokens.get(0), new Token(Consts.STRING, ""))
                     || consumeToken(tokens.get(0), new Token(Consts.NUMBER, ""))
@@ -1624,6 +1699,10 @@ public enum Productions implements Production {
                 tokens.remove(0);
             } else {
                 // TODO: ERRO: Nenhum dos tipos exigidos encontrados
+                System.err.println("ERROR: ");
+                while (!ValueReadOnly.hasAsFollow(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
 
             System.err.println("</ValueReadOnly>");
@@ -1646,7 +1725,7 @@ public enum Productions implements Production {
     },
     ValueAux1 { // Value Aux1 Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<ValueAux1>");
 
@@ -1674,7 +1753,7 @@ public enum Productions implements Production {
     },
     ValueAux2 { // Value Aux2 Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<ValueAux2>");
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, ")"))) {
@@ -1686,10 +1765,17 @@ public enum Productions implements Production {
                     System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                     tokens.remove(0);
                 } else { // TODO: Disparar erro, não encontrou )
-
+                    System.err.println("ERROR: ')'");
+                    while (!ValueAux2.hasAsFollow(tokens.get(0))) {
+                        tokens.remove(0);
+                    }
                 }
             } else {
                 // TODO: Erro, esperava um parametro ou um )
+                System.err.println("ERROR: ')' or param");
+                while (!ValueAux2.hasAsFollow(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
 
             System.err.println("</ValueAux2>");
@@ -1719,7 +1805,10 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: ERRO: Esperava palavra var
-
+                System.err.println("ERROR: 'var'");
+                while (!VarBody.hasAsFirst(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "{"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
@@ -1727,14 +1816,19 @@ public enum Productions implements Production {
             } else { // ERRO:
                 // TODO: Disparar erro
                 // SINCRONIZAÇÃO
-                // while (!VarBody.hasAsFirst(tokens.get(0))) {
-                // tokens.remove(0);
-                // }
+                System.err.println("ERROR: '{'");
+                while (!VarBody.hasAsFirst(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
             if (VarBody.hasAsFirst(tokens.get(0))) {
                 tokens = VarBody.run(tokens);
             } else {
                 // Sem body
+                System.err.println("ERROR: var declarations");
+                while (!VarDeclaration.hasAsFollow(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "}"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
@@ -1771,7 +1865,10 @@ public enum Productions implements Production {
                 tokens = VarBodyAux.run(tokens);
             } else { // TODO:
                      // ERRO
-
+                System.err.println("ERROR: ");
+                while (!VarBodyAux.hasAsFollow(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
             System.err.println("</VarBody>");
             return tokens;
@@ -1820,7 +1917,10 @@ public enum Productions implements Production {
                 tokens = Type.run(tokens);
                 tokens = VarIdentifierList.run(tokens);
             } else { // TODO: ERRO
-
+                System.err.println("ERROR: ");
+                while (!VarRow.hasAsFollow(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
             System.err.println("</VarRow>");
             return tokens;
@@ -1921,7 +2021,7 @@ public enum Productions implements Production {
     },
     VarIdentifierAux { // Var Identifier Aux Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<VarIdentifierAux>");
             if (!tokens.isEmpty() && consumeToken(tokens.get(0), new Token(Consts.RELATIONAL_OPERATOR, "="))) {
@@ -1956,21 +2056,30 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Disparar erro faltou const
-
+                System.err.println("ERROR: 'const'");
+                while (!ConstBody.hasAsFirst(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "{"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Disparar erro faltou {
                 // Fazer sincronização com primeiro de const body
-
+                System.err.println("ERROR: '{'");
+                while (!ConstBody.hasAsFirst(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
             tokens = ConstBody.run(tokens);
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "}"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Disparar erro faltou }
-
+                System.err.println("ERROR: '}'");
+                while (!ConstDeclaration.hasAsFollow(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
             System.err.println("</ConstDeclaration>");
             return tokens;
@@ -1990,7 +2099,7 @@ public enum Productions implements Production {
     },
     ConstBody { // Const Body Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<ConstBody>");
             tokens = ConstRow.run(tokens);
@@ -2013,7 +2122,7 @@ public enum Productions implements Production {
     },
     ConstBodyAux { // Const Body Aux Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<ConstBodyAux>");
             if (!tokens.isEmpty() && ConstBody.hasAsFirst(tokens.get(0))) {
@@ -2036,7 +2145,7 @@ public enum Productions implements Production {
     },
     ConstRow { // Const Row Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<ConstRow>");
             tokens = Type.run(tokens);
@@ -2061,7 +2170,7 @@ public enum Productions implements Production {
     },
     ConstIdentifierList { // Const Identifier List Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<ConstIdentifierList>");
             tokens = ConstIdentifier.run(tokens);
@@ -2083,7 +2192,7 @@ public enum Productions implements Production {
     },
     ConstIdentifierListAux { // Const Identifier List Aux Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<ConstIdentifierListAux>");
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, ";"))) {
@@ -2116,7 +2225,7 @@ public enum Productions implements Production {
     },
     ConstIdentifier { // Const Identifier Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<ConstIdentifier>");
 
@@ -2124,6 +2233,10 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: ERRO: Esperava um Identificador, não encontrou isso
+                System.err.println("ERROR: expected 'identifier'");
+                while (!Expression.hasAsFirst(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
 
             if (consumeToken(tokens.get(0), new Token(Consts.RELATIONAL_OPERATOR, "="))) {
@@ -2131,7 +2244,10 @@ public enum Productions implements Production {
                 tokens.remove(0);
                 tokens = ConstIdentifierList.run(tokens);
             } else { // TODO: ERRO: Esperava um =, não encontrou isso
-
+                System.err.println("ERROR: expected '='");
+                while (!Expression.hasAsFirst(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
 
             tokens = Expression.run(tokens);
@@ -2155,7 +2271,7 @@ public enum Productions implements Production {
     },
     StructDeclaration { // Struct Declaration Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<StructDeclaration>");
 
@@ -2163,7 +2279,10 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou palavra struct
-
+                System.err.println("ERROR: expected 'struct'");
+                while (!StructDeclarationAux.hasAsFirst(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
             tokens = StructDeclarationAux.run(tokens);
 
@@ -2187,7 +2306,7 @@ public enum Productions implements Production {
     },
     StructDeclarationAux { // Struct Declaration Aux Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<StructDeclarationAux>");
 
@@ -2202,14 +2321,20 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Disparar erro e sincronizar
-
+                System.err.println("ERROR: expected '{'");
+                while (!StructBody.hasAsFirst(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
             tokens = StructBody.run(tokens);
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "}"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Disparar erro e sincronizar
-
+                System.err.println("ERROR: expected '}'");
+                while (!StructDeclarationAux.hasAsFollow(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
 
             System.err.println("</StructDeclarationAux>");
@@ -2232,7 +2357,7 @@ public enum Productions implements Production {
     },
     Extends { // Extends Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<Extends>");
             if (consumeToken(tokens.get(0), new Token(Consts.KEY_WORD, "extends"))) {
@@ -2242,7 +2367,10 @@ public enum Productions implements Production {
                     System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                     tokens.remove(0);
                 } else { // TODO: Erro: Não encontrou identificador
-
+                    System.err.println("ERROR: expected 'identifier'");
+                    while (!Extends.hasAsFollow(tokens.get(0))) {
+                        tokens.remove(0);
+                    }
                 }
             }
 
@@ -2264,7 +2392,7 @@ public enum Productions implements Production {
     },
     StructBody { // Struct Body Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<StructBody>");
 
@@ -2289,7 +2417,7 @@ public enum Productions implements Production {
     },
     StructBodyAux { // Struct Body Aux Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<StructBodyAux>");
 
@@ -2315,7 +2443,7 @@ public enum Productions implements Production {
     },
     StructRow { // Struct Row Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<StructRow>");
 
@@ -2341,7 +2469,7 @@ public enum Productions implements Production {
     },
     StructIdentifierList { // Struct Identifier List Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<StructIdentifierList>");
 
@@ -2366,7 +2494,7 @@ public enum Productions implements Production {
     },
     StructIdentifierListAux { // Struct Identifier List Aux Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<StructIdentifierListAux>");
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, ";"))) {
@@ -2400,7 +2528,7 @@ public enum Productions implements Production {
     },
     StructIdentifier { // Struct Identifier Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<StructIdentifier>");
 
@@ -2408,7 +2536,10 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou identificador
-
+                System.err.println("ERROR: expected 'identifier'");
+                while (!StructIdentifier.hasAsFollow(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
 
             System.err.println("</StructIdentifier>");
@@ -2429,7 +2560,7 @@ public enum Productions implements Production {
     },
     IfStatement { // If Statement Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<IfStatement>");
 
@@ -2459,7 +2590,7 @@ public enum Productions implements Production {
     },
     IfStatementAux { // If Statement Aux Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<IfStatementAux>");
             if (consumeToken(tokens.get(0), new Token(Consts.KEY_WORD, "else"))) {
@@ -2490,7 +2621,7 @@ public enum Productions implements Production {
     },
     IfThen { // If Then Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<IfThen>");
 
@@ -2498,26 +2629,38 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou if
-
+                System.err.println("ERROR: expected 'if'");
+                while (!Expression.hasAsFirst(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "("))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou (
-
+                System.err.println("ERROR: expected '('");
+                while (!Expression.hasAsFirst(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
             tokens = Expression.run(tokens);
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, ")"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou )
-
+                System.err.println("ERROR: expected ')'");
+                while (!Expression.hasAsFirst(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
             if (consumeToken(tokens.get(0), new Token(Consts.KEY_WORD, "then"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou then
-
+                System.err.println("ERROR: expected 'then'");
+                while (!Block.hasAsFirst(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
             tokens = Block.run(tokens);
 
@@ -2542,7 +2685,7 @@ public enum Productions implements Production {
     },
     WhileStatement { // While Statement Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<WhileStatement>");
 
@@ -2550,20 +2693,29 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou while
-
+                System.err.println("ERROR: expected 'identifier'");
+                while (!Expression.hasAsFirst(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "("))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou (
-
+                System.err.println("ERROR: expected '('");
+                while (!Expression.hasAsFirst(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
             tokens = Expression.run(tokens);
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, ")"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou )
-
+                System.err.println("ERROR: expected ')'");
+                while (!jdk.nashorn.internal.ir.Block.hasAsFirst(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
             tokens = Block.run(tokens);
 
@@ -2588,21 +2740,27 @@ public enum Productions implements Production {
     },
     PrintStatement { // Print Statement Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<PrintStatement>");
             if (consumeToken(tokens.get(0), new Token(Consts.KEY_WORD, "print"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou print
-
+                System.err.println("ERROR: expected 'identifier'");
+                while (!Output.hasAsFirst(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
 
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "("))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou (
-
+                System.err.println("ERROR: expected '('");
+                while (!Output.hasAsFirst(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
 
             tokens = Output.run(tokens);
@@ -2612,7 +2770,10 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou )
-
+                System.err.println("ERROR: expected ')'");
+                while (!PrintStatement.hasAsFollow(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
 
             System.err.println("</PrintStatement>");
@@ -2633,7 +2794,7 @@ public enum Productions implements Production {
     },
     Output { // Output Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<Output>");
 
@@ -2660,7 +2821,7 @@ public enum Productions implements Production {
     },
     OutputList { // Output List Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<OutputList>");
             if (!tokens.isEmpty() && consumeToken(tokens.get(0), new Token(Consts.DELIMITER, ","))) {
@@ -2687,21 +2848,27 @@ public enum Productions implements Production {
     },
     ScanStatement { // Scan Statement Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<ScanStatement>");
             if (consumeToken(tokens.get(0), new Token(Consts.KEY_WORD, "scan"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou scan
-
+                System.err.println("ERROR: expected 'scan'");
+                while (!Input.hasAsFirst(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
 
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "("))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou (
-
+                System.err.println("ERROR: expected '('");
+                while (!Input.hasAsFirst(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
 
             tokens = Input.run(tokens);
@@ -2711,7 +2878,10 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else { // TODO: Erro: Não encontrou )
-
+                System.err.println("ERROR: expected 'identifier'");
+                while (!ScanStatement.hasAsFollow(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
             System.err.println("</ScanStatement>");
             return tokens;
@@ -2731,7 +2901,7 @@ public enum Productions implements Production {
     },
     Input { // Input Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<Input>");
             if (consumeToken(tokens.get(0), new Token(Consts.IDENTIFIER, ""))) {
@@ -2743,7 +2913,10 @@ public enum Productions implements Production {
                     tokens.remove(0);
                 }
             } else { // TODO: Erro: Não encontrou identificador
-
+                System.err.println("ERROR: expected 'identifier'");
+                while (!Input.hasAsFollow(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
             System.err.println("</Input>");
             return tokens;
@@ -2762,7 +2935,7 @@ public enum Productions implements Production {
     },
     InputList { // Input List Production
         @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
+        public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<InputList>");
             if (!tokens.isEmpty() && consumeToken(tokens.get(0), new Token(Consts.DELIMITER, ","))) {
