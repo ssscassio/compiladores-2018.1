@@ -2760,7 +2760,7 @@ public enum Productions implements Production {
             return VALUES.contains(token.getLexeme());
         }
     },
-    InputList { // Scan Statement Production
+    InputList { // Input List Production
         @Override
         public ArrayList<Token> run(ArrayList<Token> tokenList) {// TODO:
             ArrayList<Token> tokens = tokenList;

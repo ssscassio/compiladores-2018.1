@@ -34,11 +34,12 @@ public class Parser {
      */
     public Parser(ArrayList<Token> tokens) {
         this.tokens = tokens;
+        this.tokens.add(new Token(Consts.END_OF_FILE, ""));
     }
 
     /**
      * Método responsável por analisar sintáticamente a lista de tokens passada na
-     *  construção da instância da classe Parser
+     * construção da instância da classe Parser
      */
     public void analyze() {
         System.out.println("Analisador Sintatico...");
