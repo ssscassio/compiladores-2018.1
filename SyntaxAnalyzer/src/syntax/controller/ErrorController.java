@@ -12,17 +12,18 @@ import syntax.model.SyntaxError;
 public class ErrorController {
 
     /**
-     * Nova instância da classe ErrorController.
+     * Cria uma instancia da classe ErrorController e salva na classe para ser usado
+     * de forma estática.
      */
     private static ErrorController INSTANCE = new ErrorController();
 
     /**
-     * Lista de erros encontrados na etapa de análise sintática.
+     * Inicializa o vetor da instancia que criada.
      */
     private ArrayList<SyntaxError> errors = new ArrayList<SyntaxError>();
 
     /**
-     * Nova lista de erros
+     * Construtor privado que inicializa a lista de erros sintáticos
      */
     private ErrorController() {
         errors = new ArrayList<SyntaxError>();
@@ -35,8 +36,8 @@ public class ErrorController {
     /**
      * Adiciona um novo erro à lista de erros da análise sintática.
      * 
-     * @param expectd token esperado
-     * @param found   token encontrado
+     * @param expectd String com lexemas esperados
+     * @param found   String com lexemas encontrados
      * @param row     linha em que houve o erro
      */
     public void addError(String expected, String found, int row) {
