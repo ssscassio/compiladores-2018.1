@@ -8,6 +8,8 @@ import lexical.model.Token;
  * Interface de definição de uma produção.
  *
  * @see Production
+ * @author Cássio Santos
+ * @author Beatriz de Brito
  */
 public interface Production {
 

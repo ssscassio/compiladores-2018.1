@@ -3,6 +3,12 @@ package syntax.controller;
 import java.util.ArrayList;
 import syntax.model.SyntaxError;
 
+/**
+ * Compreende as informações de um erro encontrado.
+ * 
+ * @author Cássio Santos
+ * @author Beatriz de Brito
+ */
 public class ErrorController {
 
     private static ErrorController INSTANCE = new ErrorController();

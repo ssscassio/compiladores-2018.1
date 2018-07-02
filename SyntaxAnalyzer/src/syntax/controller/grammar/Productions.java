@@ -11,7 +11,7 @@ import lexical.util.Consts;
 import syntax.controller.ErrorController;
 
 /**
- * TODO: Fazer documentação
+ * Classe responsável pelas produções a serem analisadas na análise sintática
  * 
  * @see Production
  * @author Cássio Santos
@@ -2275,7 +2275,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.IDENTIFIER, ""))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-            } // ELSE NÃO É ERRO
+            }
 
             tokens = Extends.run(tokens);
 
