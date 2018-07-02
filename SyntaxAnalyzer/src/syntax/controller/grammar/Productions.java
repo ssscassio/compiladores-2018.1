@@ -871,7 +871,7 @@ public enum Productions implements Production {
                 }
             } else {
                 displayError(tokens.get(0), "'bool', 'float', 'int', 'string', Identifier or 'struct'");
-                while (!TypeBase.hasAsFirst(tokens.get(0))) {
+                while (!TypeBase.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
                 }
             }
@@ -1451,7 +1451,7 @@ public enum Productions implements Production {
                 tokens = ValueReadOnly.run(tokens);
                 tokens = UnarySymbol.run(tokens);
             } else {
-                displayError(tokens.get(0), "'!', '++', '--' or Identifier");
+                displayError(tokens.get(0), "'(', 'true', 'false', !', '++', '--', Identifier, Number or String");
                 while (!OpUnary.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -1743,7 +1743,7 @@ public enum Productions implements Production {
                     }
                 }
             } else {
-                displayError(tokens.get(0), "')' or 'param'");
+                displayError(tokens.get(0), "')', 'bool', 'float', 'int', 'string', 'struct' or Identifier");
                 while (!ValueAux2.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -1790,17 +1790,17 @@ public enum Productions implements Production {
                     tokens.remove(0);
                 }
             }
-            if (VarBody.hasAsFirst(tokens.get(0))) {
-                tokens = VarBody.run(tokens);
-            } else {
-                displayError(tokens.get(0), "var declarations");
-                while (!VarDeclaration.hasAsFollow(tokens.get(0))) {
-                    tokens.remove(0);
-                }
-            }
+
+            tokens = VarBody.run(tokens);
+
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "}"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
+            } else {
+                displayError(tokens.get(0), "}");
+                while (!VarDeclaration.hasAsFollow(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
 
             System.err.println("</VarDeclaration>");
@@ -1828,15 +1828,10 @@ public enum Productions implements Production {
         public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<VarBody>");
-            if (VarBody.hasAsFirst(tokens.get(0))) {
-                tokens = VarRow.run(tokens);
-                tokens = VarBodyAux.run(tokens);
-            } else {
-                displayError(tokens.get(0), "'var declarations");
-                while (!VarBodyAux.hasAsFollow(tokens.get(0))) {
-                    tokens.remove(0);
-                }
-            }
+
+            tokens = VarRow.run(tokens);
+            tokens = VarBodyAux.run(tokens);
+
             System.err.println("</VarBody>");
             return tokens;
         }
@@ -1857,7 +1852,7 @@ public enum Productions implements Production {
         public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<VarBodyAux>");
-            if (VarBody.hasAsFirst(tokens.get(0))) {
+            if (!tokens.isEmpty() && VarBody.hasAsFirst(tokens.get(0))) {
                 tokens = VarBody.run(tokens);
             }
             System.err.println("</VarBodyAux>");
@@ -1880,15 +1875,10 @@ public enum Productions implements Production {
         public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<VarRow>");
-            if (VarRow.hasAsFirst(tokens.get(0))) {
-                tokens = Type.run(tokens);
-                tokens = VarIdentifierList.run(tokens);
-            } else {
-                displayError(tokens.get(0), "var declaration");
-                while (!VarRow.hasAsFollow(tokens.get(0))) {
-                    tokens.remove(0);
-                }
-            }
+
+            tokens = Type.run(tokens);
+            tokens = VarIdentifierList.run(tokens);
+
             System.err.println("</VarRow>");
             return tokens;
         }
@@ -1966,13 +1956,15 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.IDENTIFIER, ""))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-                tokens = VarIdentifierAux.run(tokens);
             } else {
                 displayError(tokens.get(0), "Identifier");
-                while (!VarIdentifierListAux.hasAsFirst(tokens.get(0)) || !VarIdentifier.hasAsFollow(tokens.get(0))) {
+                while (!VarIdentifierListAux.hasAsFirst(tokens.get(0)) && !VarIdentifier.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
                 }
             }
+
+            tokens = VarIdentifierAux.run(tokens);
+
             System.err.println("</VarIdentifier>");
             return tokens;
         }
@@ -2174,7 +2166,7 @@ public enum Productions implements Production {
             } else {
                 displayError(tokens.get(0), "';' or ','");
                 while (!ConstIdentifierList.hasAsFirst(tokens.get(0))
-                        || !ConstIdentifierListAux.hasAsFollow(tokens.get(0))) {
+                        && !ConstIdentifierListAux.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
                 }
             }
@@ -2391,7 +2383,7 @@ public enum Productions implements Production {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<StructBodyAux>");
 
-            if (StructBody.hasAsFirst(tokens.get(0))) {
+            if (!tokens.isEmpty() && StructBody.hasAsFirst(tokens.get(0))) {
                 tokens = StructBody.run(tokens);
             }
 
@@ -2477,7 +2469,7 @@ public enum Productions implements Production {
             } else {
                 displayError(tokens.get(0), "';' or ','");
                 while (!StructIdentifierList.hasAsFirst(tokens.get(0))
-                        || !StructIdentifierListAux.hasAsFollow(tokens.get(0))) {
+                        && !StructIdentifierListAux.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
                 }
             }
@@ -2665,7 +2657,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else {
-                displayError(tokens.get(0), "Identifier");
+                displayError(tokens.get(0), "'while'");
                 while (!Expression.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -2850,7 +2842,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else {
-                displayError(tokens.get(0), "Identifier");
+                displayError(tokens.get(0), ")");
                 while (!ScanStatement.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -2928,27 +2920,6 @@ public enum Productions implements Production {
         @Override
         public boolean hasAsFollow(Token token) {
             return token.isSameType(new Token(Consts.DELIMITER, ")"));
-        }
-    },
-    Template { // Template Production
-        @Override
-        public ArrayList<Token> run(ArrayList<Token> tokenList) {
-            ArrayList<Token> tokens = tokenList;
-            System.err.println("<Template>");
-
-            System.err.println("</Template>");
-            return tokens;
-
-        }
-
-        @Override
-        public boolean hasAsFirst(Token token) { // Implementar
-            return false;
-        }
-
-        @Override
-        public boolean hasAsFollow(Token token) { // Implementar
-            return false;
         }
     };
 
