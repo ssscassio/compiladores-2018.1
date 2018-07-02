@@ -1451,7 +1451,7 @@ public enum Productions implements Production {
                 tokens = ValueReadOnly.run(tokens);
                 tokens = UnarySymbol.run(tokens);
             } else {
-                displayError(tokens.get(0), "'(', 'true', 'false', !', '++', '--', Identifier, Number or String");
+                displayError(tokens.get(0), "'(', 'true', 'false', '!', '++', '--', Identifier, Number or String");
                 while (!OpUnary.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -1471,7 +1471,7 @@ public enum Productions implements Production {
         @Override
         public boolean hasAsFollow(Token token) {
             Set<String> VALUES = new HashSet<String>(Arrays.asList("*", "/", "-", "+", "!=", "<", "<=", "==", ">", ">=",
-                    "&&", "||", ")", ",", ";", "] "));
+                    "&&", "||", ")", ",", ";", "]"));
             return VALUES.contains(token.getLexeme());
         }
     },
@@ -1499,7 +1499,7 @@ public enum Productions implements Production {
         @Override
         public boolean hasAsFollow(Token token) {
             Set<String> VALUES = new HashSet<String>(Arrays.asList("*", "/", "-", "+", "!=", "<", "<=", "==", ">", ">=",
-                    "&&", "||", ")", ",", ";", "] "));
+                    "&&", "||", ")", ",", ";", "]"));
             return VALUES.contains(token.getLexeme());
         }
     },
@@ -1533,7 +1533,7 @@ public enum Productions implements Production {
         @Override
         public boolean hasAsFollow(Token token) {
             Set<String> VALUES = new HashSet<String>(Arrays.asList("*", "/", "-", "+", "!=", "<", "<=", "==", ">", ">=",
-                    "&&", "||", ")", ",", ";", "] "));
+                    "&&", "||", ")", ",", ";", "]"));
             return VALUES.contains(token.getLexeme());
         }
     },
