@@ -13,10 +13,10 @@ public class ErrorController {
 
     private static ErrorController INSTANCE = new ErrorController();
 
-    private ArrayList<SyntaxError> errors = new ArrayList();
+    private ArrayList<SyntaxError> errors = new ArrayList<SyntaxError>();
 
     private ErrorController() {
-        errors = new ArrayList();
+        errors = new ArrayList<SyntaxError>();
     }
 
     public static ErrorController getInstance() {
