@@ -1,0 +1,10 @@
+Line 03 ERROR: expected '!', '++', '--' or Identifier found ]
+Line 03 ERROR: expected ']' found ;
+Line 03 ERROR: expected '[' found ;
+Line 04 ERROR: expected '!', '++', '--' or Identifier found ]
+Line 04 ERROR: expected ']' found ;
+Line 05 ERROR: expected '!', '++', '--' or Identifier found )
+Line 05 ERROR: expected ';' found =
+Line 05 ERROR: expected '[' found ;
+Line 06 ERROR: expected ';' found {
+Line 06 ERROR: expected ';' found }

@@ -84,7 +84,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else {
-                displayError(tokens.get(0), "'Identifier'");
+                displayError(tokens.get(0), "Identifier");
                 while (!FunctionProcedureTail.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -324,7 +324,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else {
-                displayError(tokens.get(0), "'Identifier'");
+                displayError(tokens.get(0), "Identifier");
                 while (!FunctionId.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -411,7 +411,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else {
-                displayError(tokens.get(0), "'Identifier'");
+                displayError(tokens.get(0), "Identifier");
                 while (!Param.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -455,7 +455,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else {
-                displayError(tokens.get(0), "'Identifier'");
+                displayError(tokens.get(0), "Identifier");
                 while (!TypeDeclaration.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -562,7 +562,7 @@ public enum Productions implements Production {
             } else if (tokens.get(0).isSameType(new Token(Consts.KEY_WORD, "typedef"))) {
                 tokens = TypeDeclaration.run(tokens);
             } else {
-                displayError(tokens.get(0), "'start', 'function', 'var', 'struct' or 'typedef'");
+                displayError(tokens.get(0), "'start', 'function', 'var', 'struct', 'procedure' or 'typedef'");
                 while (!ProgramAux.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -864,13 +864,13 @@ public enum Productions implements Production {
                     System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                     tokens.remove(0);
                 } else {
-                    displayError(tokens.get(0), "'Identifier'");
+                    displayError(tokens.get(0), "Identifier");
                     while (!TypeBase.hasAsFollow(tokens.get(0))) {
                         tokens.remove(0);
                     }
                 }
             } else {
-                displayError(tokens.get(0), "'return'");
+                displayError(tokens.get(0), "'bool', 'float', 'int', 'string', Identifier or 'struct'");
                 while (!TypeBase.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -1451,7 +1451,7 @@ public enum Productions implements Production {
                 tokens = ValueReadOnly.run(tokens);
                 tokens = UnarySymbol.run(tokens);
             } else {
-                displayError(tokens.get(0), "'!' or '++' or '--' or 'Identifier'");
+                displayError(tokens.get(0), "'!', '++', '--' or Identifier");
                 while (!OpUnary.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -1513,7 +1513,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else {
-                displayError(tokens.get(0), "'Identifier'");
+                displayError(tokens.get(0), "Identifier");
                 while (!Accessing.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -1603,7 +1603,7 @@ public enum Productions implements Production {
                     System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                     tokens.remove(0);
                 } else {
-                    displayError(tokens.get(0), "'Identifier'");
+                    displayError(tokens.get(0), "Identifier");
                     while (!Field.hasAsFollow(tokens.get(0))) {
                         tokens.remove(0);
                     }
@@ -1671,7 +1671,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else {
-                displayError(tokens.get(0), "'Identifier', 'Numbers', 'String', 'true', 'false' or '('");
+                displayError(tokens.get(0), "Identifier, Numbers, String, 'true', 'false' or '('");
                 while (!ValueReadOnly.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -1968,7 +1968,7 @@ public enum Productions implements Production {
                 tokens.remove(0);
                 tokens = VarIdentifierAux.run(tokens);
             } else {
-                displayError(tokens.get(0), "'Identifier'");
+                displayError(tokens.get(0), "Identifier");
                 while (!VarIdentifierListAux.hasAsFirst(tokens.get(0)) || !VarIdentifier.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -2204,7 +2204,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else {
-                displayError(tokens.get(0), "'Identifier'");
+                displayError(tokens.get(0), "Identifier");
                 while (!Expression.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -2213,7 +2213,6 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.RELATIONAL_OPERATOR, "="))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
-                tokens = ConstIdentifierList.run(tokens);
             } else {
                 displayError(tokens.get(0), "'='");
                 while (!Expression.hasAsFirst(tokens.get(0))) {
@@ -2338,7 +2337,7 @@ public enum Productions implements Production {
                     System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                     tokens.remove(0);
                 } else {
-                    displayError(tokens.get(0), "'Identifier'");
+                    displayError(tokens.get(0), "Identifier");
                     while (!Extends.hasAsFollow(tokens.get(0))) {
                         tokens.remove(0);
                     }
@@ -2509,7 +2508,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else {
-                displayError(tokens.get(0), "'Identifier'");
+                displayError(tokens.get(0), "Identifier");
                 while (!StructIdentifier.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -2621,7 +2620,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else {
-                displayError(tokens.get(0), "'}'");
+                displayError(tokens.get(0), "')'");
                 while (!Expression.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -2630,7 +2629,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else {
-                displayError(tokens.get(0), "'}'");
+                displayError(tokens.get(0), "'then'");
                 while (!Block.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -2666,7 +2665,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else {
-                displayError(tokens.get(0), "'Identifier'");
+                displayError(tokens.get(0), "Identifier");
                 while (!Expression.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -2851,7 +2850,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else {
-                displayError(tokens.get(0), "'Identifier'");
+                displayError(tokens.get(0), "Identifier");
                 while (!ScanStatement.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -2886,7 +2885,7 @@ public enum Productions implements Production {
                     tokens.remove(0);
                 }
             } else {
-                displayError(tokens.get(0), "'Identifier'");
+                displayError(tokens.get(0), "Identifier");
                 while (!Input.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
                 }
