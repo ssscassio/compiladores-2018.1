@@ -1973,9 +1973,11 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
                 tokens = VarIdentifierAux.run(tokens);
-            } else { // TODO: ERRO: Esperava um Identificador, não encontrou isso
-                // TODO: Sincronização, como fazer sincronização com coisas que tem vazio?
-
+            } else {
+                displayError(tokens.get(0), "'Identifier'");
+                while (!VarIdentifierListAux.hasAsFirst(tokens.get(0)) || !VarIdentifier.hasAsFollow(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
             System.err.println("</VarIdentifier>");
             return tokens;
@@ -2175,9 +2177,11 @@ public enum Productions implements Production {
                 tokens.remove(0);
                 tokens = ConstIdentifierList.run(tokens);
             } else {
-                // TODO: ERRO: Esperado ; ou , Sincronizar ()
-                // Duvida: Sincronizar com seguinte de ConstIdentifierListAux
-                // ou com primeiro de ConstIdentifierList
+                displayError(tokens.get(0), "';' ou ','");
+                while (!ConstIdentifierList.hasAsFirst(tokens.get(0))
+                        || !ConstIdentifierListAux.hasAsFollow(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
             System.err.println("</ConstIdentifierListAux>");
             return tokens;
@@ -2477,9 +2481,11 @@ public enum Productions implements Production {
                 tokens.remove(0);
                 tokens = StructIdentifierList.run(tokens);
             } else {
-                // TODO: ERRO: Esperado ; ou , Sincronizar
-                // Duvida: Sincronizar com seguinte de StructIdentifierListAux
-                // ou com primeiro de StructIdentifierList
+                displayError(tokens.get(0), "';' ou ','");
+                while (!StructIdentifierList.hasAsFirst(tokens.get(0))
+                        || !StructIdentifierListAux.hasAsFollow(tokens.get(0))) {
+                    tokens.remove(0);
+                }
             }
             System.err.println("</StructIdentifierListAux>");
             return tokens;
@@ -2685,7 +2691,7 @@ public enum Productions implements Production {
                 tokens.remove(0);
             } else {
                 displayError(tokens.get(0), "')'");
-                while (!jdk.nashorn.internal.ir.Block.hasAsFirst(tokens.get(0))) {
+                while (!Block.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
             }
