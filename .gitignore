@@ -1,5 +1,6 @@
 # Local Vscode Properties
 .vscode
+.vs
 
 # Compiled class file
 *.class
