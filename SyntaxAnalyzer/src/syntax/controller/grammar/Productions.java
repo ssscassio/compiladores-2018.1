@@ -138,7 +138,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else {
-                displayError(tokens.get(0), "'start'");
+                displayError(tokens.get(0), "'('");
                 while (!Block.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -896,11 +896,11 @@ public enum Productions implements Production {
         public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<Scalar>");
-            if (TypeBase.hasAsFirst(tokens.get(0))) { // TODO: Ver se vai ser preciso definir a partir do tipo
+            if (TypeBase.hasAsFirst(tokens.get(0))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else {
-                System.err.println("ERROR: Scalar");
+                displayError(tokens.get(0), "'int', 'float', 'bool' or 'string'");
                 while (!Scalar.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -1344,12 +1344,6 @@ public enum Productions implements Production {
 
                 tokens = OpMult.run(tokens);
                 tokens = OpAddAux.run(tokens);
-
-            } else {
-                displayError(tokens.get(0), "'+ or -'");
-                while (!OpMult.hasAsFirst(tokens.get(0))) {
-                    tokens.remove(0);
-                }
             }
 
             System.err.println("</OpAddAux>");
@@ -1457,8 +1451,8 @@ public enum Productions implements Production {
                 tokens = ValueReadOnly.run(tokens);
                 tokens = UnarySymbol.run(tokens);
             } else {
-                System.err.println("ERROR: ");
-                while (!OpUnary.hasAsFirst(tokens.get(0))) {
+                displayError(tokens.get(0), "'!' or '++' or '--' or 'Identifier'");
+                while (!OpUnary.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
                 }
             }
@@ -1624,7 +1618,7 @@ public enum Productions implements Production {
                     System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                     tokens.remove(0);
                 } else {
-                    System.err.println("ERROR: ']'");
+                    displayError(tokens.get(0), "']'");
                     while (!Field.hasAsFollow(tokens.get(0))) {
                         tokens.remove(0);
                     }
@@ -1665,7 +1659,7 @@ public enum Productions implements Production {
                     System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                     tokens.remove(0);
                 } else {
-                    System.err.println("ERROR: ')'");
+                    displayError(tokens.get(0), "')'");
                     while (!ValueReadOnly.hasAsFollow(tokens.get(0))) {
                         tokens.remove(0);
                     }
@@ -1677,7 +1671,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else {
-                System.err.println("ERROR: ");
+                displayError(tokens.get(0), "'Identifier', 'Numbers', 'String', 'true', 'false' or '('");
                 while (!ValueReadOnly.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -1743,13 +1737,13 @@ public enum Productions implements Production {
                     System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                     tokens.remove(0);
                 } else {
-                    System.err.println("ERROR: ')'");
+                    displayError(tokens.get(0), "')'");
                     while (!ValueAux2.hasAsFollow(tokens.get(0))) {
                         tokens.remove(0);
                     }
                 }
             } else {
-                System.err.println("ERROR: ')' or param");
+                displayError(tokens.get(0), "')' or 'param'");
                 while (!ValueAux2.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -1782,7 +1776,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else {
-                System.err.println("ERROR: 'var'");
+                displayError(tokens.get(0), "'var'");
                 while (!VarBody.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -1791,7 +1785,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else {
-                System.err.println("ERROR: '{'");
+                displayError(tokens.get(0), "'{'");
                 while (!VarBody.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -1799,7 +1793,7 @@ public enum Productions implements Production {
             if (VarBody.hasAsFirst(tokens.get(0))) {
                 tokens = VarBody.run(tokens);
             } else {
-                System.err.println("ERROR: var declarations");
+                displayError(tokens.get(0), "var declarations");
                 while (!VarDeclaration.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -1838,7 +1832,7 @@ public enum Productions implements Production {
                 tokens = VarRow.run(tokens);
                 tokens = VarBodyAux.run(tokens);
             } else {
-                System.err.println("ERROR: ");
+                displayError(tokens.get(0), "'var declarations");
                 while (!VarBodyAux.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -1890,7 +1884,7 @@ public enum Productions implements Production {
                 tokens = Type.run(tokens);
                 tokens = VarIdentifierList.run(tokens);
             } else {
-                System.err.println("ERROR: ");
+                displayError(tokens.get(0), "var declaration");
                 while (!VarRow.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -2031,7 +2025,7 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else {
-                System.err.println("ERROR: 'const'");
+                displayError(tokens.get(0), "'const'");
                 while (!ConstBody.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -2040,17 +2034,18 @@ public enum Productions implements Production {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else {
-                System.err.println("ERROR: '{'");
+                displayError(tokens.get(0), "'{'");
                 while (!ConstBody.hasAsFirst(tokens.get(0))) {
                     tokens.remove(0);
                 }
             }
             tokens = ConstBody.run(tokens);
+
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "}"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else {
-                System.err.println("ERROR: '}'");
+                displayError(tokens.get(0), "'}'");
                 while (!ConstDeclaration.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
                 }
@@ -2177,7 +2172,7 @@ public enum Productions implements Production {
                 tokens.remove(0);
                 tokens = ConstIdentifierList.run(tokens);
             } else {
-                displayError(tokens.get(0), "';' ou ','");
+                displayError(tokens.get(0), "';' or ','");
                 while (!ConstIdentifierList.hasAsFirst(tokens.get(0))
                         || !ConstIdentifierListAux.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
@@ -2481,7 +2476,7 @@ public enum Productions implements Production {
                 tokens.remove(0);
                 tokens = StructIdentifierList.run(tokens);
             } else {
-                displayError(tokens.get(0), "';' ou ','");
+                displayError(tokens.get(0), "';' or ','");
                 while (!StructIdentifierList.hasAsFirst(tokens.get(0))
                         || !StructIdentifierListAux.hasAsFollow(tokens.get(0))) {
                     tokens.remove(0);
