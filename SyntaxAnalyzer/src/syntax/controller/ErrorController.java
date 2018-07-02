@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import syntax.model.SyntaxError;
 
 /**
- * Compreende as informações de um erro encontrado.
+ * Controlador de erros encontrados em uma análise sintática
  * 
  * @author Cássio Santos
  * @author Beatriz de Brito
