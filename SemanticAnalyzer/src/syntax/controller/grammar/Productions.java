@@ -9,9 +9,11 @@ import java.util.HashSet;
 import lexical.model.Token;
 import lexical.util.Consts;
 import syntax.controller.ErrorController;
+import syntax.controller.SymbolTableController;
 
 /**
- * Classe responsável pelas produções a serem analisadas na análise sintática
+ * Classe responsável pelas produções a serem analisadas na análise sin
+ * ática
  * 
  * @see Production
  * @author Cássio Santos
@@ -127,6 +129,7 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.KEY_WORD, "start"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
+
             } else {
                 displayError(tokens.get(0), "'start'");
                 while (!Block.hasAsFirst(tokens.get(0))) {
@@ -2929,5 +2932,11 @@ public enum Productions implements Production {
 
     static private void displayError(Token token, String spectedString) {
         ErrorController.getInstance().addError(spectedString, token.getLexeme(), token.getRow());
+    }
+
+    static private void displaySymbol(int scope, String keyname, String type, String identifier,
+            String functionProcedureName, String functionReturnType, String functionReturn) {
+        SymbolTableController.getInstance().addSymbol(scope, keyname, type, identifier, functionProcedureName,
+                functionReturnType, functionReturn);
     }
 }
