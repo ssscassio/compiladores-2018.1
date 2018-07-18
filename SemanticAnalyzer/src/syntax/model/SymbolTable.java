@@ -10,6 +10,18 @@ public class SymbolTable {
     private final String functionReturnType;
     private final String functionReturn;
 
+    public SymbolTable(int scope, String keyname, String type, String identifier, String functionProcedureName,
+            String functionReturnType, String functionReturn) {
+        this.scope = scope;
+        this.keyname = keyname;
+        this.type = type;
+        this.identifier = identifier;
+        this.functionProcedureName = functionProcedureName;
+        this.functionReturnType = functionReturnType;
+        this.functionReturn = functionReturn;
+
+    }
+
     public int getScope() {
         return this.scope;
     }

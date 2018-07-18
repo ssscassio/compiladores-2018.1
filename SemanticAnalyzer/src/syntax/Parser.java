@@ -8,6 +8,7 @@ import lexical.util.Consts;
 import syntax.model.SyntaxError;
 import syntax.controller.ErrorController;
 import syntax.controller.grammar.*;
+import syntax.model.SymbolTable;
 
 /**
  * Classe responsável pela etapa de análise sintática.
@@ -35,7 +36,7 @@ public class Parser {
 
     /**
      * Método responsável por analisar sintáticamente a lista de tokens passada na
-     * construção da instância da classe Parser
+     * o strução da instância da classe Parser
      */
     public void analyze() {
         System.out.println("Analisador Sintatico...");
