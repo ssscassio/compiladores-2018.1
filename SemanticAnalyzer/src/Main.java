@@ -25,9 +25,9 @@ public class Main {
             parser.analyze();
 
             // Escrita de Tokens e Erros no arquivo de saída
-            String results = parser.createOutputData();
-            FileController.saveOnFile(fileName, results);
-            ErrorController.getInstance().clearErrors();
+            // String results = parser.createOutputData();
+            // FileController.saveOnFile(fileName, results);
+            // ErrorController.getInstance().clearErrors();
         });
 
     }
