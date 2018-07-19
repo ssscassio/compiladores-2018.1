@@ -1,10 +1,10 @@
-package syntax.controller;
+package semantic.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import syntax.model.Symbol;
+import semantic.model.Symbol;
 
 /**
  * Controlador da tabela de símbolos.

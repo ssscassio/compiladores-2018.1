@@ -9,7 +9,6 @@ import java.util.HashSet;
 import lexical.model.Token;
 import lexical.util.Consts;
 import syntax.controller.ErrorController;
-import syntax.controller.SymbolTableController;
 
 /**
  * Classe responsável pelas produções a serem analisadas na análise sintática
@@ -26,8 +25,6 @@ public enum Productions implements Production {
             System.err.println("<FunctionDeclaration>");
 
             if (consumeToken(tokens.get(0), new Token(Consts.KEY_WORD, "function"))) {
-                setField("category");
-                addToCache(getField(), "function");
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else {
@@ -49,7 +46,6 @@ public enum Productions implements Production {
                 }
             }
 
-            setField("params");
             tokens = FunctionProcedureTail.run(tokens);
 
             System.err.println("</FunctionDeclaration>");
@@ -195,12 +191,8 @@ public enum Productions implements Production {
                         tokens.remove(0);
                     }
                 }
-                SymbolTableController.updateLastScope();
-                SymbolTableController.createSymbolFromCache(SymbolTableController.getLastScope());
-                SymbolTableController.setScope(SymbolTableController.getLastScope());
-                SymbolTableController.clearCache();
+
                 tokens = Block.run(tokens);
-                SymbolTableController.setScope(0);
 
             } else if (tokens.get(0).isSameType(new Token(Consts.DELIMITER, ")"))) {
 
@@ -214,13 +206,7 @@ public enum Productions implements Production {
                     }
                 }
 
-                SymbolTableController.updateLastScope();
-                SymbolTableController.createSymbolFromCache(SymbolTableController.getLastScope());
-                SymbolTableController.setScope(SymbolTableController.getLastScope());
-                SymbolTableController.clearCache();
                 tokens = Block.run(tokens);
-                SymbolTableController.setScope(0);
-
             }
 
             System.err.println("</FunctionProcedureTail>");
@@ -332,12 +318,9 @@ public enum Productions implements Production {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<FunctionId>");
 
-            setField("type");
             tokens = Type.run(tokens);
 
             if (consumeToken(tokens.get(0), new Token(Consts.IDENTIFIER, ""))) {
-                setField("name");
-                addToCache(getField(), tokens.get(0).getLexeme());
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else {
@@ -426,8 +409,6 @@ public enum Productions implements Production {
 
             if (consumeToken(tokens.get(0), new Token(Consts.IDENTIFIER, ""))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
-                addToCache(getField(),
-                        SymbolTableController.getCache().getField(getField()) + " " + tokens.get(0).getLexeme() + " ");
                 tokens.remove(0);
             } else {
                 displayError(tokens.get(0), "Identifier");
@@ -875,18 +856,11 @@ public enum Productions implements Production {
             if (Scalar.hasAsFirst(tokens.get(0))) {
                 tokens = Scalar.run(tokens);
             } else if (consumeToken(tokens.get(0), new Token(Consts.IDENTIFIER, ""))) {
-                addToCache(getField(),
-                        SymbolTableController.getCache().getField(getField()) + tokens.get(0).getLexeme());
-                System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else if (consumeToken(tokens.get(0), new Token(Consts.KEY_WORD, "struct"))) {
-                addToCache(getField(),
-                        SymbolTableController.getCache().getField(getField()) + tokens.get(0).getLexeme() + " ");
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
                 if (consumeToken(tokens.get(0), new Token(Consts.IDENTIFIER, ""))) {
-                    addToCache(getField(),
-                            SymbolTableController.getCache().getField(getField()) + tokens.get(0).getLexeme());
                     System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                     tokens.remove(0);
                 } else {
@@ -923,8 +897,6 @@ public enum Productions implements Production {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<Scalar>");
             if (TypeBase.hasAsFirst(tokens.get(0))) {
-                addToCache(getField(),
-                        SymbolTableController.getCache().getField(getField()) + tokens.get(0).getLexeme());
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else {
@@ -1003,13 +975,9 @@ public enum Productions implements Production {
             System.err.println("<ArrayTypeField>");
             if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "["))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
-                addToCache(getField(),
-                        SymbolTableController.getCache().getField(getField()) + tokens.get(0).getLexeme());
                 tokens.remove(0);
                 if (consumeToken(tokens.get(0), new Token(Consts.KEY_WORD, "]"))) {
                     System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
-                    addToCache(getField(),
-                            SymbolTableController.getCache().getField(getField()) + tokens.get(0).getLexeme());
                     tokens.remove(0);
                 } else {
                     displayError(tokens.get(0), "']'");
@@ -1860,12 +1828,9 @@ public enum Productions implements Production {
         public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<VarBody>");
-            setField("category");
-            addToCache(getField(), "var");
 
             tokens = VarRow.run(tokens);
             tokens = VarBodyAux.run(tokens);
-            SymbolTableController.clearCache();
 
             System.err.println("</VarBody>");
             return tokens;
@@ -1910,10 +1875,8 @@ public enum Productions implements Production {
         public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<VarRow>");
-            setField("type");
-            addToCache(getField(), "");
+
             tokens = Type.run(tokens);
-            setField("name");
             tokens = VarIdentifierList.run(tokens);
 
             System.err.println("</VarRow>");
@@ -1991,8 +1954,6 @@ public enum Productions implements Production {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<VarIdentifier>");
             if (consumeToken(tokens.get(0), new Token(Consts.IDENTIFIER, ""))) {
-                addToCache(getField(), tokens.get(0).getLexeme());
-                SymbolTableController.createSymbolFromCache();
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else {
@@ -2968,17 +2929,5 @@ public enum Productions implements Production {
 
     static private void displayError(Token token, String spectedString) {
         ErrorController.getInstance().addError(spectedString, token.getLexeme(), token.getRow());
-    }
-
-    static private String getField() {
-        return SymbolTableController.getField();
-    }
-
-    static private void setField(String field) {
-        SymbolTableController.setField(field);
-    }
-
-    static private void addToCache(String fieldName, String value) {
-        SymbolTableController.updateCache(fieldName, value);
     }
 }

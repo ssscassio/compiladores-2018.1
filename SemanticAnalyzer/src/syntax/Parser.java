@@ -7,8 +7,8 @@ import lexical.model.Token;
 import lexical.util.Consts;
 import syntax.model.SyntaxError;
 import syntax.controller.ErrorController;
+import syntax.controller.SymbolTableController;
 import syntax.controller.grammar.*;
-import syntax.model.SymbolTable;
 
 /**
  * Classe responsável pela etapa de análise sintática.
@@ -35,17 +35,18 @@ public class Parser {
     }
 
     /**
-     * Método responsável por analisar sintáticamente a lista de tokens passada na o
-     * strução da instância da classe Parser
+     * Método responsável por analisar sintáticamente a lista de tokens passada na
+     * construção da instância da classe Parser
      */
     public void analyze() {
         System.out.println("Analisador Sintatico...");
-        // try {
-        Productions.Program.run(tokens);
+        try {
+            Productions.Program.run(tokens);
+            System.out.println(SymbolTableController.getTable().toString());
 
-        // } catch (Exception e) {
-        // System.err.println(e.toString());
-        // }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     /**

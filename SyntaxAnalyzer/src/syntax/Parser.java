@@ -7,7 +7,6 @@ import lexical.model.Token;
 import lexical.util.Consts;
 import syntax.model.SyntaxError;
 import syntax.controller.ErrorController;
-import syntax.controller.SymbolTableController;
 import syntax.controller.grammar.*;
 
 /**
@@ -42,7 +41,6 @@ public class Parser {
         System.out.println("Analisador Sintatico...");
         try {
             Productions.Program.run(tokens);
-            System.out.println(SymbolTableController.getTable().toString());
 
         } catch (Exception e) {
             System.err.println(e.getMessage());

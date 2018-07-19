@@ -1,0 +1,13 @@
+var {
+    int a, b;
+    float c, d;
+    struct algo e, f;
+}
+
+function int teste(int a) {
+
+    var {
+        float a;
+        algumacoisa b;
+    }
+}

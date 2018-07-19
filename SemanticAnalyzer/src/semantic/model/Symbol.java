@@ -1,4 +1,4 @@
-package syntax.model;
+package semantic.model;
 
 public class Symbol {
 
