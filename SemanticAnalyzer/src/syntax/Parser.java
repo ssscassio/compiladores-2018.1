@@ -7,7 +7,7 @@ import lexical.model.Token;
 import lexical.util.Consts;
 import syntax.model.SyntaxError;
 import syntax.controller.ErrorController;
-import syntax.controller.SymbolTableController;
+import semantic.controller.SymbolTableController;
 import syntax.controller.grammar.*;
 
 /**
