@@ -130,7 +130,15 @@ public enum Productions implements Production {
 
             if (consumeToken(tokens.get(0), new Token(Consts.KEY_WORD, "start"))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
-                tokens.remove(0);
+                setField("name");
+                addToCache(getField(), tokens.get(0).getLexeme());
+                setField("category");
+                addToCache(getField(), "start");
+                SymbolTableController.setScope(SymbolTableController.getLastScope());
+                SymbolTableController.updateLastScope();
+                SymbolTableController.createSymbolFromCache(SymbolTableController.getLastScope());
+                SymbolTableController.clearCache();
+                tokens.remove(0);                
             } else {
                 displayError(tokens.get(0), "'start'");
                 while (!Block.hasAsFirst(tokens.get(0))) {
@@ -2102,6 +2110,9 @@ public enum Productions implements Production {
         public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<ConstBody>");
+            setField("category");
+            addToCache(getField(), "const");
+
             tokens = ConstRow.run(tokens);
             tokens = ConstBodyAux.run(tokens);
             System.err.println("</ConstBody>");
@@ -2148,7 +2159,10 @@ public enum Productions implements Production {
         public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<ConstRow>");
+            setField("type");
+            addToCache(getField(), "");
             tokens = Type.run(tokens);
+            setField("name");
             tokens = ConstIdentifierList.run(tokens);
             System.err.println("</ConstRow>");
             return tokens;
@@ -2232,6 +2246,8 @@ public enum Productions implements Production {
             System.err.println("<ConstIdentifier>");
 
             if (consumeToken(tokens.get(0), new Token(Consts.IDENTIFIER, ""))) {
+                addToCache(getField(), tokens.get(0).getLexeme());
+                SymbolTableController.createSymbolFromCache();
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else {

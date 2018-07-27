@@ -72,7 +72,7 @@ public class Symbol {
 
     @Override
     public String toString() {
-        return this.name + " | " + this.scope + " | " + this.category + " | " + this.type + " | " + this.params + " | "
-                + this.fields + " | " + this.scopeReference + " | ";
+        return "nome: " + this.name + " | escopo: " + this.scope + " | categoria: " + this.category + " | tipo: " + this.type + " | parametros:" + this.params + " | campos: "
+                + this.fields + " | escopo de referencia: " + this.scopeReference + " | ";
     }
 }

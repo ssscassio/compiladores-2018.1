@@ -1,7 +1,11 @@
-var {
-    int a, b;
-    float c, d;
-    struct algo e, f;
+const{
+	int num = 5;
+	bool aprovado = false;
+}
+
+start (){
+
+
 }
 
 function int teste(int a) {
