@@ -134,11 +134,12 @@ public enum Productions implements Production {
                 addToCache(getField(), tokens.get(0).getLexeme());
                 setField("category");
                 addToCache(getField(), "start");
-                SymbolTableController.setScope(SymbolTableController.getLastScope());
+                SymbolTableController.setScope(0);
                 SymbolTableController.updateLastScope();
                 SymbolTableController.createSymbolFromCache(SymbolTableController.getLastScope());
                 SymbolTableController.clearCache();
-                tokens.remove(0);                
+                tokens.remove(0);         
+                SymbolTableController.setScope(1);      
             } else {
                 displayError(tokens.get(0), "'start'");
                 while (!Block.hasAsFirst(tokens.get(0))) {
@@ -169,6 +170,7 @@ public enum Productions implements Production {
             tokens = Block.run(tokens);
 
             System.err.println("</StartDeclaration>");
+            SymbolTableController.setScope(0);
             return tokens;
         }
 
@@ -834,9 +836,12 @@ public enum Productions implements Production {
         public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<Type>");
+            setField("category");
+            addToCache(getField(), "type");
 
             tokens = TypeBase.run(tokens);
             tokens = TypeAux.run(tokens);
+            SymbolTableController.clearCache();
 
             System.err.println("</Type>");
             return tokens;
@@ -881,7 +886,10 @@ public enum Productions implements Production {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<TypeBase>");
             if (Scalar.hasAsFirst(tokens.get(0))) {
+                setField("type");
+                addToCache(getField(), "");
                 tokens = Scalar.run(tokens);
+                setField("name");
             } else if (consumeToken(tokens.get(0), new Token(Consts.IDENTIFIER, ""))) {
                 addToCache(getField(),
                         SymbolTableController.getCache().getField(getField()) + tokens.get(0).getLexeme());
@@ -1874,7 +1882,7 @@ public enum Productions implements Production {
             tokens = VarRow.run(tokens);
             tokens = VarBodyAux.run(tokens);
             SymbolTableController.clearCache();
-
+            
             System.err.println("</VarBody>");
             return tokens;
         }
