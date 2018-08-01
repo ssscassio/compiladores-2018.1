@@ -83,7 +83,7 @@ public class SymbolTableController {
 
     public static void createSymbolFromCache() {
         cache.updateField("scope", scope + "");
-        if (!symbolTable.containsKey(cache.getField("name"))) {
+        if (!containsKey()) {
             symbolTable.put(cache.getField("name"), new ArrayList<>(Arrays.asList(new Symbol(cache))));
         } else {
             symbolTable.get(cache.getField("name")).add(new Symbol(cache));
@@ -99,4 +99,12 @@ public class SymbolTableController {
     public static HashMap<String, ArrayList<Symbol>> getTable() {
         return symbolTable;
     }
+
+    public static boolean containsKey(){
+        if(symbolTable.containsKey(cache.getField("name")))
+            return true;
+        
+        return false;
+    }
+
 }

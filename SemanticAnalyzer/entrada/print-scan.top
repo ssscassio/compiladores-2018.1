@@ -1,17 +1,5 @@
-const{
-	int num = 5;
-	bool aprovado = false;
+const {
+    int number = 5;
+    bool approved = false;
 }
 
-start (){
-
-
-}
-
-function int teste(int a) {
-
-    var {
-        float a;
-        algumacoisa b;
-    }
-}

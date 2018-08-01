@@ -134,12 +134,19 @@ public enum Productions implements Production {
                 addToCache(getField(), tokens.get(0).getLexeme());
                 setField("category");
                 addToCache(getField(), "start");
-                SymbolTableController.setScope(0);
-                SymbolTableController.updateLastScope();
-                SymbolTableController.createSymbolFromCache(SymbolTableController.getLastScope());
-                SymbolTableController.clearCache();
+                if(!SymbolTableController.containsKey()){
+                    SymbolTableController.setScope(0);
+                    SymbolTableController.updateLastScope();
+                    SymbolTableController.createSymbolFromCache(SymbolTableController.getLastScope());
+                    SymbolTableController.clearCache();
+                    
+                }else{
+                    System.err.println("ERRO: O metodo start() so pode ser declarado uma vez.");
+                }
+
+                SymbolTableController.setScope(1); 
                 tokens.remove(0);         
-                SymbolTableController.setScope(1);      
+                
             } else {
                 displayError(tokens.get(0), "'start'");
                 while (!Block.hasAsFirst(tokens.get(0))) {
@@ -1273,7 +1280,7 @@ public enum Productions implements Production {
         public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<OpRelational>");
-
+            
             tokens = OpAdd.run(tokens);
             tokens = OpRelationalAux.run(tokens);
 
@@ -2008,7 +2015,14 @@ public enum Productions implements Production {
             System.err.println("<VarIdentifier>");
             if (consumeToken(tokens.get(0), new Token(Consts.IDENTIFIER, ""))) {
                 addToCache(getField(), tokens.get(0).getLexeme());
-                SymbolTableController.createSymbolFromCache();
+    
+                if(!SymbolTableController.containsKey()){
+                    SymbolTableController.createSymbolFromCache();
+                }else{
+                    System.err.println(" ERRO: Variavel ja declarada");
+                }
+                
+                
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else {
@@ -2255,7 +2269,11 @@ public enum Productions implements Production {
 
             if (consumeToken(tokens.get(0), new Token(Consts.IDENTIFIER, ""))) {
                 addToCache(getField(), tokens.get(0).getLexeme());
-                SymbolTableController.createSymbolFromCache();
+                if(!SymbolTableController.containsKey()){
+                    SymbolTableController.createSymbolFromCache();
+                }else{
+                    System.err.println(" ERRO: Constante ja declarada");
+                }
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else {
