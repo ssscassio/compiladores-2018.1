@@ -140,7 +140,10 @@ public enum Productions implements Production {
                     SymbolTableController.setScope(SymbolTableController.getLastScope());
                     SymbolTableController.clearCache();
                 } else {
-                    System.err.println("ERRO: O metodo start() so pode ser declarado uma vez.");
+                    SymbolTableController.updateLastScope();
+                    SymbolTableController.setScope(SymbolTableController.getLastScope());
+                    SymbolTableController.clearCache();
+                    displaySemanticError(tokens.get(0), "O método start() só pode ser declarado uma vez.");
                 }
 
                 tokens.remove(0);
