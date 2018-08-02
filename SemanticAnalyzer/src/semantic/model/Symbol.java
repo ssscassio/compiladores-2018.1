@@ -25,6 +25,7 @@ public class Symbol {
     }
 
     public void updateField(String fieldName, String value) {
+        // System.out.println(fieldName + ": " + value);
         switch (fieldName) {
         case "name":
             this.name = value;
@@ -72,7 +73,8 @@ public class Symbol {
 
     @Override
     public String toString() {
-        return "nome: " + this.name + " | escopo: " + this.scope + " | categoria: " + this.category + " | tipo: " + this.type + " | parametros:" + this.params + " | campos: "
-                + this.fields + " | escopo de referencia: " + this.scopeReference + " | ";
+        return "nome: " + this.name + " | escopo: " + this.scope + " | categoria: " + this.category + " | tipo: "
+                + this.type + " | parametros:" + this.params + " | campos: " + this.fields + " | escopo de referencia: "
+                + this.scopeReference + " | ";
     }
 }

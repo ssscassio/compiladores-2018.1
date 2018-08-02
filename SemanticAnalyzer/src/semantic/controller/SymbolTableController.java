@@ -46,6 +46,7 @@ public class SymbolTableController {
     }
 
     public static void clearCache() {
+        // System.out.println("Limpou");
         cache = new Symbol();
     }
 
@@ -66,6 +67,7 @@ public class SymbolTableController {
     }
 
     public static void setField(String fieldParam) {
+        // System.err.println(fieldParam);
         field = fieldParam;
     }
 
@@ -83,6 +85,7 @@ public class SymbolTableController {
 
     public static void createSymbolFromCache() {
         cache.updateField("scope", scope + "");
+        // System.out.println("New Symbol " + cache.toString());
         if (!containsKey()) {
             symbolTable.put(cache.getField("name"), new ArrayList<>(Arrays.asList(new Symbol(cache))));
         } else {
@@ -100,10 +103,10 @@ public class SymbolTableController {
         return symbolTable;
     }
 
-    public static boolean containsKey(){
-        if(symbolTable.containsKey(cache.getField("name")))
+    public static boolean containsKey() {
+        if (symbolTable.containsKey(cache.getField("name")))
             return true;
-        
+
         return false;
     }
 
