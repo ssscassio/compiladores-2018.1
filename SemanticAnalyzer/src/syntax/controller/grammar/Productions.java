@@ -134,17 +134,15 @@ public enum Productions implements Production {
                 addToCache(getField(), tokens.get(0).getLexeme());
                 setField("category");
                 addToCache(getField(), "start");
-                if (!SymbolTableController.containsKey()) {
-                    SymbolTableController.setScope(0);
+                if (!SymbolTableController.isRedeclaration()) {
                     SymbolTableController.updateLastScope();
                     SymbolTableController.createSymbolFromCache(SymbolTableController.getLastScope());
+                    SymbolTableController.setScope(SymbolTableController.getLastScope());
                     SymbolTableController.clearCache();
-
                 } else {
                     System.err.println("ERRO: O metodo start() so pode ser declarado uma vez.");
                 }
 
-                SymbolTableController.setScope(1);
                 tokens.remove(0);
 
             } else {
@@ -887,8 +885,6 @@ public enum Productions implements Production {
         public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<TypeBase>");
-            setField("type");
-            addToCache(getField(), "");
             if (Scalar.hasAsFirst(tokens.get(0))) {
                 tokens = Scalar.run(tokens);
             } else if (consumeToken(tokens.get(0), new Token(Consts.IDENTIFIER, ""))) {
@@ -2174,7 +2170,8 @@ public enum Productions implements Production {
         public ArrayList<Token> run(ArrayList<Token> tokenList) {
             ArrayList<Token> tokens = tokenList;
             System.err.println("<ConstRow>");
-
+            setField("type");
+            addToCache(getField(), "");
             tokens = Type.run(tokens);
             setField("name");
             tokens = ConstIdentifierList.run(tokens);
