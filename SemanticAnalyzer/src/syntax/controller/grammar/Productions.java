@@ -409,6 +409,8 @@ public enum Productions implements Production {
 
             if (!tokens.isEmpty() && tokens.get(0).isSameType(new Token(Consts.DELIMITER, ","))) {
                 if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, ","))) {
+                    addToCache(getField(),
+                            SymbolTableController.getCache().getField(getField()) + " " + tokens.get(0).getLexeme());
                     System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                     tokens.remove(0);
                 }

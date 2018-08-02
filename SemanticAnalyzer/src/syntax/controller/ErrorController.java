@@ -56,6 +56,10 @@ public class ErrorController {
         semanticErrors.add(new SemanticError(errorText, row));
     }
 
+    public void addSemanticError(String errorText) {
+        semanticErrors.add(new SemanticError(errorText));
+    }
+
     /**
      * Limpa a lista de erros da análise sintática
      */

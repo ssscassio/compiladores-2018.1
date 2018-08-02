@@ -1,4 +1,4 @@
-function int another(int a){
+function int another(int a, float b){
     var {
         int b;
         float b;

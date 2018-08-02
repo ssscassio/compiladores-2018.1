@@ -22,6 +22,11 @@ public class SemanticError {
         this.row = row;
     }
 
+    public SemanticError(String errorText) {
+        this.errorText = errorText;
+        this.row = -1;
+    }
+
     /**
      * Retorna em qual linha está localizado o erro.
      * 
@@ -49,6 +54,10 @@ public class SemanticError {
      */
     @Override
     public String toString() {
-        return String.format("Line %02d ERROR: %s", getRow(), getErrorText());
+        if (this.row == -1) {
+            return String.format("ERROR: %s", getErrorText());
+        } else {
+            return String.format("Line %02d ERROR: %s", getRow(), getErrorText());
+        }
     }
 }

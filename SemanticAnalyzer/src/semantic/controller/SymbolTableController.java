@@ -3,7 +3,7 @@ package semantic.controller;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-
+import syntax.controller.ErrorController;
 import semantic.model.Symbol;
 
 /**
@@ -85,23 +85,30 @@ public class SymbolTableController {
 
     public static void createSymbolFromCache() {
         cache.updateField("scope", scope + "");
-        // System.out.println("New Symbol " + cache.toString());
-        if (!containsKey()) {
-            symbolTable.put(cache.getField("name"), new HashMap<Integer, Symbol>() {
-                {
-                    put(scope, new Symbol(cache));
-                }
-            });
-
-        } else {
-            symbolTable.get(cache.getField("name")).put(scope, new Symbol(cache));
-        }
+        createSymbol(cache);
     }
 
     // New Scope Symbol
     public static void createSymbolFromCache(int scopeReference) {
         cache.updateField("scopeReference", scopeReference + "");
+        if (cache.getField("params") != "") {
+            createParamsVariables(cache.getField("params"), scopeReference, cache.getField("name"));
+        }
         createSymbolFromCache();
+    }
+
+    public static void createSymbol(Symbol symbol) {
+        // System.out.println("New Symbol " + symbol.toString());
+        if (!containsKey()) {
+            symbolTable.put(symbol.getField("name"), new HashMap<Integer, Symbol>() {
+                {
+                    put(Integer.parseInt(symbol.getField("scope")), new Symbol(symbol));
+                }
+            });
+
+        } else {
+            symbolTable.get(symbol.getField("name")).put(scope, new Symbol(cache));
+        }
     }
 
     public static HashMap<String, HashMap<Integer, Symbol>> getTable() {
@@ -121,6 +128,28 @@ public class SymbolTableController {
             return true;
         }
         return false;
+    }
+
+    public static boolean isRedeclaration(String name, int scopeToTest) {
+        if (symbolTable.containsKey(name) && (symbolTable.get(name).containsKey(scopeToTest))) {
+            return true;
+        }
+        return false;
+    }
+
+    public static void createParamsVariables(String params, int scopeParam, String functionName) {
+        String[] listOfParams = params.split(",");
+        for (String param : listOfParams) {
+            param = param.trim();
+            int cutPoint = param.lastIndexOf(" ");
+            String[] parts = { param.substring(0, cutPoint), param.substring(cutPoint) };
+            if (!isRedeclaration(parts[1].trim(), scopeParam)) {
+                createSymbol(new Symbol(parts[1].trim(), scopeParam + "", parts[0].trim(), "var"));
+            } else {
+                ErrorController.getInstance()
+                        .addSemanticError("Redeclaração de parâmetro na função '" + functionName + "'");
+            }
+        }
     }
 
 }
