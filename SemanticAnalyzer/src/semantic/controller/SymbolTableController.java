@@ -104,14 +104,22 @@ public class SymbolTableController {
         createSymbolFromCache();
     }
 
-    public static HashMap<String, HashMap<Integer,Symbol>> getTable() {
+    public static HashMap<String, HashMap<Integer, Symbol>> getTable() {
         return symbolTable;
     }
 
     public static boolean containsKey() {
         if (symbolTable.containsKey(cache.getField("name")))
             return true;
+        return false;
+    }
 
+    public static boolean isRedeclaration() {
+        if (symbolTable.containsKey(cache.getField("name"))
+                && (symbolTable.get(cache.getField("name")).containsKey(scope)
+                        || symbolTable.get(cache.getField("name")).containsKey(0))) {
+            return true;
+        }
         return false;
     }
 

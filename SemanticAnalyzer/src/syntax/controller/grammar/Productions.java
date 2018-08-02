@@ -2010,10 +2010,11 @@ public enum Productions implements Production {
             if (consumeToken(tokens.get(0), new Token(Consts.IDENTIFIER, ""))) {
                 addToCache(getField(), tokens.get(0).getLexeme());
 
-                if (!SymbolTableController.containsKey()) {
+                if (!SymbolTableController.isRedeclaration()) {
                     SymbolTableController.createSymbolFromCache();
                 } else {
-                    System.err.println(" ERRO: Variavel ja declarada");
+                    displaySemanticError(tokens.get(0),
+                            "Redeclaração do identificador: " + SymbolTableController.getCache().getField("name"));
                 }
 
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
@@ -2260,10 +2261,11 @@ public enum Productions implements Production {
 
             if (consumeToken(tokens.get(0), new Token(Consts.IDENTIFIER, ""))) {
                 addToCache(getField(), tokens.get(0).getLexeme());
-                if (!SymbolTableController.containsKey()) {
+                if (!SymbolTableController.isRedeclaration()) {
                     SymbolTableController.createSymbolFromCache();
                 } else {
-                    System.err.println(" ERRO: Constante ja declarada");
+                    displaySemanticError(tokens.get(0),
+                            "Redeclaração do identificador: " + SymbolTableController.getCache().getField("name"));
                 }
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
@@ -3001,6 +3003,10 @@ public enum Productions implements Production {
 
     static private void displayError(Token token, String spectedString) {
         ErrorController.getInstance().addError(spectedString, token.getLexeme(), token.getRow());
+    }
+
+    static private void displaySemanticError(Token token, String errorString) {
+        ErrorController.getInstance().addSemanticError(errorString, token.getRow());
     }
 
     static private String getField() {

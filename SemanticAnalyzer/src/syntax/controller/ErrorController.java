@@ -2,6 +2,7 @@ package syntax.controller;
 
 import java.util.ArrayList;
 import syntax.model.SyntaxError;
+import semantic.model.SemanticError;
 
 /**
  * Controlador de erros encontrados em uma análise sintática.
@@ -18,15 +19,21 @@ public class ErrorController {
     private static ErrorController INSTANCE = new ErrorController();
 
     /**
-     * Inicializa o vetor da instancia que criada.
+     * Erros sintaticos
      */
-    private ArrayList<SyntaxError> errors = new ArrayList<SyntaxError>();
+    private ArrayList<SyntaxError> syntaxErrors = new ArrayList<SyntaxError>();
+
+    /**
+     * Erros semânticos.
+     */
+    private ArrayList<SemanticError> semanticErrors = new ArrayList<SemanticError>();
 
     /**
      * Construtor privado que inicializa a lista de erros sintáticos
      */
     private ErrorController() {
-        errors = new ArrayList<SyntaxError>();
+        syntaxErrors = new ArrayList<SyntaxError>();
+        semanticErrors = new ArrayList<SemanticError>();
     }
 
     public static ErrorController getInstance() {
@@ -41,15 +48,20 @@ public class ErrorController {
      * @param row     linha em que houve o erro
      */
     public void addError(String expected, String found, int row) {
-        errors.add(new SyntaxError(expected, found, row));
+        syntaxErrors.add(new SyntaxError(expected, found, row));
 
+    }
+
+    public void addSemanticError(String errorText, int row) {
+        semanticErrors.add(new SemanticError(errorText, row));
     }
 
     /**
      * Limpa a lista de erros da análise sintática
      */
     public void clearErrors() {
-        errors.clear();
+        syntaxErrors.clear();
+        semanticErrors.clear();
     }
 
     /**
@@ -58,6 +70,10 @@ public class ErrorController {
      * @return lista de erros
      */
     public ArrayList<SyntaxError> getErrors() {
-        return errors;
+        return syntaxErrors;
+    }
+
+    public ArrayList<SemanticError> getSemanticErrors() {
+        return semanticErrors;
     }
 }

@@ -6,6 +6,7 @@ import java.util.Arrays;
 import lexical.model.Token;
 import lexical.util.Consts;
 import syntax.model.SyntaxError;
+import semantic.model.SemanticError;
 import syntax.controller.ErrorController;
 import semantic.controller.SymbolTableController;
 import syntax.controller.grammar.*;
@@ -66,8 +67,24 @@ public class Parser {
         return results;
     }
 
+    public String createOutputDataSemantic(ArrayList<SemanticError> errors) {
+        String results = "";
+        if (errors.isEmpty()) {
+            results = results + "Sucesso!";
+        } else {
+            for (SemanticError error : errors) {
+                results = results + error.toString() + System.lineSeparator();
+            }
+        }
+        return results;
+    }
+
     public String createOutputData() {
         return createOutputData(ErrorController.getInstance().getErrors());
+    }
+
+    public String createOutputDataSemantic() {
+        return createOutputDataSemantic(ErrorController.getInstance().getSemanticErrors());
     }
 
 }

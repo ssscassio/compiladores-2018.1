@@ -1,5 +1,9 @@
 const {
     int number = 5;
-    bool approved = false;
 }
 
+start() {
+    const {
+        bool number = false;
+    }
+}
