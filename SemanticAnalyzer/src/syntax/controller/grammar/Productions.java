@@ -3012,7 +3012,7 @@ public enum Productions implements Production {
     }
 
     static private void addToCache(String fieldName, String value) {
-        System.out.println(fieldName + ":  " + value);
+        // System.out.println(fieldName + ": " + value);
         SymbolTableController.updateCache(fieldName, value);
     }
 }

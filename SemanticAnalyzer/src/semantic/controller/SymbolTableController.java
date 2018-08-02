@@ -28,7 +28,7 @@ public class SymbolTableController {
 
     private static int lastScope = 0;
 
-    private static HashMap<String, ArrayList<Symbol>> symbolTable = new HashMap<String, ArrayList<Symbol>>();
+    private static HashMap<String, HashMap<Integer, Symbol>> symbolTable = new HashMap<String, HashMap<Integer, Symbol>>();
 
     /**
      * Construtor privado que inicializa a lista de símbolos.
@@ -87,9 +87,14 @@ public class SymbolTableController {
         cache.updateField("scope", scope + "");
         // System.out.println("New Symbol " + cache.toString());
         if (!containsKey()) {
-            symbolTable.put(cache.getField("name"), new ArrayList<>(Arrays.asList(new Symbol(cache))));
+            symbolTable.put(cache.getField("name"), new HashMap<Integer, Symbol>() {
+                {
+                    put(scope, new Symbol(cache));
+                }
+            });
+
         } else {
-            symbolTable.get(cache.getField("name")).add(new Symbol(cache));
+            symbolTable.get(cache.getField("name")).put(scope, new Symbol(cache));
         }
     }
 
@@ -99,7 +104,7 @@ public class SymbolTableController {
         createSymbolFromCache();
     }
 
-    public static HashMap<String, ArrayList<Symbol>> getTable() {
+    public static HashMap<String, HashMap<Integer,Symbol>> getTable() {
         return symbolTable;
     }
 
