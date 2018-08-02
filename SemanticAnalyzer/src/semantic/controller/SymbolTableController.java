@@ -107,7 +107,7 @@ public class SymbolTableController {
             });
 
         } else {
-            symbolTable.get(symbol.getField("name")).put(scope, new Symbol(cache));
+            symbolTable.get(symbol.getField("name")).put(Integer.parseInt(symbol.getField("scope")), new Symbol(cache));
         }
     }
 
@@ -146,8 +146,8 @@ public class SymbolTableController {
             if (!isRedeclaration(parts[1].trim(), scopeParam)) {
                 createSymbol(new Symbol(parts[1].trim(), scopeParam + "", parts[0].trim(), "var"));
             } else {
-                ErrorController.getInstance()
-                        .addSemanticError("Redeclaração de parâmetro na função '" + functionName + "'");
+                ErrorController.getInstance().addSemanticError(
+                        "Redeclaração do parâmetro '" + parts[1].trim() + "' na função '" + functionName + "'");
             }
         }
     }
