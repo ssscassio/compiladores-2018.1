@@ -1070,7 +1070,7 @@ public enum Productions implements Production {
                         System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                         tokens.remove(0);
                     } else {
-                        displayError(tokens.get(0), "'['");
+                        displayError(tokens.get(0), "'[' or '.'");
                         while (!Expression.hasAsFirst(tokens.get(0))) {
                             tokens.remove(0);
                         }
@@ -1080,6 +1080,15 @@ public enum Productions implements Production {
 
                 } else if (consumeToken(tokens.get(1), new Token(Consts.RELATIONAL_OPERATOR, "="))) {
                     // Identifier '=' <Expression>
+                    if (!SymbolTableController.hasDeclared(tokens.get(0).getLexeme(),
+                            SymbolTableController.getLastScope())) {
+                        displaySemanticError(tokens.get(0),
+                                "Identificador não declarado: " + tokens.get(0).getLexeme());
+                    } else if (!SymbolTableController.canBeAssign(tokens.get(0).getLexeme(),
+                            SymbolTableController.getLastScope())) {
+                        displaySemanticError(tokens.get(0),
+                                "Não pode ser atribuído um valor ao identificador '" + tokens.get(0).getLexeme() + "'");
+                    }
                     System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                     tokens.remove(0);
                     System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
@@ -1557,6 +1566,10 @@ public enum Productions implements Production {
             System.err.println("<ValueWriteOrRead>");
 
             if (consumeToken(tokens.get(0), new Token(Consts.IDENTIFIER, ""))) {
+                if (!SymbolTableController.hasDeclared(tokens.get(0).getLexeme(),
+                        SymbolTableController.getLastScope())) {
+                    displaySemanticError(tokens.get(0), "Identificador não declarado: " + tokens.get(0).getLexeme());
+                } // TODO: Ver se precisa adicionar mais erros
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else {
@@ -1696,6 +1709,10 @@ public enum Productions implements Production {
 
             if (consumeToken(tokens.get(0), new Token(Consts.IDENTIFIER, ""))) {
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
+                if (!SymbolTableController.hasDeclared(tokens.get(0).getLexeme(),
+                        SymbolTableController.getLastScope())) {
+                    displaySemanticError(tokens.get(0), "Identificador não declarado: " + tokens.get(0).getLexeme());
+                } // TODO: Verificar outras coisas
                 tokens.remove(0);
                 tokens = ValueAux1.run(tokens);
             } else if (consumeToken(tokens.get(0), new Token(Consts.DELIMITER, "("))) {
@@ -2947,6 +2964,15 @@ public enum Productions implements Production {
                     tokens = ValueWriteOrRead.run(tokens);
                 } else {
                     System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
+                    if (!SymbolTableController.hasDeclared(tokens.get(0).getLexeme(),
+                            SymbolTableController.getLastScope())) {
+                        displaySemanticError(tokens.get(0),
+                                "Identificador não declarado: " + tokens.get(0).getLexeme());
+                    } else if (!SymbolTableController.canBeAssign(tokens.get(0).getLexeme(),
+                            SymbolTableController.getLastScope())) {
+                        displaySemanticError(tokens.get(0),
+                                "Não pode ser atribuído um valor ao identificador '" + tokens.get(0).getLexeme() + "'");
+                    }
                     tokens.remove(0);
                 }
             } else {

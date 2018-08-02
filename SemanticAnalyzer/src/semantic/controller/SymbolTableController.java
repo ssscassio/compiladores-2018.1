@@ -130,6 +130,23 @@ public class SymbolTableController {
         return false;
     }
 
+    public static boolean hasDeclared(String name, int scopeToTest) {
+        if (symbolTable.containsKey(name)
+                && (symbolTable.get(name).containsKey(scopeToTest) || symbolTable.get(name).containsKey(0))) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean canBeAssign(String name, int scopeToTest) {
+        if (symbolTable.containsKey(name) && symbolTable.get(name).containsKey(scopeToTest)) {
+            return symbolTable.get(name).get(scopeToTest).getField("category").equals("var");
+        } else if (symbolTable.containsKey(name) && symbolTable.get(name).containsKey(0)) {
+            return symbolTable.get(name).get(0).getField("category").equals("var");
+        }
+        return false;
+    }
+
     public static boolean isRedeclaration(String name, int scopeToTest) {
         if (symbolTable.containsKey(name) && (symbolTable.get(name).containsKey(scopeToTest))) {
             return true;

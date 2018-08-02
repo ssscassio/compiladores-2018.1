@@ -24,11 +24,11 @@ public class Symbol {
         this.scopeReference = symbol.scopeReference;
     }
 
-    public Symbol(String name, String scope, String category, String type) {
+    public Symbol(String name, String scope, String type, String category) {
         this.name = name;
         this.scope = scope;
-        this.category = category;
         this.type = type;
+        this.category = category;
     }
 
     public void updateField(String fieldName, String value) {
