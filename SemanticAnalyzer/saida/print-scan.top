@@ -1,2 +1,3 @@
-Line 03 ERROR: Redeclaração do identificador: b
-Line 04 ERROR: Redeclaração do identificador: b
+Line 09 ERROR: Redeclaração do identificador: anything
+Line 09 ERROR: Identificador não declarado: a
+Line 10 ERROR: Identificador não declarado: c

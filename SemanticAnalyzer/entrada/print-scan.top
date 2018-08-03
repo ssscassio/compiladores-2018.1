@@ -1,12 +1,12 @@
-function int another(int a, float b){
+procedure anything(int a, float c) {
     var {
         int b;
-        float b;
     }
 }
 
 start() {
-    var {
-        float b;
+    const {
+        int anything = a;
+        float b = c;
     }
 }

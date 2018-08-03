@@ -75,6 +75,8 @@ public enum Productions implements Production {
             System.err.println("<ProcedureDeclaration>");
 
             if (consumeToken(tokens.get(0), new Token(Consts.KEY_WORD, "procedure"))) {
+                setField("category");
+                addToCache(getField(), "procedure");
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else {
@@ -85,6 +87,8 @@ public enum Productions implements Production {
             }
 
             if (consumeToken(tokens.get(0), new Token(Consts.IDENTIFIER, ""))) {
+                setField("name");
+                addToCache(getField(), tokens.get(0).getLexeme());
                 System.err.println("<Terminal>" + tokens.get(0).getLexeme() + "</Terminal>");
                 tokens.remove(0);
             } else {
@@ -104,6 +108,7 @@ public enum Productions implements Production {
                 }
             }
 
+            setField("params");
             tokens = FunctionProcedureTail.run(tokens);
 
             System.err.println("</ProcedureDeclaration>");
