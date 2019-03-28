@@ -20,4 +20,5 @@ Trabalhos desenvolvidos durante a disciplina MI Processadores de Linguagem de Pr
 ### [Analisador Sintático](./SyntaxAnalyzer)
 - O analisador sintático, também conhecido como *parser* é o processo que analisa a sequência de tokens vindas de um analisador léxico para determinar a estrutura gramatical do código de entrada segundo uma determinada **gramática**. 
 
-### Analisador Semântico
+### [Analisador Semântico](./SemanticAnalyzer)
+- O analisador semântico é responsável por analisar semanticamente a saída do analisador sintático. Nessa etapa são verificadas se as expressões recebem o tipo adequado de dados ou se parâmetros passados respeitam o tipo especificado no cabeçalho da função, entre outras coisas.
